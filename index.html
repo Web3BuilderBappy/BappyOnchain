@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bappy — Web3 Community Moderator</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--blue:#1877F2;--blue-light:#dbeafe;--black:#050810;--dark-bg:#050810;--card:#f4f6ff;--gray:#6b7280;--light:#9ca3af;}
+html{scroll-behavior:smooth;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--dark-bg);color:var(--black);overflow-x:hidden;}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1);}
+.reveal.on{opacity:1;transform:none;}
+.d1{transition-delay:.08s;}.d2{transition-delay:.16s;}.d3{transition-delay:.24s;}
+.nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:999;background:var(--blue);border-radius:999px;padding:9px 10px 9px 18px;display:flex;align-items:center;gap:10px;width:calc(100% - 28px);max-width:520px;box-shadow:0 6px 28px rgba(24,119,242,.45);}
+.nav img{width:26px;height:26px;object-fit:contain;filter:brightness(0) invert(1);flex-shrink:0;}
+.nav-brand{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em;color:#fff;flex:1;}
+.nav-visit{background:#000;color:#fff;border:none;border-radius:999px;padding:8px 20px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:13px;text-decoration:none;white-space:nowrap;transition:opacity .2s;}
+.nav-visit:hover{opacity:.8;}
+.page{max-width:520px;margin:0 auto;padding:84px 13px 48px;}
+.hero{background:var(--card);border-radius:22px;padding:26px 22px 22px;margin-bottom:9px;}
+.avail{display:inline-flex;align-items:center;gap:7px;background:rgba(24,119,242,.1);border-radius:999px;padding:5px 13px;margin-bottom:16px;font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--blue);}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:blink 1.8s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-h{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:44px;line-height:1.08;letter-spacing:-.02em;color:var(--black);margin-bottom:14px;}
+.hero-h sup{font-size:22px;vertical-align:super;color:var(--blue);}
+.hero-p{font-size:14px;line-height:1.65;color:var(--gray);margin-bottom:22px;}
+.btn-dark{display:block;background:var(--black);color:#fff;text-align:center;border-radius:999px;padding:15px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;text-decoration:none;transition:opacity .2s;}
+.btn-dark:hover{opacity:.85;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px;}
+.id-card{background:var(--card);border-radius:20px;padding:15px;display:flex;flex-direction:column;gap:10px;}
+.id-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;}
+.id-tz{font-size:11px;color:var(--gray);}
+.id-img{width:100%;aspect-ratio:1;object-fit:cover;object-position:top;border-radius:12px;}
+.expert{display:inline-flex;align-items:center;gap:4px;background:#fff;border-radius:999px;padding:4px 11px;font-size:11px;font-weight:700;color:var(--black);width:fit-content;box-shadow:0 1px 4px rgba(0,0,0,.08);}
+.av-card{background:#111827;border-radius:20px;overflow:hidden;aspect-ratio:1;}
+.av-card img{width:100%;height:100%;object-fit:cover;object-position:top;filter:grayscale(100%) contrast(1.1);}
+.founder{background:var(--blue);border-radius:20px;padding:18px 16px;position:relative;overflow:hidden;min-height:175px;display:flex;flex-direction:column;justify-content:space-between;}
+.f-bg{position:absolute;right:-8px;top:-8px;font-size:80px;font-weight:800;color:rgba(255,255,255,.08);pointer-events:none;line-height:1;}
+.f-title{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:18px;color:#fff;position:relative;}
+.f-of{font-size:11px;color:rgba(255,255,255,.55);font-style:italic;margin:1px 0 5px;position:relative;}
+.f-org{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:14px;letter-spacing:.05em;color:#fff;position:relative;}
+.f-sub{font-size:10px;color:rgba(255,255,255,.5);font-style:italic;position:relative;}
+.f-logo{width:28px;height:28px;object-fit:contain;filter:brightness(0) invert(1);opacity:.8;position:relative;margin-top:10px;}
+.soc-card{background:var(--card);border-radius:20px;padding:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;place-items:center;min-height:175px;}
+.soc{width:46px;height:46px;background:var(--blue-light);border-radius:13px;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:background .2s,transform .18s;}
+.soc:hover{background:var(--blue);transform:scale(1.08);}
+.soc:hover svg{fill:#fff;}
+.soc svg{width:19px;height:19px;fill:var(--blue);transition:fill .2s;}
+.statement{background:var(--blue);border-radius:22px;padding:26px 20px 22px;margin-bottom:9px;}
+.stmt-text{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;line-height:1.45;color:#fff;margin-bottom:18px;}
+.tags{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:600;letter-spacing:.1em;color:rgba(255,255,255,.38);text-transform:uppercase;}
+.sec-h{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:28px;color:#fff;margin:22px 0 10px;}
+.svc-g{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px;}
+.svc{background:var(--card);border-radius:20px;padding:16px 14px;display:flex;flex-direction:column;gap:24px;min-height:155px;}
+.svc-top{display:flex;justify-content:space-between;align-items:flex-start;}
+.svc-ico{width:38px;height:38px;background:var(--blue-light);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.svc-n{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:#d1d5db;}
+.svc-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;color:var(--black);}
+.svc-d{font-size:12px;color:var(--gray);margin-top:3px;line-height:1.5;}
+.proj-wrap{background:var(--card);border-radius:22px;padding:22px 18px;margin-bottom:9px;}
+.proj-h{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:28px;color:var(--black);}
+.proj-sub{font-size:12px;color:var(--gray);margin:3px 0 20px;}
+.proj{margin-bottom:22px;}
+.proj-img{width:100%;height:130px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin-bottom:11px;}
+.pi1{background:linear-gradient(135deg,#1877F2,#60a5fa);}
+.pi2{background:linear-gradient(135deg,#111827,#1e3a5f);}
+.pi3{background:linear-gradient(135deg,#0f2554,#1877F2);}
+.proj-img span{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:22px;color:rgba(255,255,255,.22);letter-spacing:.06em;}
+.proj-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+.proj-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;letter-spacing:.03em;color:var(--black);}
+.proj-year{font-size:11px;color:#aaa;}
+.proj-role{display:inline-block;background:rgba(24,119,242,.1);color:var(--blue);border-radius:999px;padding:3px 10px;font-size:11px;font-weight:600;}
+.cv{background:var(--card);border-radius:22px;padding:26px 20px;margin-bottom:9px;}
+.cv-h{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:28px;color:var(--black);line-height:1.2;margin-bottom:8px;}
+.cv-p{font-size:13px;color:var(--gray);margin-bottom:20px;}
+.cv-btn{display:inline-block;background:var(--black);color:#fff;border-radius:999px;padding:13px 28px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;text-decoration:none;transition:opacity .2s;}
+.cv-btn:hover{opacity:.8;}
+.hl{background:var(--card);border-radius:18px;padding:16px;display:flex;align-items:center;gap:13px;margin-bottom:8px;}
+.hl-ico{width:44px;height:44px;background:var(--blue-light);border-radius:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.hl-ico svg{width:19px;height:19px;fill:var(--blue);}
+.hl-m{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--light);text-transform:uppercase;margin-bottom:3px;}
+.hl-t{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:var(--black);}
+.cform{background:var(--card);border-radius:22px;padding:26px 20px;margin-bottom:9px;}
+.cf-h{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:24px;color:var(--black);text-align:center;margin-bottom:5px;}
+.cf-p{font-size:13px;color:var(--gray);text-align:center;margin-bottom:20px;line-height:1.5;}
+.field{width:100%;background:#fff;border:1.5px solid #e5e7eb;border-radius:13px;padding:13px 15px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--black);outline:none;margin-bottom:9px;transition:border-color .2s;}
+.field:focus{border-color:var(--blue);}
+.field::placeholder{color:#c4c4c4;}
+textarea.field{height:105px;resize:none;}
+.send{width:100%;background:var(--black);color:#fff;border:none;border-radius:999px;padding:15px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:opacity .2s;}
+.send:hover{opacity:.85;}
+.connect{background:var(--card);border-radius:22px;padding:26px 20px;margin-bottom:9px;}
+.con-h{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:32px;color:var(--black);line-height:1.15;margin-bottom:24px;}
+.email-r{display:flex;align-items:center;gap:11px;border-top:1.5px solid #e5e7eb;padding-top:16px;}
+.email-a{font-size:13px;font-weight:500;color:var(--black);text-decoration:underline;flex:1;}
+.arr{width:36px;height:36px;background:var(--black);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.follow{background:var(--blue);border-radius:22px;padding:26px 20px;margin-bottom:9px;display:flex;flex-direction:column;align-items:center;gap:9px;}
+.f-head{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:15px;letter-spacing:.06em;color:#fff;}
+.pill{border-radius:999px;padding:13px 0;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;letter-spacing:.06em;text-decoration:none;text-align:center;width:100%;max-width:240px;display:block;transition:transform .18s,opacity .18s;}
+.pill:hover{transform:scale(1.03);opacity:.9;}
+.pd{background:#000;color:#fff;}
+.pl{background:#fff;color:#000;}
+.footer{text-align:center;padding:14px 0 6px;}
+.ft-r{display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:6px;}
+.ft-r img{width:20px;height:20px;object-fit:contain;filter:brightness(0) saturate(100%) invert(35%) sepia(90%) saturate(1500%) hue-rotate(200deg);}
+.ft-brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;color:var(--blue);}
+.ft-brand a{color:var(--blue);text-decoration:none;}
+.ft-copy{font-size:10px;color:#555;letter-spacing:.07em;margin-bottom:6px;}
+.ft-links{display:flex;gap:16px;justify-content:center;}
+.ft-links a{font-size:11px;color:var(--blue);text-decoration:none;font-weight:600;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <img src="https://i.postimg.cc/RhS4kwqD/1774546323293.png" alt="Nexora">
+  <span class="nav-brand">NEXORA</span>
+  <a href="https://Nexora.vercel.app" target="_blank" class="nav-visit">Visit</a>
+</nav>
+
+<div class="page">
+
+  <div class="hero reveal">
+    <div class="avail"><span class="dot"></span>AVAILABLE FOR WORK</div>
+    <h1 class="hero-h">Hi, I'm<br>Bappy<sup>©</sup></h1>
+    <p class="hero-p">An experienced Web3 Community Moderator focused on creating secure, engaging, and well organized crypto communities.</p>
+    <a href="https://discord.com/users/1331926710853177406" target="_blank" class="btn-dark">Contact Me</a>
+  </div>
+
+  <div class="g2">
+    <div class="id-card reveal d1">
+      <div><div class="id-name">bappyonchain</div><div class="id-tz">UTC +6</div></div>
+      <img src="https://i.postimg.cc/L592cjhC/FYZAN.jpg" alt="Bappy" class="id-img">
+      <div class="expert">⚡ EXPERT</div>
+    </div>
+    <div class="av-card reveal d2">
+      <img src="https://i.postimg.cc/L592cjhC/FYZAN.jpg" alt="Bappy">
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="founder reveal d1">
+      <div class="f-bg">✦</div>
+      <div>
+        <div class="f-title">Founder</div>
+        <div class="f-of">of</div>
+        <div class="f-org">NEXORA</div>
+        <div class="f-sub">community</div>
+      </div>
+      <img src="https://i.postimg.cc/RhS4kwqD/1774546323293.png" alt="" class="f-logo">
+    </div>
+    <div class="soc-card reveal d2">
+      <a href="https://discord.gg/yM3fM2s6g" target="_blank" class="soc" title="Discord">
+        <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+      </a>
+      <a href="https://x.com/BappyOnChain" target="_blank" class="soc" title="X">
+        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.736-8.845L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="https://github.com/Web3BuilderBappy" target="_blank" class="soc" title="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      <a href="https://t.me/NexoraCommunityy" target="_blank" class="soc" title="TG Community">
+        <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/bappyonchain?igsh=eHVycXJmMnNjbDRy" target="_blank" class="soc" title="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+      </a>
+      <a href="https://t.me/NexoraSupport0" target="_blank" class="soc" title="TG Support">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="statement reveal">
+    <p class="stmt-text">Experienced in managing Discord and Telegram communities, with a strong focus on engagement, clear communication, and sustainable long-term growth.</p>
+    <div class="tags">
+      <span class="tag">WEB3</span><span class="tag">•</span>
+      <span class="tag">CRYPTO</span><span class="tag">•</span>
+      <span class="tag">BLOCKCHAIN</span><span class="tag">•</span>
+      <span class="tag">ONCHAIN</span><span class="tag">•</span>
+      <span class="tag">CONTENT</span>
+    </div>
+  </div>
+
+  <h2 class="sec-h reveal">How Can I Assist You?</h2>
+  <div class="svc-g">
+    <div class="svc reveal d1">
+      <div class="svc-top"><div class="svc-ico">📊</div><span class="svc-n">01</span></div>
+      <div><div class="svc-name">Analysis</div><div class="svc-d">Understanding and adopting market trends.</div></div>
+    </div>
+    <div class="svc reveal d2">
+      <div class="svc-top"><div class="svc-ico">✍️</div><span class="svc-n">02</span></div>
+      <div><div class="svc-name">Content</div><div class="svc-d">Simplifying complex ideas into insights.</div></div>
+    </div>
+    <div class="svc reveal d1">
+      <div class="svc-top"><div class="svc-ico">🏗️</div><span class="svc-n">03</span></div>
+      <div><div class="svc-name">Building</div><div class="svc-d">Contributing while managing communities.</div></div>
+    </div>
+    <div class="svc reveal d2">
+      <div class="svc-top"><div class="svc-ico">🛡️</div><span class="svc-n">04</span></div>
+      <div><div class="svc-name">Moderation</div><div class="svc-d">Keeping servers clean and constructive.</div></div>
+    </div>
+  </div>
+
+  <div class="proj-wrap reveal">
+    <div class="proj-h">Building...</div>
+    <div class="proj-sub">Explore my involvements in the web3 space</div>
+    <div class="proj">
+      <div class="proj-img pi1"><span>NEXORA</span></div>
+      <div class="proj-row"><span class="proj-name">NEXORA COMMUNITY</span><span class="proj-year">2025–26</span></div>
+      <span class="proj-role">Founder</span>
+    </div>
+    <div class="proj">
+      <div class="proj-img pi2"><span>WEB3</span></div>
+      <div class="proj-row"><span class="proj-name">PROJECT ALPHA</span><span class="proj-year">2025–26</span></div>
+      <span class="proj-role">Community Moderator</span>
+    </div>
+    <div class="proj" style="margin-bottom:0">
+      <div class="proj-img pi3"><span>ONCHAIN</span></div>
+      <div class="proj-row"><span class="proj-name">CHAIN PROJECT</span><span class="proj-year">2026</span></div>
+      <span class="proj-role">Regional Moderator</span>
+    </div>
+  </div>
+
+  <div class="cv reveal">
+    <div class="cv-h">Wanna see my experience?</div>
+    <p class="cv-p">Years of crafting digital experiences for world-class web3 projects.</p>
+    <a href="https://docs.google.com/document/u/0/d/1hTxK-JXTJjyySMJZ745HwW2w2iYfQgR1/mobilebasic" target="_blank" class="cv-btn">Read my CV</a>
+  </div>
+
+  <div class="hl reveal">
+    <div class="hl-ico"><svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg></div>
+    <div><div class="hl-m">Discord</div><div class="hl-t">Top role holder at several DC servers</div></div>
+  </div>
+  <div class="hl reveal">
+    <div class="hl-ico"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.736-8.845L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></div>
+    <div><div class="hl-m">X / Twitter</div><div class="hl-t">Host / Co-host on Regional X spaces</div></div>
+  </div>
+  <div class="hl reveal" style="margin-bottom:9px">
+    <div class="hl-ico"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></div>
+    <div><div class="hl-m">Telegram</div><div class="hl-t">Active in Nexora Community & Support</div></div>
+  </div>
+
+  <div class="cform reveal">
+    <div class="cf-h">Work with me</div>
+    <p class="cf-p">Available for new projects or just chatting. Reach out anytime.</p>
+    <input type="text" class="field" placeholder="Full Name">
+    <input type="email" class="field" placeholder="Email Address">
+    <textarea class="field" placeholder="Project details..."></textarea>
+    <button class="send" onclick="this.textContent='✓ Message Sent!';setTimeout(()=>this.textContent='Send Message',2500)">Send Message</button>
+  </div>
+
+  <div class="connect reveal">
+    <div class="con-h">Let's connect and chat</div>
+    <div class="email-r">
+      <a href="mailto:bappyonchain@gmail.com" class="email-a">bappyonchain@gmail.com</a>
+      <div class="arr">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="follow reveal">
+    <span class="f-head">FOLLOW ME!</span>
+    <a href="https://www.instagram.com/bappyonchain?igsh=eHVycXJmMnNjbDRy" target="_blank" class="pill pl">INSTAGRAM</a>
+    <a href="https://discord.gg/yM3fM2s6g" target="_blank" class="pill pd">COMMUNITY</a>
+    <a href="https://t.me/NexoraCommunityy" target="_blank" class="pill pl">TG COMMUNITY</a>
+    <a href="https://t.me/NexoraSupport0" target="_blank" class="pill pd">TG SUPPORT</a>
+    <a href="https://x.com/BappyOnChain" target="_blank" class="pill pl">X / TWITTER</a>
+    <a href="https://github.com/Web3BuilderBappy" target="_blank" class="pill pd">GITHUB</a>
+  </div>
+
+  <div class="footer reveal">
+    <div class="ft-r">
+      <img src="https://i.postimg.cc/RhS4kwqD/1774546323293.png" alt="">
+      <span class="ft-brand">a product of <a href="https://Nexora.vercel.app" target="_blank">NEXORA</a></span>
+    </div>
+    <div class="ft-copy">© BAPPY ONCHAIN 2026</div>
+    <div class="ft-links"><a href="#">PRIVACY</a><a href="#">TERMS</a></div>
+  </div>
+
+</div>
+
+<script>
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
+}, {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
