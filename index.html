@@ -8,7 +8,7 @@
 <style>
 :root{
   --bg:#07080f;--s1:#0c0e1a;--s2:#111423;--s3:#161928;
-  --b1:#1c2035;--b2:#232840;--brd:#1e2340;
+  --b1:#1c2035;--b2:#232840;--brd:#2a3050;
   --red:#f0304a;--red2:#ff5570;
   --grn:#00e68a;--grn2:#00ff99;
   --gold:#ffb020;--gold2:#ffd060;
@@ -23,7 +23,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--fnt);min-height:100
 .scr.on{display:flex}
 @keyframes scrIn{from{opacity:0}to{opacity:1}}
 
-/* ══ SPLASH ══ */
+/* ═══════ SPLASH ═══════ */
 #scrSplash{background:radial-gradient(ellipse at 50% 35%,#160a22 0%,var(--bg) 68%);align-items:center;justify-content:center;flex-direction:column}
 .spl-plane{width:100px;height:100px;filter:drop-shadow(0 0 24px rgba(240,48,74,.9));animation:plFloat 2.2s ease-in-out infinite}
 @keyframes plFloat{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-16px) rotate(6deg)}}
@@ -33,7 +33,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--fnt);min-height:100
 .spl-prog{height:100%;width:0%;background:linear-gradient(90deg,var(--red),var(--red2));box-shadow:0 0 8px var(--red)}
 .spl-pct{font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:10px;letter-spacing:3px}
 
-/* ══ AUTH ══ */
+/* ═══════ AUTH ═══════ */
 #scrAuth{background:radial-gradient(ellipse at 50% -5%,#160a22 0%,var(--bg) 60%);align-items:center;justify-content:center;padding:20px}
 .auth-head{text-align:center;margin-bottom:22px}
 .auth-plane{width:46px;height:46px;display:block;margin:0 auto 10px;filter:drop-shadow(0 0 12px rgba(240,48,74,.7));animation:plFloat 2.5s ease-in-out infinite}
@@ -51,17 +51,19 @@ body{background:var(--bg);color:var(--txt);font-family:var(--fnt);min-height:100
 .auth-submit::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.1) 0%,transparent 100%)}
 .auth-submit:active{transform:scale(.97)}
 .auth-err{color:var(--red);font-size:12px;text-align:center;margin-top:9px;min-height:16px}
-.demo-bal-btn{width:100%;padding:11px;border:1.5px dashed rgba(0,230,138,.3);border-radius:12px;background:rgba(0,230,138,.04);color:var(--grn);font-family:var(--fnt);font-size:13px;font-weight:600;cursor:pointer;margin-top:8px;transition:.2s;text-align:center}
+.demo-bal-btn{width:100%;padding:11px;border:1.5px dashed rgba(0,230,138,.3);border-radius:12px;background:rgba(0,230,138,.04);color:var(--grn);font-family:var(--fnt);font-size:13px;font-weight:600;cursor:pointer;margin-top:8px;transition:.2s;text-align:center;letter-spacing:.5px}
 .demo-bal-btn:active{background:rgba(0,230,138,.1)}
 
-/* ══ GAME SCREEN ══ */
-#scrGame{background:var(--bg)}
+/* ═══════ BOTTOM NAV (game) ═══════ */
 .bot-nav{display:flex;background:var(--s1);border-top:1px solid var(--brd);padding:6px 0 10px;flex-shrink:0;z-index:50}
 .bot-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 0;transition:.2s}
-.bot-nav-item svg{width:20px;height:20px;transition:.2s}
+.bot-nav-item svg{width:20px;height:20px;opacity:.4;transition:.2s}
 .bot-nav-item span{font-size:9px;color:var(--dim);letter-spacing:.5px;text-transform:uppercase;transition:.2s}
-.bot-nav-item.active span{color:var(--red)}
+.bot-nav-item.active svg,.bot-nav-item:active svg{opacity:1}
+.bot-nav-item.active span,.bot-nav-item:active span{color:var(--red)}
+.bot-nav-item.active svg path,.bot-nav-item.active svg rect,.bot-nav-item.active svg circle{stroke:var(--red)}
 
+/* ═══════ GAME PAGE ═══════ */
 #pageGame{flex:1;overflow-y:auto;display:none;flex-direction:column}
 #pageGame.on{display:flex}
 
@@ -83,28 +85,30 @@ body{background:var(--bg);color:var(--txt);font-family:var(--fnt);min-height:100
 .hp-m{background:rgba(255,176,32,.08);color:var(--gold);border-color:rgba(255,176,32,.18)}
 .hp-h{background:rgba(240,48,74,.08);color:var(--red);border-color:rgba(240,48,74,.18)}
 
-/* ══ GAME CANVAS ══ */
+/* ═══ GAME CANVAS AREA ═══ */
 .gcwrap{
   margin:8px;border-radius:14px;overflow:hidden;
-  background:linear-gradient(180deg,#020309 0%,#040610 100%);
+  background:linear-gradient(180deg,#020309 0%,#040610 60%,#030508 100%);
   border:1px solid var(--brd);
-  height:270px;
-  position:relative;flex-shrink:0;
+  height:260px; /* taller */
+  position:relative;
+  flex-shrink:0;
+  box-shadow:inset 0 0 40px rgba(0,0,0,.6);
 }
-#cv{position:absolute;left:0;bottom:0;width:100%;height:100%}
-.g-xax{position:absolute;bottom:4px;left:0;right:0;display:flex;align-items:center;padding:0 10px}
-.g-xtk{flex:1;text-align:center;font-size:8px;color:var(--dim);font-family:var(--mono);opacity:.4}
+/* stars via JS */
+.star-dot{position:absolute;border-radius:50%;background:#fff;pointer-events:none}
+#cv{position:absolute;bottom:24px;left:0;width:100%;height:100%}
+.g-xax{position:absolute;bottom:0;left:0;right:0;height:24px;display:flex;align-items:center;padding:0 10px;border-top:1px solid rgba(255,255,255,.04)}
+.g-xtk{flex:1;text-align:center;font-size:8px;color:var(--dim);font-family:var(--mono);opacity:.5}
+/* y-axis labels */
+.yax{position:absolute;left:6px;top:0;bottom:24px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none}
+.ytk{font-family:var(--mono);font-size:8px;color:var(--dim);opacity:.4}
 
-/* plane — absolutely positioned, top-left origin */
-#planeWrap{
-  position:absolute;z-index:15;pointer-events:none;
-  /* position set by JS using left/top */
-  transform-origin:center center;
-}
-#planeWrap svg{
-  width:54px;height:54px;
-  filter:drop-shadow(0 0 12px rgba(240,48,74,.9));
-}
+/* plane image */
+#plSvgWrap{position:absolute;z-index:15;pointer-events:none;transition:filter .3s;transform-origin:center center}
+#plSvgWrap img{width:72px;height:72px;object-fit:contain;filter:drop-shadow(0 0 14px rgba(240,48,74,.95)) drop-shadow(0 0 6px rgba(255,80,80,.8))}
+/* trail canvas behind plane */
+#trailCv{position:absolute;top:0;left:0;width:100%;height:100%;z-index:14;pointer-events:none}
 
 /* multiplier */
 #mWrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:20;pointer-events:none}
@@ -128,7 +132,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--fnt);min-height:100
 .ov-lock{animation:lockp 2.5s ease-in-out infinite}
 @keyframes lockp{0%,100%{opacity:.35}50%{opacity:.6}}
 
-/* ══ BET PANELS ══ */
+/* ═══ BET PANELS (compact) ═══ */
 .bet-area{padding:6px 8px 4px;flex-shrink:0}
 .bet-panel{background:var(--s1);border:1px solid var(--brd);border-radius:12px;padding:10px 12px;margin-bottom:6px}
 .bp-tabs{display:flex;background:var(--bg);border-radius:8px;padding:2px;margin-bottom:10px;gap:2px}
@@ -144,6 +148,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--fnt);min-height:100
 .qb:active{border-color:var(--red);color:var(--red);background:rgba(240,48,74,.08)}
 .ac-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .ac-lbl{font-size:11px;color:var(--dim);flex:1}
+/* small toggle */
 .tog{position:relative;width:38px;height:22px;flex-shrink:0}
 .tog input{opacity:0;width:0;height:0}
 .tog-s{position:absolute;inset:0;background:rgba(255,255,255,.06);border-radius:22px;cursor:pointer;transition:.3s;border:1px solid var(--brd)}
@@ -152,8 +157,12 @@ body{background:var(--bg);color:var(--txt);font-family:var(--fnt);min-height:100
 .tog input:checked+.tog-s::before{transform:translateX(16px);background:var(--grn)}
 .ac-inp{width:58px;padding:5px 6px;background:rgba(255,255,255,.04);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-family:var(--mono);font-size:11px;text-align:center;outline:none;transition:.2s}
 .ac-inp:focus{border-color:var(--blu)}
+
+/* live potential */
 .live-p{text-align:center;padding:6px;font-family:var(--mono);font-size:12px;color:var(--gold);display:none;background:rgba(255,176,32,.06);border-radius:8px;margin-bottom:7px;border:1px solid rgba(255,176,32,.12)}
 .live-p.on{display:block}
+
+/* action button */
 .act-btn{width:100%;padding:13px;border-radius:11px;border:none;font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
 .act-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.1) 0%,transparent 100%)}
 .ab-bet{background:linear-gradient(135deg,#0a5c30,var(--grn));color:#000;box-shadow:0 4px 18px rgba(0,230,138,.25)}
@@ -166,7 +175,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--fnt);min-height:100
 .ab-lost{background:rgba(240,48,74,.06);color:var(--red);border:1px solid rgba(240,48,74,.18)}
 .ab-sub{font-family:var(--fnt);font-size:11px;font-weight:500;opacity:.8;display:block;margin-top:2px}
 
-/* ══ BETS TABLE ══ */
+/* ═══ BETS TABLE ═══ */
 .bets-wrap{margin:0 8px 8px;background:var(--s1);border:1px solid var(--brd);border-radius:12px;overflow:hidden}
 .bets-tabs{display:flex;border-bottom:1px solid var(--brd)}
 .bets-tab{flex:1;padding:9px;background:transparent;border:none;color:var(--dim);font-family:var(--fnt);font-size:11px;font-weight:600;letter-spacing:.5px;cursor:pointer;transition:.2s;text-transform:uppercase}
@@ -180,13 +189,15 @@ body{background:var(--bg);color:var(--txt);font-family:var(--fnt);min-height:100
 .br-u{color:var(--dim)}.br-m{color:var(--gold);font-family:var(--mono);font-size:10px;text-align:center}.br-w{font-family:var(--mono);font-size:10px;color:var(--grn);text-align:right}.br-w.lost{color:var(--red)}
 .bets-ft{display:flex;justify-content:space-between;padding:6px 12px;border-top:1px solid var(--brd);font-size:10px;color:var(--dim)}
 .bets-tot{font-family:var(--mono);font-size:11px;color:var(--grn)}
+
+/* admin fab */
 .adm-fab{position:fixed;bottom:70px;right:14px;width:42px;height:42px;border-radius:50%;background:rgba(240,48,74,.12);border:1.5px solid rgba(240,48,74,.25);color:var(--red);font-size:18px;cursor:pointer;z-index:100;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.4)}
 
-/* ══ ACCOUNT PAGE ══ */
+/* ═══ ACCOUNT PAGE ═══ */
 #pageAccount{flex:1;overflow-y:auto;display:none;flex-direction:column}
 #pageAccount.on{display:flex}
 .acc-head{padding:16px 14px 12px;background:var(--s1);border-bottom:1px solid var(--brd)}
-.acc-user-name{font-size:18px;font-weight:700}
+.acc-user{font-size:18px;font-weight:700;color:var(--txt)}
 .acc-uid{font-size:11px;color:var(--dim);margin-top:2px;font-family:var(--mono)}
 .acc-bal-card{margin:10px 12px;background:linear-gradient(135deg,#0a1a10,#0f2018);border:1px solid rgba(0,230,138,.2);border-radius:14px;padding:18px;position:relative;overflow:hidden}
 .abc-glow{position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:rgba(0,230,138,.08);border-radius:50%;filter:blur(20px)}
@@ -195,198 +206,109 @@ body{background:var(--bg);color:var(--txt);font-family:var(--fnt);min-height:100
 .abc-cur{font-size:11px;color:rgba(0,230,138,.5)}
 .acc-act-row{display:flex;gap:8px;margin:10px 12px}
 .acc-act-btn{flex:1;padding:13px;border-radius:12px;border:none;font-family:var(--mono);font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:.2s;letter-spacing:.5px}
-.aab-dep{background:linear-gradient(135deg,#0a5c30,var(--grn));color:#000}
-.aab-wit{background:linear-gradient(135deg,#5c2a00,var(--gold));color:#000}
+.aab-dep{background:linear-gradient(135deg,#0a5c30,var(--grn));color:#000;box-shadow:0 4px 16px rgba(0,230,138,.2)}
+.aab-wit{background:linear-gradient(135deg,#5c2a00,var(--gold));color:#000;box-shadow:0 4px 16px rgba(255,176,32,.2)}
 .acc-sec{margin:8px 12px}
 .acc-sec-title{font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
 .acc-sec-title::after{content:'';flex:1;height:1px;background:var(--brd)}
 .txn-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--s1);border:1px solid var(--brd);border-radius:10px;margin-bottom:6px}
 .txn-left{display:flex;align-items:center;gap:10px}
 .txn-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.txn-icon.dep{background:rgba(0,230,138,.1)}.txn-icon.wit{background:rgba(255,176,32,.1)}.txn-icon.win{background:rgba(30,144,255,.1)}
-.txn-name{font-size:13px;font-weight:600}.txn-date{font-size:10px;color:var(--dim);margin-top:2px;font-family:var(--mono)}
+.txn-icon.dep{background:rgba(0,230,138,.1)}
+.txn-icon.wit{background:rgba(255,176,32,.1)}
+.txn-icon.win{background:rgba(30,144,255,.1)}
+.txn-name{font-size:13px;font-weight:600;color:var(--txt)}
+.txn-date{font-size:10px;color:var(--dim);margin-top:2px;font-family:var(--mono)}
 .txn-amt{font-family:var(--mono);font-size:14px;font-weight:700}
 .txn-amt.pos{color:var(--grn)}.txn-amt.neg{color:var(--red)}
-.empty-state{text-align:center;padding:20px;color:var(--dim);font-size:12px}
+.empty-state{text-align:center;padding:30px 20px;color:var(--dim);font-size:13px}
 
-/* ══ MODAL ══ */
+/* ═══ MODAL (deposit/withdraw) ═══ */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
-.modal-bg.on{display:flex}
-.modal-box{width:100%;max-width:420px;background:var(--s1);border-radius:20px 20px 0 0;border-top:1px solid var(--brd);padding:20px 18px 32px}
+.modal-bg.on{display:flex;animation:bgIn .2s ease}
+@keyframes bgIn{from{opacity:0}to{opacity:1}}
+.modal-box{width:100%;max-width:420px;background:var(--s1);border-radius:20px 20px 0 0;border-top:1px solid var(--brd);padding:20px 18px 32px;animation:modalUp .3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes modalUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .modal-handle{width:36px;height:3px;background:var(--brd);border-radius:3px;margin:0 auto 16px}
-.modal-title{font-size:17px;font-weight:700;margin-bottom:16px;text-align:center}
-.modal-note{font-size:11px;color:var(--dim);line-height:1.6;background:rgba(255,255,255,.03);border-radius:10px;padding:10px 12px;margin-bottom:16px;border:1px solid var(--brd)}
+.modal-title{font-size:17px;font-weight:700;color:var(--txt);margin-bottom:16px;text-align:center}
+.modal-sub{font-size:12px;color:var(--dim);text-align:center;margin-bottom:16px;line-height:1.6}
 .modal-inp-lbl{font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
-.modal-inp{width:100%;padding:13px;background:rgba(255,255,255,.04);border:1.5px solid var(--brd);border-radius:11px;color:var(--txt);font-family:var(--mono);font-size:18px;outline:none;text-align:center;transition:.25s;margin-bottom:14px}
+.modal-inp{width:100%;padding:13px 14px;background:rgba(255,255,255,.04);border:1.5px solid var(--brd);border-radius:11px;color:var(--txt);font-family:var(--mono);font-size:18px;outline:none;text-align:center;transition:.25s;margin-bottom:14px}
 .modal-inp:focus{border-color:var(--grn);box-shadow:0 0 0 3px rgba(0,230,138,.07)}
-.modal-qamts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px}
+.modal-qamts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px}
 .modal-qamt{padding:9px;background:rgba(255,255,255,.04);border:1px solid var(--brd);border-radius:8px;color:var(--dim2);font-family:var(--mono);font-size:12px;cursor:pointer;text-align:center;transition:.2s}
 .modal-qamt:active{border-color:var(--grn);color:var(--grn)}
+.modal-note{font-size:11px;color:var(--dim);line-height:1.6;background:rgba(255,255,255,.03);border-radius:10px;padding:10px 12px;margin-bottom:16px;border:1px solid var(--brd)}
 .modal-submit{width:100%;padding:14px;border:none;border-radius:12px;font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:.2s}
-.ms-dep{background:linear-gradient(135deg,#0a5c30,var(--grn));color:#000}
-.ms-wit{background:linear-gradient(135deg,#6a3800,var(--gold));color:#000}
+.ms-dep{background:linear-gradient(135deg,#0a5c30,var(--grn));color:#000;box-shadow:0 4px 18px rgba(0,230,138,.25)}
+.ms-wit{background:linear-gradient(135deg,#6a3800,var(--gold));color:#000;box-shadow:0 4px 18px rgba(255,176,32,.25)}
 .modal-cancel{width:100%;padding:11px;border:none;background:transparent;color:var(--dim);font-family:var(--fnt);font-size:13px;cursor:pointer;margin-top:8px}
 
-/* ══════════════════════════════════
-   ADMIN SCREEN — PROFESSIONAL
-══════════════════════════════════ */
-#scrAdmin{background:var(--bg)}
-#pageAdmin{flex:1;overflow-y:auto;display:flex;flex-direction:column}
-
-/* Admin topbar */
-.adm-topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 16px;height:56px;background:var(--s1);border-bottom:1px solid var(--brd);flex-shrink:0;
-}
-.adm-brand{display:flex;align-items:center;gap:10px}
-.adm-brand-icon{width:32px;height:32px;border-radius:9px;background:rgba(240,48,74,.12);border:1px solid rgba(240,48,74,.2);display:flex;align-items:center;justify-content:center}
-.adm-brand-name{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--txt);letter-spacing:1px}
-.adm-brand-sub{font-size:9px;color:var(--dim);letter-spacing:1px;margin-top:1px}
-.adm-logout-btn{padding:7px 16px;background:rgba(240,48,74,.08);border:1px solid rgba(240,48,74,.18);border-radius:9px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer;font-family:var(--mono);letter-spacing:.5px;transition:.2s}
+/* ═══ ADMIN PAGE ═══ */
+#pageAdmin{flex:1;overflow-y:auto;display:none;flex-direction:column}
+#pageAdmin.on{display:flex}
+.adm-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--s1);border-bottom:1px solid var(--brd);flex-shrink:0}
+.adm-title{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--red);letter-spacing:2px}
+.adm-name{font-size:10px;color:var(--dim);margin-top:1px}
+.adm-logout-btn{padding:6px 14px;background:rgba(240,48,74,.08);border:1px solid rgba(240,48,74,.2);border-radius:8px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer;font-family:var(--fnt);letter-spacing:.5px;transition:.2s}
 .adm-logout-btn:active{background:rgba(240,48,74,.18)}
-
-/* Firebase status bar */
-.fb-status-bar{
-  display:flex;align-items:center;gap:8px;padding:8px 14px;
-  background:rgba(30,144,255,.05);border-bottom:1px solid rgba(30,144,255,.1);
-  flex-shrink:0;
-}
-.fb-pulse{width:7px;height:7px;border-radius:50%;background:var(--blu);flex-shrink:0;animation:fbp 1.5s ease-in-out infinite}
-@keyframes fbp{0%,100%{box-shadow:0 0 0 0 rgba(30,144,255,.4)}70%{box-shadow:0 0 0 5px transparent}}
-.fb-txt{font-size:11px;color:var(--blu);font-family:var(--mono);letter-spacing:.5px}
-
-.adm-content{padding:12px;display:flex;flex-direction:column;gap:10px}
-
-/* Admin cards */
-.acard{background:var(--s1);border:1px solid var(--brd);border-radius:16px;overflow:hidden}
-.acard-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:12px 16px;border-bottom:1px solid var(--brd);
-}
-.acard-title{font-size:11px;font-weight:700;color:var(--dim);letter-spacing:2px;text-transform:uppercase;font-family:var(--mono);display:flex;align-items:center;gap:8px}
-.acard-body{padding:14px 16px}
-
-/* LIVE ROUND STATS — big card at top */
-.live-round-card{
-  background:linear-gradient(135deg,#0c1020,#111525);
-  border:1px solid rgba(240,48,74,.2);border-radius:16px;overflow:hidden;
-  position:relative;
-}
-.lrc-header{
-  padding:12px 16px;border-bottom:1px solid rgba(240,48,74,.1);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.lrc-title{font-family:var(--mono);font-size:11px;font-weight:700;color:rgba(240,48,74,.7);letter-spacing:2px;text-transform:uppercase}
-.lrc-status{display:flex;align-items:center;gap:6px;font-size:11px;font-family:var(--mono)}
-.lrc-dot{width:7px;height:7px;border-radius:50%;background:var(--red)}
-.lrc-dot.active{background:var(--grn);animation:ldp 1s infinite}
-@keyframes ldp{0%,100%{box-shadow:0 0 0 0 rgba(0,230,138,.4)}70%{box-shadow:0 0 0 5px transparent}}
-.lrc-body{padding:14px 16px}
-.lrc-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.lrc-stat{background:rgba(255,255,255,.03);border-radius:12px;padding:12px}
-.lrc-stat-val{font-family:var(--mono);font-size:22px;font-weight:700}
-.lrc-stat-lbl{font-size:9px;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px}
-.lrc-stat.red .lrc-stat-val{color:var(--red)}
-.lrc-stat.grn .lrc-stat-val{color:var(--grn)}
-.lrc-stat.gold .lrc-stat-val{color:var(--gold)}
-.lrc-stat.blu .lrc-stat-val{color:var(--blu)}
-
-/* Live multiplier progress bar */
-.lrc-mult-bar{margin-bottom:12px}
-.lrc-mb-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.lrc-mb-label{font-size:10px;color:var(--dim)}
-.lrc-mb-val{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--red)}
-.lrc-mb-track{height:6px;background:rgba(255,255,255,.06);border-radius:6px;overflow:hidden}
-.lrc-mb-fill{height:100%;background:linear-gradient(90deg,var(--grn),var(--gold),var(--red));border-radius:6px;transition:width .1s}
-
-/* Game toggle */
-.game-toggle-card{background:var(--s1);border:1px solid var(--brd);border-radius:16px;padding:14px 16px}
-.gt-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.gt-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;font-family:var(--mono)}
-.gt-badge.on{background:rgba(0,230,138,.1);color:var(--grn);border:1px solid rgba(0,230,138,.2)}
-.gt-badge.off{background:rgba(240,48,74,.08);color:var(--red);border:1px solid rgba(240,48,74,.15)}
-.gt-dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:dp 1s infinite}
+.adm-body{padding:12px;flex:1}
+.acard{background:var(--s1);border:1px solid var(--brd);border-radius:14px;padding:16px;margin-bottom:10px}
+.acard-ttl{font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;font-family:var(--mono)}
+.acard-ttl::after{content:'';flex:1;height:1px;background:var(--brd)}
+/* status pill */
+.st-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:12px}
+.st-on{background:rgba(0,230,138,.1);color:var(--grn);border:1px solid rgba(0,230,138,.25)}
+.st-off{background:rgba(240,48,74,.08);color:var(--red);border:1px solid rgba(240,48,74,.18)}
+.st-dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:dp 1s infinite}
 @keyframes dp{0%,100%{opacity:1}50%{opacity:.2}}
+/* toggle row */
+.tog-row{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.03);border-radius:11px;padding:13px 14px;border:1px solid var(--brd)}
+.tog-row-l .t-title{font-size:14px;font-weight:600;color:var(--txt)}
+.tog-row-l .t-sub{font-size:10px;color:var(--dim);margin-top:3px}
 /* big toggle */
 .bigtog{position:relative;width:56px;height:30px}
 .bigtog input{opacity:0;width:0;height:0}
 .bigtog-s{position:absolute;inset:0;background:#1a1e35;border-radius:30px;cursor:pointer;transition:.35s;border:1.5px solid var(--brd)}
 .bigtog-s::before{content:'';position:absolute;width:22px;height:22px;left:3px;top:3px;background:#3a3f5c;border-radius:50%;transition:.35s;box-shadow:0 2px 6px rgba(0,0,0,.5)}
-.bigtog input:checked+.bigtog-s{background:rgba(0,230,138,.15);border-color:var(--grn)}
+.bigtog input:checked+.bigtog-s{background:rgba(0,230,138,.15);border-color:var(--grn);box-shadow:0 0 14px rgba(0,230,138,.15)}
 .bigtog input:checked+.bigtog-s::before{transform:translateX(26px);background:var(--grn)}
-.gt-row{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.03);border-radius:11px;padding:13px 14px;border:1px solid var(--brd)}
-.gt-row-l .gt-title{font-size:14px;font-weight:600}
-.gt-row-l .gt-sub{font-size:10px;color:var(--dim);margin-top:3px}
-
-/* crash control */
-.crash-control-card{background:var(--s1);border:1px solid var(--brd);border-radius:16px;overflow:hidden}
-.crash-note-bar{padding:10px 14px;background:rgba(255,176,32,.05);border-bottom:1px solid rgba(255,176,32,.1);font-size:11px;color:rgba(255,176,32,.8);line-height:1.5}
-.crash-body{padding:14px 16px}
+/* crash note */
+.crash-note{font-size:11px;color:var(--gold);background:rgba(255,176,32,.06);border:1px solid rgba(255,176,32,.12);border-radius:9px;padding:9px 11px;margin-bottom:12px;line-height:1.6}
+/* preset grid */
 .preset-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
 .preset-b{padding:10px 4px;background:rgba(255,255,255,.04);border:1.5px solid var(--brd);border-radius:10px;color:var(--txt);font-family:var(--mono);font-size:11px;cursor:pointer;text-align:center;transition:.2s}
 .preset-b:active,.preset-b.sel{background:rgba(240,48,74,.12);border-color:var(--red);color:var(--red)}
-.crash-input-row{display:flex;gap:8px;align-items:center;margin-bottom:12px}
-.crash-val-inp{flex:1;padding:12px;background:rgba(255,255,255,.04);border:1.5px solid var(--brd);border-radius:10px;color:var(--gold);font-family:var(--mono);font-size:20px;outline:none;text-align:center;transition:.2s}
+.crash-row{display:flex;gap:8px;align-items:center}
+.crash-val-inp{flex:1;padding:12px;background:rgba(255,255,255,.04);border:1.5px solid var(--brd);border-radius:10px;color:var(--gold);font-family:var(--mono);font-size:18px;outline:none;text-align:center;transition:.2s}
 .crash-val-inp:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,176,32,.08)}
-.crash-set-btn{padding:12px 16px;background:linear-gradient(135deg,#9a6500,var(--gold));border:none;border-radius:10px;color:#000;font-family:var(--mono);font-size:12px;font-weight:900;cursor:pointer;transition:.2s;white-space:nowrap}
-.crash-set-btn:active{transform:scale(.96)}
-.crash-preview-box{background:linear-gradient(135deg,rgba(255,176,32,.06),rgba(255,176,32,.02));border:1px solid rgba(255,176,32,.12);border-radius:12px;padding:12px;text-align:center;margin-bottom:14px}
-.cpb-lbl{font-size:9px;color:var(--dim);letter-spacing:2px;text-transform:uppercase}
-.cpb-val{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--gold);text-shadow:0 0 16px rgba(255,176,32,.4)}
-
-/* round action buttons */
-.round-action-row{display:flex;gap:8px}
-.start-round-btn{
-  flex:3;padding:14px;border:none;border-radius:12px;
-  background:linear-gradient(135deg,#0a5c30,var(--grn));color:#000;
-  font-family:var(--mono);font-size:13px;font-weight:900;
-  cursor:pointer;letter-spacing:1px;transition:.2s;position:relative;overflow:hidden;
-}
-.start-round-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.15) 0%,transparent 100%)}
-.start-round-btn:disabled{opacity:.35;cursor:not-allowed}
-.force-crash-btn{
-  flex:2;padding:14px;border:none;border-radius:12px;
-  background:linear-gradient(135deg,#6c0d1c,var(--red));color:#fff;
-  font-family:var(--mono);font-size:12px;font-weight:900;
-  cursor:pointer;transition:.2s;position:relative;overflow:hidden;
-}
-.force-crash-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.1) 0%,transparent 100%)}
+.crash-set{padding:12px 16px;background:linear-gradient(135deg,#9a6500,var(--gold));border:none;border-radius:10px;color:#000;font-family:var(--mono);font-size:12px;font-weight:900;cursor:pointer;transition:.2s;white-space:nowrap}
+.crash-set:active{transform:scale(.96)}
+.crash-preview{margin-top:10px;text-align:center;padding:10px;background:rgba(255,176,32,.05);border:1px solid rgba(255,176,32,.12);border-radius:10px}
+.cp-lbl{font-size:9px;color:var(--dim);letter-spacing:2px;text-transform:uppercase}
+.cp-val{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--gold);text-shadow:0 0 16px rgba(255,176,32,.4)}
+/* start + force crash */
+.round-btns{display:flex;gap:8px;margin-top:12px}
+.start-btn{flex:2;padding:14px;border:none;border-radius:11px;background:linear-gradient(135deg,#0a5c30,var(--grn));color:#000;font-family:var(--mono);font-size:13px;font-weight:900;cursor:pointer;letter-spacing:1px;box-shadow:0 4px 18px rgba(0,230,138,.2);transition:.2s}
+.start-btn:disabled{opacity:.35;cursor:not-allowed}
+.force-crash-btn{flex:1;padding:14px;border:none;border-radius:11px;background:linear-gradient(135deg,#8c1525,var(--red));color:#fff;font-family:var(--mono);font-size:12px;font-weight:900;cursor:pointer;box-shadow:0 4px 18px rgba(240,48,74,.2);transition:.2s}
 .force-crash-btn:disabled{opacity:.35;cursor:not-allowed}
-.force-crash-btn:not(:disabled){animation:fcblink .8s infinite}
-@keyframes fcblink{0%,100%{box-shadow:0 0 0 0 rgba(240,48,74,.3)}50%{box-shadow:0 0 0 6px transparent}}
+/* stats */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat-box{background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:11px;padding:12px}
+.stat-v{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--txt)}
+.stat-l{font-size:9px;color:var(--dim);margin-top:3px;letter-spacing:1.5px;text-transform:uppercase}
+/* deposit requests */
+.dep-req-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:10px;margin-bottom:6px}
+.dri-info .dri-user{font-size:12px;font-weight:600;color:var(--txt)}
+.dri-info .dri-amt{font-family:var(--mono);font-size:11px;color:var(--gold);margin-top:2px}
+.dri-info .dri-method{font-size:10px;color:var(--dim)}
+.dri-btns{display:flex;gap:6px}
+.dri-approve{padding:6px 12px;background:rgba(0,230,138,.1);border:1px solid rgba(0,230,138,.25);border-radius:7px;color:var(--grn);font-size:11px;font-weight:700;cursor:pointer;font-family:var(--mono);transition:.2s}
+.dri-reject{padding:6px 12px;background:rgba(240,48,74,.08);border:1px solid rgba(240,48,74,.2);border-radius:7px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer;font-family:var(--mono);transition:.2s}
+.adm-view-game{width:100%;padding:13px;border:none;border-radius:12px;background:rgba(30,144,255,.1);color:var(--blu);border:1px solid rgba(30,144,255,.2);font-family:var(--mono);font-size:13px;font-weight:700;cursor:pointer;letter-spacing:1px;margin-top:4px;transition:.2s}
 
-/* session stats */
-.session-stats-card{background:var(--s1);border:1px solid var(--brd);border-radius:16px;overflow:hidden}
-.ss-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--brd)}
-.ss-box{background:var(--s1);padding:14px}
-.ss-val{font-family:var(--mono);font-size:22px;font-weight:700}
-.ss-lbl{font-size:9px;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px}
-.ss-box.red .ss-val{color:var(--red)}
-.ss-box.grn .ss-val{color:var(--grn)}
-.ss-box.gold .ss-val{color:var(--gold)}
-.ss-box.blu .ss-val{color:var(--blu)}
-
-/* requests */
-.req-card{background:var(--s1);border:1px solid var(--brd);border-radius:16px;overflow:hidden}
-.req-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--brd)}
-.req-item:last-child{border-bottom:none}
-.ri-user{font-size:12px;font-weight:600}
-.ri-detail{font-family:var(--mono);font-size:11px;color:var(--gold);margin-top:2px}
-.ri-sub{font-size:10px;color:var(--dim)}
-.ri-btns{display:flex;gap:6px}
-.ri-approve{padding:6px 12px;background:rgba(0,230,138,.1);border:1px solid rgba(0,230,138,.2);border-radius:7px;color:var(--grn);font-size:11px;font-weight:700;cursor:pointer;font-family:var(--mono);transition:.2s}
-.ri-reject{padding:6px 12px;background:rgba(240,48,74,.08);border:1px solid rgba(240,48,74,.15);border-radius:7px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer;font-family:var(--mono);transition:.2s}
-
-.adm-view-game-btn{
-  padding:14px;border:none;border-radius:12px;
-  background:rgba(30,144,255,.08);color:var(--blu);
-  border:1px solid rgba(30,144,255,.18);
-  font-family:var(--mono);font-size:13px;font-weight:700;
-  cursor:pointer;letter-spacing:1px;transition:.2s;text-align:center;
-}
-.adm-view-game-btn:active{background:rgba(30,144,255,.15)}
-
-/* ══ WIN POPUP ══ */
+/* ═══ WIN POPUP ═══ */
 #winPop{display:none;position:fixed;top:42%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(145deg,#0a1a0f,#0d2015);border:2px solid var(--grn);border-radius:20px;padding:26px 40px;text-align:center;z-index:200;box-shadow:0 0 70px rgba(0,230,138,.2)}
 #winPop.on{display:block;animation:wpop .45s cubic-bezier(.34,1.56,.64,1)}
 @keyframes wpop{from{transform:translate(-50%,-50%) scale(.2);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
@@ -395,13 +317,14 @@ body{background:var(--bg);color:var(--txt);font-family:var(--fnt);min-height:100
 .wp-mult{font-family:var(--mono);font-size:48px;font-weight:700;color:var(--grn);line-height:1;text-shadow:0 0 30px rgba(0,230,138,.5)}
 .wp-amt{font-family:var(--mono);font-size:22px;color:var(--gold);margin-top:5px}
 
-/* ══ NOTIF ══ */
+/* ═══ NOTIF ═══ */
 #notif{position:fixed;top:68px;left:50%;transform:translateX(-50%);padding:9px 20px;border-radius:12px;font-size:12px;font-weight:700;z-index:300;display:none;white-space:nowrap;font-family:var(--mono);box-shadow:0 4px 20px rgba(0,0,0,.4);letter-spacing:.5px}
 #notif.on{display:block;animation:nf 2.6s forwards}
 @keyframes nf{0%{opacity:0;top:58px}8%{opacity:1;top:68px}75%{opacity:1}100%{opacity:0;top:58px}}
 #notif.ok{background:rgba(0,230,138,.9);color:#000}
 #notif.err{background:rgba(240,48,74,.9);color:#fff}
 #notif.info{background:rgba(30,144,255,.9);color:#fff}
+
 .pad{height:24px}
 </style>
 </head>
@@ -430,15 +353,20 @@ body{background:var(--bg);color:var(--txt);font-family:var(--fnt);min-height:100
       <button class="tab-btn" id="tSignup" onclick="swTab('signup')">SIGN UP</button>
     </div>
     <div id="fLogin">
-      <div class="inp-lbl">Username</div><div class="inp-wrap"><input class="inp" id="iLU" placeholder="@username" autocomplete="off" autocapitalize="none"></div>
-      <div class="inp-lbl">Password</div><div class="inp-wrap"><input class="inp" id="iLP" type="password" placeholder="••••••••"></div>
+      <div class="inp-lbl">Username</div>
+      <div class="inp-wrap"><input class="inp" id="iLU" placeholder="@username" autocomplete="off" autocapitalize="none"></div>
+      <div class="inp-lbl">Password</div>
+      <div class="inp-wrap"><input class="inp" id="iLP" type="password" placeholder="••••••••"></div>
       <button class="auth-submit" id="btnLogin" onclick="doLogin()">LOGIN</button>
       <div class="auth-err" id="eLogin"></div>
     </div>
     <div id="fSignup" style="display:none">
-      <div class="inp-lbl">Username</div><div class="inp-wrap"><input class="inp" id="iSU" placeholder="@username" autocomplete="off" autocapitalize="none"></div>
-      <div class="inp-lbl">Password</div><div class="inp-wrap"><input class="inp" id="iSP" type="password" placeholder="কমপক্ষে ৬ অক্ষর"></div>
-      <div class="inp-lbl">Confirm</div><div class="inp-wrap"><input class="inp" id="iSP2" type="password" placeholder="আবার লিখো"></div>
+      <div class="inp-lbl">Username</div>
+      <div class="inp-wrap"><input class="inp" id="iSU" placeholder="@username" autocomplete="off" autocapitalize="none"></div>
+      <div class="inp-lbl">Password</div>
+      <div class="inp-wrap"><input class="inp" id="iSP" type="password" placeholder="কমপক্ষে ৬ অক্ষর"></div>
+      <div class="inp-lbl">Confirm</div>
+      <div class="inp-wrap"><input class="inp" id="iSP2" type="password" placeholder="আবার লিখো"></div>
       <button class="auth-submit" id="btnSignup" onclick="doSignup()">ACCOUNT তৈরি করো</button>
       <div class="auth-err" id="eSignup"></div>
       <button class="demo-bal-btn" onclick="getDemoBalance()">🎁 FREE DEMO — 10,000 BDT</button>
@@ -446,234 +374,262 @@ body{background:var(--bg);color:var(--txt);font-family:var(--fnt);min-height:100
   </div>
 </div>
 
-<!-- GAME SCREEN -->
+<!-- GAME SCREEN WRAPPER -->
 <div id="scrGame" class="scr">
+  <!-- GAME PAGE -->
   <div id="pageGame" class="on">
     <div class="g-bar">
-      <div><div class="g-logo">✈ AVIATOR<span class="g-logo-sub">BY @BAPPY</span></div></div>
-      <div class="g-bal"><div class="g-bal-lbl">BALANCE</div><div><span class="g-bal-val" id="balEl">1,000.00</span> <span class="g-bal-cur">BDT</span></div></div>
+      <div>
+        <div class="g-logo">✈ AVIATOR<span class="g-logo-sub">BY @BAPPY</span></div>
+      </div>
+      <div class="g-bal">
+        <div class="g-bal-lbl">BALANCE</div>
+        <div><span class="g-bal-val" id="balEl">1,000.00</span> <span class="g-bal-cur">BDT</span></div>
+      </div>
     </div>
+
     <div class="hist" id="histBar">
       <div class="hpill hp-l">1.32x</div><div class="hpill hp-m">3.45x</div>
       <div class="hpill hp-l">1.08x</div><div class="hpill hp-h">18.26x</div>
-      <div class="hpill hp-l">1.74x</div>
+      <div class="hpill hp-l">1.74x</div><div class="hpill hp-m">5.85x</div>
     </div>
 
     <!-- GAME CANVAS -->
     <div class="gcwrap" id="gcWrap">
-      <div id="starLayer" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>
+      <!-- Stars filled by JS -->
+      <div id="starLayer" style="position:absolute;inset:0;pointer-events:none"></div>
+      <div class="yax" id="yax"></div>
       <canvas id="cv"></canvas>
-      <div class="g-xax"><span class="g-xtk">0s</span><span class="g-xtk">5s</span><span class="g-xtk">10s</span><span class="g-xtk">15s</span><span class="g-xtk">20s</span></div>
-
-      <!-- PLANE: positioned by top/left in px -->
-      <div id="planeWrap">
-        <svg viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M6 30 L62 14 L68 30 L62 46 Z" fill="#e63946" opacity=".95"/>
-          <ellipse cx="56" cy="30" rx="6" ry="9" fill="#ff8080" opacity=".55"/>
-          <path d="M40 22 L66 10 L68 20 L40 26 Z" fill="#ff6b6b"/>
-          <path d="M40 38 L66 50 L68 40 L40 34 Z" fill="#ff6b6b"/>
-          <path d="M8 26 L16 14 L20 20 L8 30 Z" fill="#c0392b"/>
-          <path d="M8 34 L16 46 L20 40 L8 30 Z" fill="#c0392b"/>
-          <circle cx="60" cy="30" r="3.5" fill="#ffdddd" opacity=".8"/>
-          <path d="M6 26 L-8 28 L-8 32 L6 34 Z" fill="#ff6b35" opacity=".9">
-            <animate attributeName="d" values="M6 26 L-8 28 L-8 32 L6 34 Z;M6 27 L-13 29 L-13 31 L6 33 Z;M6 26 L-8 28 L-8 32 L6 34 Z" dur=".12s" repeatCount="indefinite"/>
-          </path>
-          <path d="M6 27 L-3 29 L-3 31 L6 33 Z" fill="#ffd060" opacity=".75">
-            <animate attributeName="d" values="M6 27 L-3 29 L-3 31 L6 33 Z;M6 28 L-7 29.5 L-7 30.5 L6 32 Z;M6 27 L-3 29 L-3 31 L6 33 Z" dur=".18s" repeatCount="indefinite"/>
-          </path>
-        </svg>
+      <div class="g-xax">
+        <span class="g-xtk">0s</span><span class="g-xtk">5s</span>
+        <span class="g-xtk">10s</span><span class="g-xtk">15s</span><span class="g-xtk">20s</span>
       </div>
 
-      <div id="mWrap"><div id="mNum" class="mn-g">1.00x</div><div id="mLbl">WAITING...</div></div>
-      <div id="ovCrash"><div class="crash-msg">FLEW AWAY!<br><span id="crashMT" style="font-size:16px;opacity:.7"></span></div></div>
-      <div id="ovWait"><div class="ov-lbl">NEXT ROUND IN</div><div id="wNum">5</div><div class="ov-lbl" style="font-size:8px;opacity:.4;margin-top:2px">PLACE YOUR BET</div></div>
+      <!-- Trail Canvas (behind plane) -->
+      <canvas id="trailCv"></canvas>
+
+      <!-- Plane Image -->
+      <div id="plSvgWrap">
+        <img src="https://i.postimg.cc/9MKXx5Vv/IMG-20260414-180439-removebg-preview-(2).png" alt="plane" draggable="false">
+      </div>
+
+      <!-- Multiplier -->
+      <div id="mWrap">
+        <div id="mNum" class="mn-g">1.00x</div>
+        <div id="mLbl">WAITING...</div>
+      </div>
+
+      <!-- Overlays -->
+      <div id="ovCrash">
+        <div class="crash-msg">FLEW AWAY!<br><span id="crashMT" style="font-size:16px;opacity:.7"></span></div>
+      </div>
+      <div id="ovWait">
+        <div class="ov-lbl">NEXT ROUND IN</div>
+        <div id="wNum">5</div>
+        <div class="ov-lbl" style="font-size:8px;opacity:.4;margin-top:2px">PLACE YOUR BET</div>
+      </div>
       <div id="ovClosed" class="on">
         <svg class="ov-lock" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(74,85,117,.5)" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
         <div style="font-family:var(--mono);font-size:14px;color:#2a3050;letter-spacing:2px" id="closedMsg">GAME OFFLINE</div>
         <div style="font-size:10px;color:#1a2040;letter-spacing:2px" id="closedSub">Admin এর জন্য অপেক্ষা করো</div>
       </div>
-    </div>
+    </div><!-- /gcwrap -->
 
-    <!-- BET 1 -->
+    <!-- BET PANEL 1 -->
     <div class="bet-area">
       <div class="bet-panel">
-        <div class="bp-tabs"><button class="bp-tab on">BET</button><button class="bp-tab">AUTO</button></div>
-        <div class="bp-row"><div class="amt-box"><button class="amt-btn" onclick="chgA('b1',-10)">−</button><input class="amt-inp" id="b1A" type="number" value="10" min="1" onchange="syncS('b1')"><button class="amt-btn" onclick="chgA('b1',10)">+</button></div></div>
-        <div class="qb-row"><button class="qb" onclick="setA('b1',100)">100</button><button class="qb" onclick="setA('b1',200)">200</button><button class="qb" onclick="setA('b1',500)">500</button><button class="qb" onclick="setA('b1',1000)">1K</button></div>
-        <div class="ac-row"><span class="ac-lbl">AUTO CASH OUT</span><label class="tog"><input type="checkbox" id="b1AC" onchange="togAC('b1')"><span class="tog-s"></span></label><input class="ac-inp" id="b1AV" value="2.00" disabled style="opacity:.4" oninput="B.b1.at=parseFloat(this.value)||2"></div>
+        <div class="bp-tabs">
+          <button class="bp-tab on">BET</button>
+          <button class="bp-tab">AUTO</button>
+        </div>
+        <div class="bp-row">
+          <div class="amt-box">
+            <button class="amt-btn" onclick="chgAmt('b1',-10)">−</button>
+            <input class="amt-inp" id="b1A" type="number" value="10" min="1" onchange="syncSub('b1')">
+            <button class="amt-btn" onclick="chgAmt('b1',10)">+</button>
+          </div>
+        </div>
+        <div class="qb-row">
+          <button class="qb" onclick="setA('b1',100)">100</button>
+          <button class="qb" onclick="setA('b1',200)">200</button>
+          <button class="qb" onclick="setA('b1',500)">500</button>
+          <button class="qb" onclick="setA('b1',1000)">1K</button>
+        </div>
+        <div class="ac-row">
+          <span class="ac-lbl">AUTO CASH OUT</span>
+          <label class="tog"><input type="checkbox" id="b1AC" onchange="togAC('b1')"><span class="tog-s"></span></label>
+          <input class="ac-inp" id="b1AV" value="2.00" disabled style="opacity:.4" oninput="B.b1.at=parseFloat(this.value)||2">
+        </div>
         <div class="live-p" id="b1P"></div>
         <button class="act-btn ab-bet" id="b1Btn" onclick="mAct('b1')">BET<br><span class="ab-sub" id="b1Sub">10.00 BDT</span></button>
       </div>
-      <!-- BET 2 -->
+
+      <!-- BET PANEL 2 -->
       <div class="bet-panel">
-        <div class="bp-tabs"><button class="bp-tab on">BET</button><button class="bp-tab">AUTO</button></div>
-        <div class="bp-row"><div class="amt-box"><button class="amt-btn" onclick="chgA('b2',-10)">−</button><input class="amt-inp" id="b2A" type="number" value="10" min="1" onchange="syncS('b2')"><button class="amt-btn" onclick="chgA('b2',10)">+</button></div></div>
-        <div class="qb-row"><button class="qb" onclick="setA('b2',100)">100</button><button class="qb" onclick="setA('b2',200)">200</button><button class="qb" onclick="setA('b2',500)">500</button><button class="qb" onclick="setA('b2',1000)">1K</button></div>
-        <div class="ac-row"><span class="ac-lbl">AUTO CASH OUT</span><label class="tog"><input type="checkbox" id="b2AC" onchange="togAC('b2')"><span class="tog-s"></span></label><input class="ac-inp" id="b2AV" value="2.00" disabled style="opacity:.4" oninput="B.b2.at=parseFloat(this.value)||2"></div>
+        <div class="bp-tabs">
+          <button class="bp-tab on">BET</button>
+          <button class="bp-tab">AUTO</button>
+        </div>
+        <div class="bp-row">
+          <div class="amt-box">
+            <button class="amt-btn" onclick="chgAmt('b2',-10)">−</button>
+            <input class="amt-inp" id="b2A" type="number" value="10" min="1" onchange="syncSub('b2')">
+            <button class="amt-btn" onclick="chgAmt('b2',10)">+</button>
+          </div>
+        </div>
+        <div class="qb-row">
+          <button class="qb" onclick="setA('b2',100)">100</button>
+          <button class="qb" onclick="setA('b2',200)">200</button>
+          <button class="qb" onclick="setA('b2',500)">500</button>
+          <button class="qb" onclick="setA('b2',1000)">1K</button>
+        </div>
+        <div class="ac-row">
+          <span class="ac-lbl">AUTO CASH OUT</span>
+          <label class="tog"><input type="checkbox" id="b2AC" onchange="togAC('b2')"><span class="tog-s"></span></label>
+          <input class="ac-inp" id="b2AV" value="2.00" disabled style="opacity:.4" oninput="B.b2.at=parseFloat(this.value)||2">
+        </div>
         <div class="live-p" id="b2P"></div>
         <button class="act-btn ab-bet" id="b2Btn" onclick="mAct('b2')">BET<br><span class="ab-sub" id="b2Sub">10.00 BDT</span></button>
       </div>
     </div>
 
+    <!-- BETS TABLE -->
     <div class="bets-wrap">
-      <div class="bets-tabs"><button class="bets-tab on">All Bets</button><button class="bets-tab">Previous</button><button class="bets-tab">Top</button></div>
+      <div class="bets-tabs">
+        <button class="bets-tab on">All Bets</button>
+        <button class="bets-tab">Previous</button>
+        <button class="bets-tab">Top</button>
+      </div>
       <div class="bets-hd"><span>Player</span><span style="text-align:center">Mult</span><span style="text-align:right">Win</span></div>
       <div class="bets-list" id="betsList"></div>
       <div class="bets-ft"><span id="bCnt">0/0 Bets</span><span class="bets-tot" id="bTot">0.00 BDT</span></div>
     </div>
-    <div id="adminFab" class="adm-fab" style="display:none" onclick="navAdmin()">⚙</div>
+
+    <div id="adminFab" class="adm-fab" style="display:none" onclick="navAdmin()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M19.07 19.07l-1.41-1.41M4.93 19.07l1.41-1.41M21 12h-2M5 12H3M12 3V1m0 22v-2"/></svg>
+    </div>
     <div class="pad"></div>
-  </div>
+  </div><!-- /pageGame -->
 
   <!-- ACCOUNT PAGE -->
   <div id="pageAccount">
-    <div class="acc-head"><div class="acc-user-name" id="accUserEl">@username</div><div class="acc-uid">Player Account</div></div>
-    <div class="acc-bal-card"><div class="abc-glow"></div><div class="abc-lbl">TOTAL BALANCE</div><div class="abc-val" id="accBalEl">0.00</div><div class="abc-cur">BDT</div></div>
-    <div class="acc-act-row">
-      <button class="acc-act-btn aab-dep" onclick="openModal('deposit')">⬇ DEPOSIT</button>
-      <button class="acc-act-btn aab-wit" onclick="openModal('withdraw')">⬆ WITHDRAW</button>
+    <div class="acc-head">
+      <div class="acc-user" id="accUserEl">@username</div>
+      <div class="acc-uid" id="accUidEl">Player Account</div>
     </div>
-    <div class="acc-sec"><div class="acc-sec-title">Transaction History</div><div id="txnList"><div class="empty-state">কোনো transaction নেই</div></div></div>
+    <div class="acc-bal-card">
+      <div class="abc-glow"></div>
+      <div class="abc-lbl">TOTAL BALANCE</div>
+      <div class="abc-val" id="accBalEl">0.00</div>
+      <div class="abc-cur">BDT</div>
+    </div>
+    <div class="acc-act-row">
+      <button class="acc-act-btn aab-dep" onclick="openModal('deposit')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-bottom:3px;display:block;margin:0 auto 4px"><path d="M12 3v14M5 10l7 7 7-7"/><path d="M5 21h14"/></svg>
+        DEPOSIT
+      </button>
+      <button class="acc-act-btn aab-wit" onclick="openModal('withdraw')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:block;margin:0 auto 4px"><path d="M12 21V7M5 14l7-7 7 7"/><path d="M5 3h14"/></svg>
+        WITHDRAW
+      </button>
+    </div>
+    <div class="acc-sec">
+      <div class="acc-sec-title">Transaction History</div>
+      <div id="txnList">
+        <div class="empty-state">কোনো transaction নেই</div>
+      </div>
+    </div>
     <div class="pad"></div>
-  </div>
+  </div><!-- /pageAccount -->
 
+  <!-- BOTTOM NAV -->
   <div class="bot-nav">
     <div class="bot-nav-item active" id="navGame" onclick="navTo('game')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       <span>Game</span>
     </div>
     <div class="bot-nav-item" id="navAcc" onclick="navTo('account')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="var(--dim)" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span>Account</span>
     </div>
   </div>
-</div>
+</div><!-- /scrGame -->
 
 <!-- ADMIN SCREEN -->
 <div id="scrAdmin" class="scr">
-  <div id="pageAdmin">
-    <div class="adm-topbar">
-      <div class="adm-brand">
-        <div class="adm-brand-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-        </div>
-        <div><div class="adm-brand-name">ADMIN PANEL</div><div class="adm-brand-sub">@BappyOnchain</div></div>
-      </div>
+  <div id="pageAdmin" class="on">
+    <div class="adm-bar">
+      <div><div class="adm-title">⚙ ADMIN</div><div class="adm-name">@BappyOnchain</div></div>
       <button class="adm-logout-btn" onclick="doLogout()">LOGOUT</button>
     </div>
+    <div class="adm-body">
+      <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(30,144,255,.06);border:1px solid rgba(30,144,255,.15);border-radius:10px;margin-bottom:10px;font-size:11px;color:var(--blu);font-family:var(--mono)">
+        <span style="width:7px;height:7px;border-radius:50%;background:var(--blu);display:inline-block;animation:dp 1.5s infinite"></span>
+        Firebase — সব device এ real-time sync
+      </div>
 
-    <div class="fb-status-bar">
-      <div class="fb-pulse"></div>
-      <div class="fb-txt">Firebase Realtime — সব device sync</div>
-    </div>
-
-    <div class="adm-content">
-
-      <!-- LIVE ROUND STATS -->
-      <div class="live-round-card">
-        <div class="lrc-header">
-          <div class="lrc-title">📡 LIVE ROUND</div>
-          <div class="lrc-status"><div class="lrc-dot" id="lrcDot"></div><span id="lrcStatusTxt" style="font-size:11px;font-family:var(--mono);color:var(--dim)">IDLE</span></div>
-        </div>
-        <div class="lrc-body">
-          <!-- Live multiplier bar -->
-          <div class="lrc-mult-bar">
-            <div class="lrc-mb-row">
-              <span class="lrc-mb-label">Current Multiplier</span>
-              <span class="lrc-mb-val" id="lrcMult">—</span>
-            </div>
-            <div class="lrc-mb-track"><div class="lrc-mb-fill" id="lrcMultBar" style="width:0%"></div></div>
-          </div>
-          <!-- 4 live stats -->
-          <div class="lrc-stats">
-            <div class="lrc-stat gold">
-              <div class="lrc-stat-val" id="lrcRoundBet">0</div>
-              <div class="lrc-stat-lbl">Round Bet BDT</div>
-            </div>
-            <div class="lrc-stat blu">
-              <div class="lrc-stat-val" id="lrcRoundPlayers">0</div>
-              <div class="lrc-stat-lbl">Bettors</div>
-            </div>
-            <div class="lrc-stat grn">
-              <div class="lrc-stat-val" id="lrcCrashAt">—</div>
-              <div class="lrc-stat-lbl">Crash At</div>
-            </div>
-            <div class="lrc-stat red">
-              <div class="lrc-stat-val" id="lrcRoundNum">0</div>
-              <div class="lrc-stat-lbl">Round #</div>
-            </div>
-          </div>
+      <!-- Game toggle -->
+      <div class="acard">
+        <div class="acard-ttl">🎮 Game Control</div>
+        <div id="admStPill" class="st-pill st-off"><div class="st-dot"></div><span>OFFLINE</span></div>
+        <div class="tog-row">
+          <div class="tog-row-l"><div class="t-title">Game চালু / বন্ধ</div><div class="t-sub">সব device এ real-time কাজ করবে</div></div>
+          <label class="bigtog"><input type="checkbox" id="gOnTog" onchange="admToggleGame()"><span class="bigtog-s"></span></label>
         </div>
       </div>
 
-      <!-- GAME TOGGLE -->
-      <div class="game-toggle-card">
-        <div class="gt-top">
-          <div id="admBadge" class="gt-badge off"><div class="gt-dot"></div><span>OFFLINE</span></div>
-          <div style="font-size:11px;color:var(--dim)">Game Status</div>
+      <!-- Crash control -->
+      <div class="acard">
+        <div class="acard-ttl">💥 Crash Control</div>
+        <div class="crash-note">⚠️ Crash point সেট → START ROUND চাপো। Game চলাকালীন FORCE CRASH দিয়ে যেকোনো সময় বন্ধ করো।</div>
+        <div class="preset-grid">
+          <button class="preset-b" onclick="pPre(1.2,this)">1.2x</button>
+          <button class="preset-b" onclick="pPre(1.5,this)">1.5x</button>
+          <button class="preset-b" onclick="pPre(2.0,this)">2.0x</button>
+          <button class="preset-b" onclick="pPre(3.0,this)">3.0x</button>
+          <button class="preset-b" onclick="pPre(5.0,this)">5.0x</button>
+          <button class="preset-b" onclick="pPre(10.0,this)">10x</button>
+          <button class="preset-b" onclick="pPre(25.0,this)">25x</button>
+          <button class="preset-b" onclick="pPre(50.0,this)">50x</button>
         </div>
-        <div class="gt-row">
-          <div class="gt-row-l"><div class="gt-title">Game চালু / বন্ধ</div><div class="gt-sub">সব device এ real-time কাজ করবে</div></div>
-          <label class="bigtog"><input type="checkbox" id="gOnTog" onchange="admToggle()"><span class="bigtog-s"></span></label>
+        <div class="crash-row">
+          <input type="number" class="crash-val-inp" id="crashInp" value="2.00" min="1.01" step="0.01">
+          <button class="crash-set" onclick="admSetCrash()">SET ✓</button>
         </div>
-      </div>
-
-      <!-- CRASH CONTROL -->
-      <div class="crash-control-card">
-        <div class="acard-header">
-          <div class="acard-title">💥 Crash Control</div>
+        <div class="crash-preview">
+          <div class="cp-lbl">Crash হবে</div>
+          <div class="cp-val" id="cpShow">2.00x</div>
         </div>
-        <div class="crash-note-bar">⚠️ Crash point সেট করো → START ROUND চাপো। Round চলাকালীন FORCE CRASH দিয়ে যেকোনো সময় বন্ধ করো।</div>
-        <div class="crash-body">
-          <div class="preset-grid">
-            <button class="preset-b" onclick="pPre(1.2,this)">1.2x</button>
-            <button class="preset-b" onclick="pPre(1.5,this)">1.5x</button>
-            <button class="preset-b" onclick="pPre(2.0,this)">2.0x</button>
-            <button class="preset-b" onclick="pPre(3.0,this)">3.0x</button>
-            <button class="preset-b" onclick="pPre(5.0,this)">5.0x</button>
-            <button class="preset-b" onclick="pPre(10.0,this)">10x</button>
-            <button class="preset-b" onclick="pPre(25.0,this)">25x</button>
-            <button class="preset-b" onclick="pPre(50.0,this)">50x</button>
-          </div>
-          <div class="crash-input-row">
-            <input type="number" class="crash-val-inp" id="crashInp" value="2.00" min="1.01" step="0.01">
-            <button class="crash-set-btn" onclick="admSetCrash()">SET ✓</button>
-          </div>
-          <div class="crash-preview-box">
-            <div class="cpb-lbl">পরের round crash হবে</div>
-            <div class="cpb-val" id="cpShow">2.00x</div>
-          </div>
-          <div class="round-action-row">
-            <button class="start-round-btn" id="startBtn" onclick="admStart()" disabled>▶ START ROUND</button>
-            <button class="force-crash-btn" id="forceBtn" onclick="admForce()" disabled>💥 FORCE CRASH</button>
-          </div>
+        <div class="round-btns">
+          <button class="start-btn" id="startBtn" onclick="admStartRound()" disabled>▶ START ROUND</button>
+          <button class="force-crash-btn" id="forceCrashBtn" onclick="admForceCrash()" disabled>💥 FORCE CRASH</button>
         </div>
       </div>
 
-      <!-- SESSION STATS -->
-      <div class="session-stats-card">
-        <div class="acard-header"><div class="acard-title">📊 Session Stats</div></div>
-        <div class="ss-grid">
-          <div class="ss-box red"><div class="ss-val" id="sRnd">0</div><div class="ss-lbl">Rounds</div></div>
-          <div class="ss-box grn"><div class="ss-val" id="sAvg">—</div><div class="ss-lbl">Avg Crash</div></div>
-          <div class="ss-box gold"><div class="ss-val" id="sTotalBet">0</div><div class="ss-lbl">Total Bet BDT</div></div>
-          <div class="ss-box blu"><div class="ss-val" id="sTotalBettors">0</div><div class="ss-lbl">Total Bettors</div></div>
+      <!-- Stats -->
+      <div class="acard">
+        <div class="acard-ttl">📊 Session Stats</div>
+        <div class="stat-grid">
+          <div class="stat-box"><div class="stat-v" id="sRnd">0</div><div class="stat-l">Rounds</div></div>
+          <div class="stat-box"><div class="stat-v" id="sAvg">—</div><div class="stat-l">Avg Crash</div></div>
+          <div class="stat-box"><div class="stat-v" id="sBets">0</div><div class="stat-l">Bets Count</div></div>
+          <div class="stat-box"><div class="stat-v" id="sBetAmt">0</div><div class="stat-l">Total Bet BDT</div></div>
         </div>
       </div>
 
-      <!-- DEPOSIT REQUESTS -->
-      <div class="req-card">
-        <div class="acard-header"><div class="acard-title">💳 Deposit Requests</div></div>
+      <!-- Deposit Requests -->
+      <div class="acard">
+        <div class="acard-ttl">💳 Deposit Requests</div>
         <div id="depReqList"><div class="empty-state">কোনো pending request নেই</div></div>
       </div>
 
-      <!-- WITHDRAW REQUESTS -->
-      <div class="req-card">
-        <div class="acard-header"><div class="acard-title">🏧 Withdraw Requests</div></div>
+      <!-- Withdraw Requests -->
+      <div class="acard">
+        <div class="acard-ttl">🏧 Withdraw Requests</div>
         <div id="witReqList"><div class="empty-state">কোনো pending request নেই</div></div>
       </div>
 
-      <button class="adm-view-game-btn" onclick="navGame()">▶ GAME দেখো</button>
+      <button class="adm-view-game" onclick="navGame()">▶ GAME দেখো</button>
       <div class="pad"></div>
     </div>
   </div>
@@ -684,18 +640,23 @@ body{background:var(--bg);color:var(--txt);font-family:var(--fnt);min-height:100
   <div class="modal-box">
     <div class="modal-handle"></div>
     <div class="modal-title">💳 Deposit</div>
-    <div class="modal-note">📱 <strong>বিকাশ:</strong> 01XXXXXXXXXX<br>📱 <strong>নগদ:</strong> 01XXXXXXXXXX<br>ন্যূনতম: 100 BDT</div>
+    <div class="modal-sub">নিচের নম্বরে বিকাশ/নগদ পাঠিয়ে Request করো</div>
+    <div class="modal-note">
+      📱 <strong>বিকাশ:</strong> 01XXXXXXXXXX (Personal)<br>
+      📱 <strong>নগদ:</strong> 01XXXXXXXXXX<br>
+      ন্যূনতম deposit: 100 BDT | সর্বোচ্চ: 50,000 BDT
+    </div>
     <div class="modal-inp-lbl">Amount (BDT)</div>
-    <input type="number" class="modal-inp" id="depAmt" placeholder="0" min="100">
+    <input type="number" class="modal-inp" id="depAmtInp" placeholder="0" min="100">
     <div class="modal-qamts">
-      <button class="modal-qamt" onclick="document.getElementById('depAmt').value=500">500</button>
-      <button class="modal-qamt" onclick="document.getElementById('depAmt').value=1000">1K</button>
-      <button class="modal-qamt" onclick="document.getElementById('depAmt').value=5000">5K</button>
-      <button class="modal-qamt" onclick="document.getElementById('depAmt').value=10000">10K</button>
+      <button class="modal-qamt" onclick="document.getElementById('depAmtInp').value=500">500</button>
+      <button class="modal-qamt" onclick="document.getElementById('depAmtInp').value=1000">1K</button>
+      <button class="modal-qamt" onclick="document.getElementById('depAmtInp').value=5000">5K</button>
+      <button class="modal-qamt" onclick="document.getElementById('depAmtInp').value=10000">10K</button>
     </div>
     <div class="modal-inp-lbl">Transaction ID</div>
-    <input type="text" class="modal-inp" id="depTxn" placeholder="TXN ID" style="font-size:14px">
-    <button class="modal-submit ms-dep" onclick="submitDep()">REQUEST DEPOSIT</button>
+    <input type="text" class="modal-inp" id="depTxnInp" placeholder="TXN ID দাও" style="font-size:14px">
+    <button class="modal-submit ms-dep" onclick="submitDeposit()">REQUEST DEPOSIT</button>
     <button class="modal-cancel" onclick="closeModal('deposit')">Cancel</button>
   </div>
 </div>
@@ -705,313 +666,491 @@ body{background:var(--bg);color:var(--txt);font-family:var(--fnt);min-height:100
   <div class="modal-box">
     <div class="modal-handle"></div>
     <div class="modal-title">🏧 Withdraw</div>
+    <div class="modal-sub">Withdraw হতে ১-২৪ ঘণ্টা সময় লাগে</div>
     <div class="modal-inp-lbl">Amount (BDT)</div>
-    <input type="number" class="modal-inp" id="witAmt" placeholder="0" min="200">
+    <input type="number" class="modal-inp" id="witAmtInp" placeholder="0" min="200">
     <div class="modal-qamts">
-      <button class="modal-qamt" onclick="document.getElementById('witAmt').value=500">500</button>
-      <button class="modal-qamt" onclick="document.getElementById('witAmt').value=1000">1K</button>
-      <button class="modal-qamt" onclick="document.getElementById('witAmt').value=2000">2K</button>
-      <button class="modal-qamt" onclick="document.getElementById('witAmt').value=5000">5K</button>
+      <button class="modal-qamt" onclick="document.getElementById('witAmtInp').value=500">500</button>
+      <button class="modal-qamt" onclick="document.getElementById('witAmtInp').value=1000">1K</button>
+      <button class="modal-qamt" onclick="document.getElementById('witAmtInp').value=2000">2K</button>
+      <button class="modal-qamt" onclick="document.getElementById('witAmtInp').value=5000">5K</button>
     </div>
-    <div class="modal-inp-lbl">বিকাশ / নগদ নম্বর</div>
-    <input type="text" class="modal-inp" id="witNum" placeholder="01XXXXXXXXXX" style="font-size:16px">
-    <button class="modal-submit ms-wit" onclick="submitWit()">REQUEST WITHDRAW</button>
+    <div class="modal-inp-lbl">বিকাশ/নগদ নম্বর</div>
+    <input type="text" class="modal-inp" id="witNumInp" placeholder="01XXXXXXXXXX" style="font-size:16px">
+    <div class="modal-note">ন্যূনতম withdraw: 200 BDT | Processing fee: 0%</div>
+    <button class="modal-submit ms-wit" onclick="submitWithdraw()">REQUEST WITHDRAW</button>
     <button class="modal-cancel" onclick="closeModal('withdraw')">Cancel</button>
   </div>
 </div>
 
 <!-- WIN POPUP -->
-<div id="winPop"><div class="wp-e">🎉</div><div class="wp-lbl">CASHED OUT AT</div><div class="wp-mult" id="wpM">2.50x</div><div class="wp-amt" id="wpA">+25.00 BDT</div></div>
+<div id="winPop">
+  <div class="wp-e">🎉</div>
+  <div class="wp-lbl">CASHED OUT AT</div>
+  <div class="wp-mult" id="wpM">2.50x</div>
+  <div class="wp-amt" id="wpA">+25.00 BDT</div>
+</div>
 
 <!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, set, onValue, get, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-const FC={apiKey:"AIzaSyCJPWBrEXcq3rjltVaRvc9-HwAn9iRlyRU",authDomain:"aviator-bappy.firebaseapp.com",databaseURL:"https://aviator-bappy-default-rtdb.firebaseio.com",projectId:"aviator-bappy",storageBucket:"aviator-bappy.firebasestorage.app",messagingSenderId:"380289888792",appId:"1:380289888792:web:afda6c3a33383d641f496d"};
-const fb=initializeApp(FC), db=getDatabase(fb), stRef=ref(db,'gs'), depRef=ref(db,'depReqs'), witRef=ref(db,'witReqs');
-window.FB={
-  setGs:d=>set(stRef,d),
-  listenGs:cb=>onValue(stRef,s=>cb(s.val())),
-  getGs:()=>get(stRef).then(s=>s.val()),
-  pushDep:d=>push(depRef,d),
-  pushWit:d=>push(witRef,d),
-  listenDep:cb=>onValue(depRef,s=>cb(s.val())),
-  listenWit:cb=>onValue(witRef,s=>cb(s.val())),
-  setDep:(k,d)=>set(ref(db,'depReqs/'+k),d),
-  setWit:(k,d)=>set(ref(db,'witReqs/'+k),d),
+
+const FC = {
+  apiKey:"AIzaSyCJPWBrEXcq3rjltVaRvc9-HwAn9iRlyRU",
+  authDomain:"aviator-bappy.firebaseapp.com",
+  databaseURL:"https://aviator-bappy-default-rtdb.firebaseio.com",
+  projectId:"aviator-bappy",
+  storageBucket:"aviator-bappy.firebasestorage.app",
+  messagingSenderId:"380289888792",
+  appId:"1:380289888792:web:afda6c3a33383d641f496d"
 };
-get(stRef).then(s=>{if(!s.val())set(stRef,{gameOn:false,crashAt:2.0,roundActive:false,roundId:0,forceCrash:false});window.FB_OK=true;window.dispatchEvent(new Event('fbOk'));});
+const fbApp = initializeApp(FC);
+const db = getDatabase(fbApp);
+const stRef = ref(db, 'gs');
+const depRef = ref(db, 'depositRequests');
+const witRef = ref(db, 'withdrawRequests');
+
+window.FB = {
+  setGs: d => set(stRef, d),
+  listenGs: cb => onValue(stRef, s => cb(s.val())),
+  getGs: () => get(stRef).then(s => s.val()),
+  pushDep: d => push(depRef, d),
+  pushWit: d => push(witRef, d),
+  listenDep: cb => onValue(depRef, s => cb(s.val())),
+  listenWit: cb => onValue(witRef, s => cb(s.val())),
+  setDep: (key, d) => set(ref(db, 'depositRequests/'+key), d),
+  setWit: (key, d) => set(ref(db, 'withdrawRequests/'+key), d),
+};
+
+get(stRef).then(s => {
+  if (!s.val()) set(stRef, {gameOn:false, crashAt:2.0, roundActive:false, roundId:0, forceCrash:false});
+  window.FB_OK = true;
+  window.dispatchEvent(new Event('fbOk'));
+});
 </script>
 
 <script>
-const AU='@BappyOnchain',AP='@BappyOnchain124';
-let users={};try{users=JSON.parse(localStorage.getItem('av_u')||'{}');}catch(e){}
-let CU=null,isAdm=false,bal=1000;
-let fbSt={gameOn:false,crashAt:2.0,roundActive:false,roundId:0,forceCrash:false};
+// ══════════════════════
+// CONSTANTS
+// ══════════════════════
+const AU = '@BappyOnchain', AP = '@BappyOnchain124';
 
-// Game
-let phase='closed',mult=1.0,crashAt=2.0,flStart=0,waitSec=5;
-let flyTmr=null,waitTmr=null,forcePend=false;
+// ══════════════════════
+// DATA
+// ══════════════════════
+let users = {};
+try { users = JSON.parse(localStorage.getItem('av_u')||'{}'); } catch(e){}
 
-// Canvas & graph
-const cv=document.getElementById('cv');
-const ctx=cv.getContext('2d');
-// graphPts stores {x,y} in PIXEL coords on canvas
-let gPts=[];
+let CU = null, isAdm = false, bal = 1000;
+let fbSt = {gameOn:false, crashAt:2.0, roundActive:false, roundId:0, forceCrash:false};
+let txns = [];
+try { txns = JSON.parse(localStorage.getItem('av_txns_'+CU)||'[]'); } catch(e){}
 
-// Round stats (for admin live panel)
-let roundBetAmt=0, roundBettors=0;
-// Session stats
-let sRnds=0,sCrs=[],sTotalBet=0,sTotalBettors=0;
+// ══════════════════════
+// GAME ENGINE STATE
+// ══════════════════════
+let phase = 'closed', mult = 1.0, crashAt = 2.0;
+let flightStart = 0, waitSec = 5;
+let flyTmr = null, waitTmr = null, forceCrashPending = false;
+let pts = []; // graph points
+let sRnds = 0, sCrs = [], sBetsCnt = 0, sBetsTotal = 0;
+let curRoundId = 0;
 
-const B={b1:{pl:false,amt:10,cd:false,ao:false,at:2.0},b2:{pl:false,amt:10,cd:false,ao:false,at:2.0}};
-const ovClosed=document.getElementById('ovClosed'),ovWait=document.getElementById('ovWait'),ovCrash=document.getElementById('ovCrash');
-const mNumEl=document.getElementById('mNum'),mLblEl=document.getElementById('mLbl'),wNumEl=document.getElementById('wNum');
-const planeEl=document.getElementById('planeWrap');
-const PLANE_W=54, PLANE_H=54; // half sizes for centering
-const FN=['Rafi_X','Siam07','Lucky88','BigWin','ProBDT','Moon99','JackpotB','TigerFly','NightBet','FastCash','StarPlay','Dhrubo22'];
+const B = {
+  b1: {pl:false, amt:10, cd:false, ao:false, at:2.0},
+  b2: {pl:false, amt:10, cd:false, ao:false, at:2.0}
+};
 
-// ══ INIT ══
-window.addEventListener('fbOk',startApp);
-window.addEventListener('load',()=>{ rcv(); makeStars(); splashAnim(); });
-if(window.FB_OK) startApp();
+// Canvas
+const cv  = document.getElementById('cv');
+const ctx = cv.getContext('2d');
 
-function splashAnim(){
-  let p=0;const bar=document.getElementById('splProg'),pe=document.getElementById('splPct');
-  const iv=setInterval(()=>{p+=Math.random()*14+4;if(p>=100){p=100;clearInterval(iv);}bar.style.width=p+'%';pe.textContent=Math.floor(p)+'%';},80);
+// DOM refs
+const ovClosed   = document.getElementById('ovClosed');
+const ovWait     = document.getElementById('ovWait');
+const ovCrash    = document.getElementById('ovCrash');
+const mNumEl     = document.getElementById('mNum');
+const mLblEl     = document.getElementById('mLbl');
+const wNumEl     = document.getElementById('wNum');
+const planeEl    = document.getElementById('plSvgWrap');
+
+const FN=['Rafi_X','Siam07','Lucky88','BigWin','ProBDT','Moon99','JackpotB','TigerFly','NightBet','FastCash','StarPlay','Dhrubo22','Riyad77','AlphaBet','ZeroGap'];
+
+// ══════════════════════
+// INIT
+// ══════════════════════
+window.addEventListener('fbOk', startApp);
+window.addEventListener('load', () => {
+  rcv(); makeStars();
+  splashLoad();
+});
+if (window.FB_OK) startApp();
+
+function splashLoad(){
+  let p=0;
+  const bar=document.getElementById('splProg'), pe=document.getElementById('splPct');
+  const iv=setInterval(()=>{
+    p+=Math.random()*14+5; if(p>=100){p=100;clearInterval(iv);}
+    bar.style.width=p+'%'; pe.textContent=Math.floor(p)+'%';
+  },80);
 }
 
 function startApp(){
-  window.FB.listenGs(data=>{
+  window.FB.listenGs(data => {
     if(!data) return;
-    fbSt=data;
+    const prev = {...fbSt};
+    fbSt = data;
     updateAdmUI();
-    if(!isAdm&&CU){
-      if(!data.gameOn){showClosed('GAME OFFLINE','Admin এর জন্য অপেক্ষা করো');return;}
-      if(data.roundActive&&data.roundId!==curRoundId&&phase!=='flying'){
-        curRoundId=data.roundId;crashAt=data.crashAt||2.0;forcePend=false;showWait();
+    if(!isAdm && CU){
+      if(!data.gameOn){ showClosed('GAME OFFLINE','Admin এর জন্য অপেক্ষা করো'); return; }
+      if(data.roundActive && data.roundId !== curRoundId && phase !== 'flying'){
+        curRoundId = data.roundId; crashAt = data.crashAt || 2.0;
+        forceCrashPending = false;
+        showWait();
       }
-      if(!data.roundActive&&phase==='waiting') showClosed('WAITING FOR ROUND','Admin round শুরু করবে');
-      if(data.forceCrash&&phase==='flying') forcePend=true;
+      if(!data.roundActive && phase === 'waiting') showClosed('WAITING FOR ROUND','Admin round শুরু করবে');
+      if(data.forceCrash && phase === 'flying'){ forceCrashPending = true; }
     }
-    // Update admin live panel
-    updateLivePanel();
+    if(isAdm){
+      const sb = document.getElementById('startBtn');
+      const fb = document.getElementById('forceCrashBtn');
+      if(sb){ sb.disabled = !data.gameOn || data.roundActive; sb.textContent = data.roundActive?'⏳ IN PROGRESS...':'▶ START ROUND'; }
+      if(fb){ fb.disabled = !data.roundActive; }
+    }
   });
-  window.FB.listenDep(d=>{if(isAdm)renderReqs(d,'depReqList',true);});
-  window.FB.listenWit(d=>{if(isAdm)renderReqs(d,'witReqList',false);});
 
+  // Listen deposit/withdraw requests for admin
+  window.FB.listenDep(data => { if(isAdm) renderDepReqs(data); });
+  window.FB.listenWit(data => { if(isAdm) renderWitReqs(data); });
+
+  // Check session
   try{
-    const s=JSON.parse(localStorage.getItem('av_sess'));
-    if(s&&s.user){CU=s.user;isAdm=s.admin;bal=isAdm?0:(users[s.user]?.balance??1000);if(isAdm)showAdm();else showGame();return;}
+    const s = JSON.parse(localStorage.getItem('av_sess'));
+    if(s && s.user){ CU=s.user; isAdm=s.admin; bal=isAdm?0:(users[s.user]?.balance??1000); if(isAdm)showAdm(); else showGame(); return; }
   }catch(e){}
-  setTimeout(()=>{ showScr('scrAuth'); },1200);
+  setTimeout(()=>{ showScr('scrAuth'); }, 1200);
 }
 
-let curRoundId=0;
-
-// ══ SCREENS ══
-function showScr(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');}
-function showAdm(){showScr('scrAdmin');updateAdmUI();updateLivePanel();}
+// ══════════════════════
+// SCREENS
+// ══════════════════════
+function showScr(id){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+}
+function showAdm(){
+  showScr('scrAdmin'); updateAdmUI();
+}
 function showGame(){
   showScr('scrGame');
-  document.getElementById('adminFab').style.display=isAdm?'flex':'none';
-  navTo('game'); updBal(); genFakes();
-  if(fbSt.gameOn&&fbSt.roundActive){curRoundId=fbSt.roundId;crashAt=fbSt.crashAt||2.0;showWait();}
-  else if(!fbSt.gameOn) showClosed('GAME OFFLINE','Admin এর জন্য অপেক্ষা করো');
-  else showClosed('WAITING FOR ROUND','Admin round শুরু করবে');
+  document.getElementById('adminFab').style.display = isAdm?'flex':'none';
+  navTo('game');
+  updBal(); genFakes();
+  if(fbSt.gameOn && fbSt.roundActive){ curRoundId=fbSt.roundId; crashAt=fbSt.crashAt||2.0; showWait(); }
+  else if(!fbSt.gameOn){ showClosed('GAME OFFLINE','Admin এর জন্য অপেক্ষা করো'); }
+  else { showClosed('WAITING FOR ROUND','Admin round শুরু করবে'); }
 }
-window.navGame=()=>showGame();
-window.navAdmin=()=>showAdm();
+window.navGame = () => showGame();
+window.navAdmin = () => showAdm();
 
 function navTo(pg){
-  document.getElementById('pageGame').classList.toggle('on',pg==='game');
-  document.getElementById('pageAccount').classList.toggle('on',pg==='account');
+  document.getElementById('pageGame').classList.toggle('on', pg==='game');
+  document.getElementById('pageAccount').classList.toggle('on', pg==='account');
   document.querySelectorAll('.bot-nav-item').forEach(el=>el.classList.remove('active'));
-  if(pg==='game'){document.getElementById('navGame').classList.add('active');document.querySelector('#navGame svg').setAttribute('stroke','var(--red)');document.querySelector('#navAcc svg').setAttribute('stroke','var(--dim)');}
-  if(pg==='account'){document.getElementById('navAcc').classList.add('active');document.querySelector('#navAcc svg').setAttribute('stroke','var(--red)');document.querySelector('#navGame svg').setAttribute('stroke','var(--dim)');renderAccount();}
+  if(pg==='game') document.getElementById('navGame').classList.add('active');
+  if(pg==='account'){ document.getElementById('navAcc').classList.add('active'); renderAccount(); }
 }
-window.navTo=navTo;
+window.navTo = navTo;
 
 function renderAccount(){
-  document.getElementById('accUserEl').textContent=CU||'@user';
-  document.getElementById('accBalEl').textContent=bal.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
-  const list=document.getElementById('txnList');
-  const tx=JSON.parse(localStorage.getItem('av_txns_'+(CU||''))||'[]');
-  if(!tx.length){list.innerHTML='<div class="empty-state">কোনো transaction নেই</div>';return;}
-  list.innerHTML=tx.slice(-15).reverse().map(t=>`<div class="txn-item"><div class="txn-left"><div class="txn-icon ${t.type}">${t.type==='dep'?'⬇':t.type==='wit'?'⬆':'⭐'}</div><div><div class="txn-name">${t.type==='dep'?'Deposit':t.type==='wit'?'Withdraw':'Win'}</div><div class="txn-date">${t.date}</div></div></div><div class="txn-amt ${t.amt>0?'pos':'neg'}">${t.amt>0?'+':''}${t.amt.toFixed(2)}</div></div>`).join('');
+  document.getElementById('accUserEl').textContent = CU || '@user';
+  document.getElementById('accUidEl').textContent = 'Player · Verified';
+  document.getElementById('accBalEl').textContent = bal.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('balEl').textContent = bal.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const list = document.getElementById('txnList');
+  const myTxns = JSON.parse(localStorage.getItem('av_txns_'+(CU||''))||'[]');
+  if(!myTxns.length){ list.innerHTML='<div class="empty-state">কোনো transaction নেই</div>'; return; }
+  list.innerHTML = myTxns.slice(-15).reverse().map(t=>`
+    <div class="txn-item">
+      <div class="txn-left">
+        <div class="txn-icon ${t.type}">
+          ${t.type==='dep'?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--grn)" stroke-width="2"><path d="M12 3v14M5 10l7 7 7-7"/></svg>':
+            t.type==='wit'?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M12 21V7M5 14l7-7 7 7"/></svg>':
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>'}
+        </div>
+        <div><div class="txn-name">${t.type==='dep'?'Deposit':t.type==='wit'?'Withdraw':'Win'}</div><div class="txn-date">${t.date}</div></div>
+      </div>
+      <div class="txn-amt ${t.amt>0?'pos':'neg'}">${t.amt>0?'+':''}${t.amt.toFixed(2)}</div>
+    </div>
+  `).join('');
 }
 
-// ══ AUTH ══
-window.swTab=t=>{document.getElementById('tLogin').classList.toggle('on',t==='login');document.getElementById('tSignup').classList.toggle('on',t==='signup');document.getElementById('fLogin').style.display=t==='login'?'':'none';document.getElementById('fSignup').style.display=t==='signup'?'':'none';};
-window.doLogin=()=>{
-  const u=document.getElementById('iLU').value.trim(),p=document.getElementById('iLP').value;
+// ══════════════════════
+// AUTH
+// ══════════════════════
+window.swTab = t=>{
+  document.getElementById('tLogin').classList.toggle('on',t==='login');
+  document.getElementById('tSignup').classList.toggle('on',t==='signup');
+  document.getElementById('fLogin').style.display=t==='login'?'':'none';
+  document.getElementById('fSignup').style.display=t==='signup'?'':'none';
+};
+window.doLogin = ()=>{
+  const u=document.getElementById('iLU').value.trim(), p=document.getElementById('iLP').value;
   document.getElementById('eLogin').textContent='';
   if(!u||!p){document.getElementById('eLogin').textContent='সব field পূরণ করো';return;}
-  const btn=document.getElementById('btnLogin');btn.textContent='...';btn.style.opacity='.6';btn.style.pointerEvents='none';
-  setTimeout(()=>{btn.textContent='LOGIN';btn.style.opacity='';btn.style.pointerEvents='';
+  const btn=document.getElementById('btnLogin'); btn.textContent='...'; btn.style.opacity='.6'; btn.style.pointerEvents='none';
+  setTimeout(()=>{
+    btn.textContent='LOGIN'; btn.style.opacity=''; btn.style.pointerEvents='';
     if(u===AU&&p===AP){CU=u;isAdm=true;localStorage.setItem('av_sess',JSON.stringify({user:u,admin:true}));showAdm();return;}
     if(!users[u]){document.getElementById('eLogin').textContent='User পাওয়া যায়নি';return;}
     if(users[u].pass!==p){document.getElementById('eLogin').textContent='Password ভুল';return;}
-    CU=u;isAdm=false;bal=parseFloat(users[u].balance??1000);localStorage.setItem('av_sess',JSON.stringify({user:u,admin:false}));showGame();
+    CU=u;isAdm=false;bal=parseFloat(users[u].balance??1000);
+    localStorage.setItem('av_sess',JSON.stringify({user:u,admin:false}));
+    showGame();
   },600);
 };
-window.doSignup=()=>{
+window.doSignup = ()=>{
   const u=document.getElementById('iSU').value.trim(),p=document.getElementById('iSP').value,p2=document.getElementById('iSP2').value;
   document.getElementById('eSignup').textContent='';
   if(!u||!p||!p2){document.getElementById('eSignup').textContent='সব field পূরণ করো';return;}
   if(p.length<6){document.getElementById('eSignup').textContent='Password কমপক্ষে ৬ অক্ষর';return;}
   if(p!==p2){document.getElementById('eSignup').textContent='Password মিলছে না';return;}
   if(users[u]){document.getElementById('eSignup').textContent='এই username আছে';return;}
-  if(u===AU){document.getElementById('eSignup').textContent='Reserved';return;}
-  const btn=document.getElementById('btnSignup');btn.textContent='...';btn.style.opacity='.6';btn.style.pointerEvents='none';
-  setTimeout(()=>{btn.textContent='ACCOUNT তৈরি করো';btn.style.opacity='';btn.style.pointerEvents='';users[u]={pass:p,balance:1000};localStorage.setItem('av_u',JSON.stringify(users));ntf('✓ Login করো','ok');swTab('login');document.getElementById('iLU').value=u;},600);
+  if(u===AU){document.getElementById('eSignup').textContent='এই নাম reserved';return;}
+  const btn=document.getElementById('btnSignup'); btn.textContent='...'; btn.style.opacity='.6'; btn.style.pointerEvents='none';
+  setTimeout(()=>{
+    btn.textContent='ACCOUNT তৈরি করো'; btn.style.opacity=''; btn.style.pointerEvents='';
+    users[u]={pass:p,balance:1000}; localStorage.setItem('av_u',JSON.stringify(users));
+    ntf('✓ Account তৈরি! Login করো','ok'); swTab('login'); document.getElementById('iLU').value=u;
+  },600);
 };
-window.getDemoBalance=()=>{
-  const u=document.getElementById('iSU').value.trim();if(!u){ntf('username লিখো','err');return;}
-  if(!users[u])users[u]={pass:'demo123',balance:10000};else users[u].balance=(users[u].balance||0)+10000;
-  localStorage.setItem('av_u',JSON.stringify(users));ntf('🎁 10,000 BDT পেয়েছ!','ok');
+window.getDemoBalance = ()=>{
+  const u=document.getElementById('iSU').value.trim();
+  if(!u){ntf('আগে username লিখো','err');return;}
+  if(!users[u]) users[u]={pass:'demo123',balance:10000};
+  else users[u].balance = (users[u].balance||0)+10000;
+  localStorage.setItem('av_u',JSON.stringify(users));
+  ntf('🎁 10,000 BDT পেয়েছ!','ok');
 };
-window.doLogout=()=>{CU=null;isAdm=false;localStorage.removeItem('av_sess');clrTimers();phase='closed';showScr('scrAuth');};
+window.doLogout = ()=>{
+  CU=null;isAdm=false;localStorage.removeItem('av_sess');clearTimers();phase='closed';showScr('scrAuth');
+};
 
-// ══ ADMIN ══
+// ══════════════════════
+// ADMIN
+// ══════════════════════
 function updateAdmUI(){
-  if(!isAdm) return;
+  if(!document.getElementById('scrAdmin').classList.contains('on')&&!isAdm) return;
   const on=fbSt.gameOn;
-  const badge=document.getElementById('admBadge');
-  if(badge){badge.className='gt-badge '+(on?'on':'off');badge.innerHTML=`<div class="gt-dot"></div><span>${on?'ONLINE':'OFFLINE'}</span>`;}
-  const tog=document.getElementById('gOnTog');if(tog)tog.checked=on;
-  if(fbSt.crashAt){const ci=document.getElementById('crashInp');if(ci)ci.value=fbSt.crashAt.toFixed(2);const cp=document.getElementById('cpShow');if(cp)cp.textContent=fbSt.crashAt.toFixed(2)+'x';}
-  const sb=document.getElementById('startBtn');if(sb){sb.disabled=!on||fbSt.roundActive;sb.textContent=fbSt.roundActive?'⏳ IN PROGRESS...':'▶ START ROUND';}
-  const fb=document.getElementById('forceBtn');if(fb)fb.disabled=!fbSt.roundActive;
-  // session stats
+  const pill=document.getElementById('admStPill');
+  if(pill){pill.className='st-pill '+(on?'st-on':'st-off');pill.innerHTML=`<div class="st-dot"></div><span>${on?'ONLINE':'OFFLINE'}</span>`;}
+  const tog=document.getElementById('gOnTog'); if(tog) tog.checked=on;
+  if(fbSt.crashAt){const ci=document.getElementById('crashInp');if(ci)ci.value=fbSt.crashAt.toFixed(2); const cp=document.getElementById('cpShow');if(cp)cp.textContent=fbSt.crashAt.toFixed(2)+'x';}
+  const sb=document.getElementById('startBtn'); if(sb){sb.disabled=!on||fbSt.roundActive;sb.textContent=fbSt.roundActive?'⏳ IN PROGRESS...':'▶ START ROUND';}
+  const fb=document.getElementById('forceCrashBtn'); if(fb) fb.disabled=!fbSt.roundActive;
   document.getElementById('sRnd').textContent=sRnds;
-  document.getElementById('sTotalBet').textContent=sTotalBet.toFixed(0);
-  document.getElementById('sTotalBettors').textContent=sTotalBettors;
-  if(sCrs.length)document.getElementById('sAvg').textContent=(sCrs.reduce((a,b)=>a+b,0)/sCrs.length).toFixed(2)+'x';
+  document.getElementById('sBets').textContent=sBetsCnt;
+  document.getElementById('sBetAmt').textContent=sBetsTotal.toFixed(0);
+  if(sCrs.length){document.getElementById('sAvg').textContent=(sCrs.reduce((a,b)=>a+b,0)/sCrs.length).toFixed(2)+'x';}
 }
 
-function updateLivePanel(){
-  if(!isAdm) return;
-  // Round status dot
-  const dot=document.getElementById('lrcDot');
-  const stTxt=document.getElementById('lrcStatusTxt');
-  if(dot&&stTxt){
-    if(fbSt.roundActive){dot.classList.add('active');stTxt.textContent='LIVE';stTxt.style.color='var(--grn)';}
-    else{dot.classList.remove('active');stTxt.textContent='IDLE';stTxt.style.color='var(--dim)';}
-  }
-  // Live mult (updated by game tick too)
-  const lm=document.getElementById('lrcMult');
-  if(lm) lm.textContent=fbSt.roundActive?(mult.toFixed(2)+'x'):'—';
-  const bar=document.getElementById('lrcMultBar');
-  if(bar&&fbSt.roundActive&&fbSt.crashAt>1){bar.style.width=Math.min((mult-1)/(fbSt.crashAt-1)*100,100)+'%';}
-  // Round stats
-  const rb=document.getElementById('lrcRoundBet');if(rb)rb.textContent=roundBetAmt.toFixed(0);
-  const rp=document.getElementById('lrcRoundPlayers');if(rp)rp.textContent=roundBettors;
-  const rc=document.getElementById('lrcCrashAt');if(rc)rc.textContent=fbSt.roundActive?(fbSt.crashAt||2).toFixed(2)+'x':'—';
-  const rn=document.getElementById('lrcRoundNum');if(rn)rn.textContent=fbSt.roundId||0;
-}
-
-window.admToggle=async()=>{const on=document.getElementById('gOnTog').checked;fbSt.gameOn=on;if(!on)fbSt.roundActive=false;await window.FB.setGs(fbSt);ntf(on?'✓ Game চালু':'Game বন্ধ','ok');};
-window.pPre=async(v,el)=>{document.querySelectorAll('.preset-b').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');document.getElementById('crashInp').value=v.toFixed(2);document.getElementById('cpShow').textContent=v.toFixed(2)+'x';fbSt.crashAt=v;await window.FB.setGs(fbSt);};
-window.admSetCrash=async()=>{const v=parseFloat(document.getElementById('crashInp').value);if(isNaN(v)||v<1.01){ntf('কমপক্ষে 1.01x','err');return;}document.getElementById('cpShow').textContent=v.toFixed(2)+'x';document.querySelectorAll('.preset-b').forEach(b=>b.classList.remove('sel'));fbSt.crashAt=v;await window.FB.setGs(fbSt);ntf('✓ '+v.toFixed(2)+'x set','ok');};
-window.admStart=async()=>{
-  if(!fbSt.gameOn){ntf('Game চালু করো','err');return;}
+window.admToggleGame = async ()=>{
+  const on=document.getElementById('gOnTog').checked;
+  fbSt.gameOn=on; if(!on) fbSt.roundActive=false;
+  await window.FB.setGs(fbSt);
+  ntf(on?'✓ Game চালু':'Game বন্ধ','ok');
+};
+window.pPre = async (v,el)=>{
+  document.querySelectorAll('.preset-b').forEach(b=>b.classList.remove('sel')); el.classList.add('sel');
+  document.getElementById('crashInp').value=v.toFixed(2);
+  document.getElementById('cpShow').textContent=v.toFixed(2)+'x';
+  fbSt.crashAt=v; await window.FB.setGs(fbSt);
+};
+window.admSetCrash = async ()=>{
+  const v=parseFloat(document.getElementById('crashInp').value);
+  if(isNaN(v)||v<1.01){ntf('কমপক্ষে 1.01x','err');return;}
+  document.getElementById('cpShow').textContent=v.toFixed(2)+'x';
+  document.querySelectorAll('.preset-b').forEach(b=>b.classList.remove('sel'));
+  fbSt.crashAt=v; await window.FB.setGs(fbSt);
+  ntf('✓ Crash point: '+v.toFixed(2)+'x','ok');
+};
+window.admStartRound = async ()=>{
+  if(!fbSt.gameOn){ntf('আগে Game চালু করো','err');return;}
   if(fbSt.roundActive){ntf('Round চলছে','err');return;}
   const v=parseFloat(document.getElementById('crashInp').value);
   if(isNaN(v)||v<1.01){ntf('Crash point সেট করো','err');return;}
-  // Reset round stats
-  roundBetAmt=0;roundBettors=0;
-  fbSt.crashAt=v;fbSt.roundActive=true;fbSt.roundId=(fbSt.roundId||0)+1;fbSt.forceCrash=false;
-  await window.FB.setGs(fbSt);ntf('✓ Round শুরু!','ok');
+  fbSt.crashAt=v; fbSt.roundActive=true; fbSt.roundId=(fbSt.roundId||0)+1; fbSt.forceCrash=false;
+  await window.FB.setGs(fbSt);
+  ntf('✓ Round শুরু!','ok');
 };
-window.admForce=async()=>{if(!fbSt.roundActive){ntf('Round চলছে না','err');return;}fbSt.forceCrash=true;await window.FB.setGs(fbSt);ntf('💥 Force crash!','ok');};
+window.admForceCrash = async ()=>{
+  if(!fbSt.roundActive){ntf('Round চলছে না','err');return;}
+  fbSt.forceCrash=true;
+  await window.FB.setGs(fbSt);
+  ntf('💥 Force crash sent!','ok');
+};
 
-function renderReqs(data,listId,isDep){
-  const list=document.getElementById(listId);
-  if(!data||!Object.keys(data).length){list.innerHTML='<div class="empty-state">কোনো request নেই</div>';return;}
+// Deposit/Withdraw requests admin view
+function renderDepReqs(data){
+  const list=document.getElementById('depReqList');
+  if(!data||!Object.keys(data).length){list.innerHTML='<div class="empty-state">কোনো pending request নেই</div>';return;}
+  const pending = Object.entries(data).filter(([,v])=>v.status==='pending');
+  if(!pending.length){list.innerHTML='<div class="empty-state">কোনো pending request নেই</div>';return;}
+  list.innerHTML=pending.map(([key,v])=>`
+    <div class="dep-req-item">
+      <div class="dri-info">
+        <div class="dri-user">${v.user}</div>
+        <div class="dri-amt">${parseFloat(v.amt).toFixed(2)} BDT</div>
+        <div class="dri-method">TXN: ${v.txn}</div>
+      </div>
+      <div class="dri-btns">
+        <button class="dri-approve" onclick="approveDep('${key}','${v.user}',${v.amt})">✓</button>
+        <button class="dri-reject" onclick="rejectReq('dep','${key}')">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderWitReqs(data){
+  const list=document.getElementById('witReqList');
+  if(!data||!Object.keys(data).length){list.innerHTML='<div class="empty-state">কোনো pending request নেই</div>';return;}
   const pending=Object.entries(data).filter(([,v])=>v.status==='pending');
   if(!pending.length){list.innerHTML='<div class="empty-state">কোনো pending request নেই</div>';return;}
-  list.innerHTML=pending.map(([key,v])=>`<div class="req-item"><div><div class="ri-user">${v.user}</div><div class="ri-detail">${parseFloat(v.amt).toFixed(2)} BDT</div><div class="ri-sub">${isDep?'TXN: '+v.txn:'→ '+v.num}</div></div><div class="ri-btns"><button class="ri-approve" onclick="${isDep?'appDep':'appWit'}('${key}','${v.user}',${v.amt})">✓</button><button class="ri-reject" onclick="rejReq('${isDep?'dep':'wit'}','${key}')">✕</button></div></div>`).join('');
+  list.innerHTML=pending.map(([key,v])=>`
+    <div class="dep-req-item">
+      <div class="dri-info">
+        <div class="dri-user">${v.user}</div>
+        <div class="dri-amt">${parseFloat(v.amt).toFixed(2)} BDT</div>
+        <div class="dri-method">→ ${v.num}</div>
+      </div>
+      <div class="dri-btns">
+        <button class="dri-approve" onclick="approveWit('${key}','${v.user}',${v.amt})">✓</button>
+        <button class="dri-reject" onclick="rejectReq('wit','${key}')">✕</button>
+      </div>
+    </div>
+  `).join('');
 }
-window.appDep=async(k,u,amt)=>{if(!users[u])users[u]={pass:'',balance:0};users[u].balance=(users[u].balance||0)+parseFloat(amt);localStorage.setItem('av_u',JSON.stringify(users));addTxn(u,'dep',parseFloat(amt));await window.FB.setDep(k,{user:u,amt,status:'approved'});ntf('✓ Deposit approved','ok');};
-window.appWit=async(k,u,amt)=>{if(users[u])users[u].balance=Math.max(0,(users[u].balance||0)-parseFloat(amt));localStorage.setItem('av_u',JSON.stringify(users));addTxn(u,'wit',-parseFloat(amt));await window.FB.setWit(k,{user:u,amt,status:'approved'});ntf('✓ Withdraw approved','ok');};
-window.rejReq=async(t,k)=>{if(t==='dep')await window.FB.setDep(k,{status:'rejected'});else await window.FB.setWit(k,{status:'rejected'});ntf('Rejected','info');};
-function addTxn(u,type,amt){const k='av_txns_'+u;let l=[];try{l=JSON.parse(localStorage.getItem(k)||'[]');}catch(e){}l.push({type,amt,date:new Date().toLocaleDateString('en-GB')});localStorage.setItem(k,JSON.stringify(l));}
 
-// ══ MODAL ══
-window.openModal=t=>document.getElementById(t==='deposit'?'modalDep':'modalWit').classList.add('on');
-window.closeModal=t=>document.getElementById(t==='deposit'?'modalDep':'modalWit').classList.remove('on');
-window.submitDep=async()=>{
-  const amt=parseFloat(document.getElementById('depAmt').value),txn=document.getElementById('depTxn').value.trim();
-  if(!amt||amt<100){ntf('ন্যূনতম 100 BDT','err');return;}if(!txn){ntf('TXN ID দাও','err');return;}
+window.approveDep = async (key, user, amt)=>{
+  if(!users[user]) users[user]={pass:'',balance:0};
+  users[user].balance=(users[user].balance||0)+parseFloat(amt);
+  localStorage.setItem('av_u',JSON.stringify(users));
+  addTxn(user,'dep',parseFloat(amt));
+  await window.FB.setDep(key,{user,amt,status:'approved'});
+  ntf(`✓ ${user} কে ${amt} BDT দেওয়া হয়েছে`,'ok');
+};
+window.approveWit = async (key, user, amt)=>{
+  if(users[user]) users[user].balance=Math.max(0,(users[user].balance||0)-parseFloat(amt));
+  localStorage.setItem('av_u',JSON.stringify(users));
+  addTxn(user,'wit',-parseFloat(amt));
+  await window.FB.setWit(key,{user,amt,status:'approved'});
+  ntf(`✓ ${user} এর ${amt} BDT withdraw approved`,'ok');
+};
+window.rejectReq = async (type, key)=>{
+  if(type==='dep') await window.FB.setDep(key,{status:'rejected'});
+  else await window.FB.setWit(key,{status:'rejected'});
+  ntf('Request rejected','info');
+};
+
+function addTxn(user, type, amt){
+  const key='av_txns_'+user;
+  let list=[]; try{list=JSON.parse(localStorage.getItem(key)||'[]');}catch(e){}
+  list.push({type,amt,date:new Date().toLocaleDateString('en-GB')});
+  localStorage.setItem(key,JSON.stringify(list));
+}
+
+// ══════════════════════
+// DEPOSIT / WITHDRAW MODAL
+// ══════════════════════
+window.openModal = type=>{
+  document.getElementById(type==='deposit'?'modalDep':'modalWit').classList.add('on');
+};
+window.closeModal = type=>{
+  document.getElementById(type==='deposit'?'modalDep':'modalWit').classList.remove('on');
+};
+window.submitDeposit = async ()=>{
+  const amt=parseFloat(document.getElementById('depAmtInp').value);
+  const txn=document.getElementById('depTxnInp').value.trim();
+  if(!amt||amt<100){ntf('ন্যূনতম 100 BDT','err');return;}
+  if(!txn){ntf('Transaction ID দাও','err');return;}
   await window.FB.pushDep({user:CU,amt,txn,status:'pending',date:new Date().toLocaleDateString()});
-  ntf('✓ Deposit request পাঠানো হয়েছে','ok');closeModal('deposit');
+  ntf('✓ Deposit request পাঠানো হয়েছে','ok');
+  closeModal('deposit');
+  document.getElementById('depAmtInp').value='';
+  document.getElementById('depTxnInp').value='';
 };
-window.submitWit=async()=>{
-  const amt=parseFloat(document.getElementById('witAmt').value),num=document.getElementById('witNum').value.trim();
-  if(!amt||amt<200){ntf('ন্যূনতম 200 BDT','err');return;}if(amt>bal){ntf('Balance কম','err');return;}if(!num||num.length<11){ntf('সঠিক নম্বর দাও','err');return;}
+window.submitWithdraw = async ()=>{
+  const amt=parseFloat(document.getElementById('witAmtInp').value);
+  const num=document.getElementById('witNumInp').value.trim();
+  if(!amt||amt<200){ntf('ন্যূনতম 200 BDT','err');return;}
+  if(amt>bal){ntf('Balance কম','err');return;}
+  if(!num||num.length<11){ntf('সঠিক নম্বর দাও','err');return;}
   await window.FB.pushWit({user:CU,amt,num,status:'pending',date:new Date().toLocaleDateString()});
-  ntf('✓ Withdraw request পাঠানো হয়েছে','ok');closeModal('withdraw');
+  ntf('✓ Withdraw request পাঠানো হয়েছে','ok');
+  closeModal('withdraw');
 };
 
-// ══ GAME ENGINE ══
-function clrTimers(){clearInterval(flyTmr);clearInterval(waitTmr);flyTmr=null;waitTmr=null;}
-function showClosed(msg,sub){
-  clrTimers();phase='closed';
-  ovClosed.style.display='flex';ovWait.style.display='none';ovCrash.classList.remove('on');
+// ══════════════════════
+// GAME ENGINE
+// ══════════════════════
+function clearTimers(){ clearInterval(flyTmr); clearInterval(waitTmr); flyTmr=null; waitTmr=null; }
+
+function showClosed(msg='GAME OFFLINE', sub='Admin এর জন্য অপেক্ষা করো'){
+  clearTimers(); phase='closed';
+  ovClosed.classList.add('on'); ovWait.style.display='none'; ovCrash.classList.remove('on');
   document.getElementById('closedMsg').textContent=msg;
   document.getElementById('closedSub').textContent=sub;
-  resetBtn('b1');resetBtn('b2');
+  resetBtn('b1'); resetBtn('b2');
 }
+
 function showWait(){
-  clrTimers();phase='waiting';waitSec=5;gPts=[];
-  roundBetAmt=0;roundBettors=0;
-  B.b1.pl=false;B.b1.cd=false;B.b2.pl=false;B.b2.cd=false;
-  ovClosed.style.display='none';ovWait.style.display='flex';ovCrash.classList.remove('on');
+  clearTimers(); phase='waiting'; waitSec=5; pts=[];
+  B.b1.pl=false; B.b1.cd=false; B.b2.pl=false; B.b2.cd=false;
+  ovClosed.classList.remove('on'); ovWait.style.display='flex'; ovCrash.classList.remove('on');
   wNumEl.textContent=waitSec;
-  // Reset plane to bottom-left
-  placeplane(0);
-  mNumEl.textContent='1.00x';mNumEl.className='mn-g';mLblEl.textContent='WAITING...';
-  ctx.clearRect(0,0,cv.width,cv.height);
-  resetBtn('b1');resetBtn('b2');genFakes();
-  waitTmr=setInterval(()=>{waitSec--;wNumEl.textContent=waitSec;if(waitSec<=0){clearInterval(waitTmr);startFlight();}},1000);
+  // reset plane
+  planeEl.style.cssText='left:3%;bottom:40px;transform:rotate(0deg);opacity:1;position:absolute;z-index:15;pointer-events:none;transition:filter .3s';
+  mNumEl.textContent='1.00x'; mNumEl.className='mn-g'; mLblEl.textContent='WAITING...';
+  clrCv(); clearTrail(); resetBtn('b1'); resetBtn('b2'); genFakes();
+  waitTmr=setInterval(()=>{
+    waitSec--; wNumEl.textContent=waitSec;
+    if(waitSec<=0){clearInterval(waitTmr); startFlight();}
+  },1000);
 }
+
 function startFlight(){
   if(!fbSt.gameOn||!fbSt.roundActive){showClosed('GAME OFFLINE','Admin এর জন্য অপেক্ষা করো');return;}
-  phase='flying';mult=1.0;flStart=Date.now();forcePend=false;
-  ovWait.style.display='none';mLblEl.textContent='FLYING...';
+  phase='flying'; mult=1.0; flightStart=Date.now(); forceCrashPending=false;
+  ovWait.style.display='none'; mLblEl.textContent='FLYING...';
   ['b1','b2'].forEach(id=>{
-    if(B[id].pl){
-      bal-=B[id].amt;updBal();saveBal();
-      roundBetAmt+=B[id].amt;roundBettors++;
-      sTotalBet+=B[id].amt;sTotalBettors++;
-      setBtn(id,'cash');
-    } else setBtn(id,'waiting');
+    if(B[id].pl){bal-=B[id].amt; updBal(); saveBal(); sBetsCnt++; sBetsTotal+=B[id].amt; updateAdmUI(); setBtn(id,'cash');}
+    else setBtn(id,'waiting');
   });
   flyTmr=setInterval(tick,40);
 }
 
-// Speed formula — capped after 500x
+// Authentic Aviator speed curve
+// Starts slow from 1x, accelerates smoothly like real crash game
 function calcMult(t){
-  const b=Math.pow(Math.E,0.06*t);
-  if(b<=5) return b;
-  const t5=Math.log(5)/0.06,e2=t-t5;
-  if(b<=50) return 5*Math.pow(Math.E,0.10*e2);
-  const t50=t5+Math.log(10)/0.10,e3=t-t50;
-  if(b<=500) return 50*Math.pow(Math.E,0.14*e3);
-  const t500=t50+Math.log(10)/0.14,e4=t-t500;
-  return 500*Math.pow(Math.E,0.14*e4); // same speed after 500x
+  // Real Aviator: roughly e^(0.075*t) but with natural feel
+  // At t=0: 1x, t=5s: ~1.45x, t=10s: ~2.1x, t=20s: ~4.5x, t=40s: ~20x
+  return Math.max(1.0, Math.pow(Math.E, 0.075 * t));
 }
 
 function tick(){
-  const el=(Date.now()-flStart)/1000;
+  const el=(Date.now()-flightStart)/1000;
   mult=Math.round(calcMult(el)*100)/100;
-  if(forcePend){mult=Math.max(mult,1.01);doCrash();return;}
-  ['b1','b2'].forEach(id=>{if(B[id].pl&&!B[id].cd&&B[id].ao&&mult>=B[id].at)doCash(id);});
-  if(mult>=crashAt){mult=Math.round(crashAt*100)/100;doCrash();return;}
-  updMU();drawGraph();placePlane();updPots();
-  // Update admin live panel during flight
-  if(isAdm) updateLivePanel();
+
+  // Force crash from admin
+  if(forceCrashPending){ mult=Math.max(mult,1.01); doCrash(); return; }
+
+  ['b1','b2'].forEach(id=>{
+    if(B[id].pl&&!B[id].cd&&B[id].ao&&mult>=B[id].at) doCash(id);
+  });
+  if(mult>=crashAt){ mult=Math.round(crashAt*100)/100; doCrash(); return; }
+
+  updMU(); drawG(el); movePlane(el); updPots();
 }
 
 function updMU(){
@@ -1019,144 +1158,262 @@ function updMU(){
   mNumEl.className=mult<2?'mn-g':mult<5?'mn-o':'mn-r';
 }
 
-// ══════════════════════════════════════
-// PLANE POSITION — same formula as graph
-// Plane tip should sit exactly on graph curve end point
-// ══════════════════════════════════════
-function graphCoords(m, cw, ch){
-  // progress based on log scale relative to crashAt
-  const logM=Math.log(Math.max(m,1.001));
+// Trail points for the red exhaust trail behind the plane
+let trailPts = [];
+
+// PLANE ON THE CURVE
+function movePlane(el){
+  const wrap=document.getElementById('gcWrap');
+  const aw=wrap.offsetWidth, ah=wrap.offsetHeight-24;
+  // Use same scale as graph
+  const logM=Math.log(Math.max(mult,1.001));
   const logC=Math.log(Math.max(crashAt,1.5));
   const prog=Math.min(logM/logC,1);
-  const MARGIN_L=10, MARGIN_R=10, MARGIN_B=28, MARGIN_T=10;
-  const gw=cw-MARGIN_L-MARGIN_R;
-  const gh=ch-MARGIN_B-MARGIN_T;
-  // x: linear across progress
-  const x=MARGIN_L+prog*gw;
-  // y: curve (power of progress)
-  const yFrac=Math.pow(prog,0.65);
-  const y=(ch-MARGIN_B)-(yFrac*gh*0.90);
-  return {x,y,prog};
-}
-
-function placePlane(m){
-  const m2=m!=null?m:mult;
-  const cw=cv.width,ch=cv.height;
-  const {x,y,prog}=graphCoords(m2,cw,ch);
-  // Plane center should be at (x,y) — offset by half plane size
-  const px=x-(PLANE_W/2);
-  const py=y-(PLANE_H/2);
-  planeEl.style.left=px+'px';
-  planeEl.style.top=py+'px';
-  planeEl.style.bottom='auto';
-  // Tilt angle follows curve slope
-  const angle=-5-prog*30;
+  // Arc: x goes 3%→78%, y goes from bottom to top following curve
+  const xPct=3+prog*74;
+  const yFrac=Math.pow(prog,0.65); // same curve as graph
+  const bottomPx=(1-yFrac)*ah*0.88+12;
+  const angle=-5-prog*32;
+  planeEl.style.left=xPct+'%';
+  planeEl.style.bottom=bottomPx+'px';
   planeEl.style.transform=`rotate(${angle}deg)`;
+  // Glow intensity
   const gi=Math.min(mult/20,1);
-  planeEl.style.filter=`drop-shadow(0 0 ${12+gi*16}px rgba(240,48,74,${0.8+gi*0.2}))`;
+  planeEl.style.filter=`drop-shadow(0 0 ${14+gi*18}px rgba(240,48,74,${0.75+gi*0.25}))`;
+
+  // Calculate plane center for trail
+  const planeW=72, planeH=72;
+  const xPx = (xPct/100)*aw + planeW*0.5;
+  const yPx  = (ah - bottomPx) - planeH*0.5 + 24; // +24 for x-axis offset
+  // Trail origin: slightly behind (left of) plane center
+  const rad = angle*Math.PI/180;
+  const behindX = xPx - Math.cos(rad)*36;
+  const behindY = yPx - Math.sin(rad)*36;
+
+  trailPts.push({x: behindX, y: behindY, t: Date.now()});
+  // Keep only last ~60 trail points
+  if(trailPts.length > 60) trailPts.shift();
+  drawTrail();
 }
-const PLANE_W=27, PLANE_H=27; // half of 54px svg
 
-function placeplane(m){placePlane(m);}
+function drawTrail(){
+  const tc = document.getElementById('trailCv');
+  const tx = tc.getContext('2d');
+  tx.clearRect(0,0,tc.width,tc.height);
+  if(trailPts.length < 2) return;
+  const now = Date.now();
+  for(let i=1;i<trailPts.length;i++){
+    const p0=trailPts[i-1], p1=trailPts[i];
+    const age = (now - p1.t) / 900; // fade over 900ms
+    const alpha = Math.max(0, 1 - age);
+    const width = Math.max(0.5, (i/trailPts.length)*5*(1-age*0.3));
+    tx.beginPath();
+    tx.moveTo(p0.x, p0.y);
+    tx.lineTo(p1.x, p1.y);
+    tx.strokeStyle=`rgba(255,40,60,${alpha*0.92})`;
+    tx.lineWidth=width;
+    tx.lineCap='round';
+    tx.shadowColor='rgba(255,0,30,0.7)';
+    tx.shadowBlur=6;
+    tx.stroke();
+    tx.shadowBlur=0;
+  }
+  // Bright tip dot at last point
+  const lp=trailPts[trailPts.length-1];
+  tx.beginPath(); tx.arc(lp.x,lp.y,3.5,0,Math.PI*2);
+  tx.fillStyle='rgba(255,80,80,0.95)'; tx.shadowColor='#ff2020'; tx.shadowBlur=14; tx.fill(); tx.shadowBlur=0;
+}
 
-function drawGraph(){
-  const cw=cv.width,ch=cv.height;
-  ctx.clearRect(0,0,cw,ch);
-  const {x,y}=graphCoords(mult,cw,ch);
-  gPts.push({x,y});
-  if(gPts.length<2) return;
+function clearTrail(){
+  trailPts=[];
+  const tc=document.getElementById('trailCv');
+  if(tc){ const tx=tc.getContext('2d'); tx.clearRect(0,0,tc.width,tc.height); }
+}
+
+function drawG(el){
+  const w=cv.width, h=cv.height;
+  ctx.clearRect(0,0,w,h);
+  const logM=Math.log(Math.max(mult,1.001));
+  const logC=Math.log(Math.max(crashAt,1.5));
+  const prog=Math.min(logM/logC,1);
+  // x: linear based on progress; y: curve
+  const xp=prog*w*0.94+8;
+  const yFrac=Math.pow(prog,0.65);
+  const yp=h-(yFrac*h*0.88)-4;
+  pts.push({x:xp,y:yp});
+  if(pts.length<2) return;
   // Fill
-  const grd=ctx.createLinearGradient(0,0,0,ch);
-  grd.addColorStop(0,'rgba(240,48,74,.2)');grd.addColorStop(1,'rgba(240,48,74,.01)');
-  ctx.beginPath();ctx.moveTo(gPts[0].x,ch-28);
-  gPts.forEach(p=>ctx.lineTo(p.x,p.y));
-  ctx.lineTo(gPts[gPts.length-1].x,ch-28);ctx.closePath();ctx.fillStyle=grd;ctx.fill();
+  const grd=ctx.createLinearGradient(0,0,0,h);
+  grd.addColorStop(0,'rgba(240,48,74,.22)'); grd.addColorStop(1,'rgba(240,48,74,.01)');
+  ctx.beginPath(); ctx.moveTo(pts[0].x,h);
+  pts.forEach(p=>ctx.lineTo(p.x,p.y));
+  ctx.lineTo(pts[pts.length-1].x,h); ctx.closePath(); ctx.fillStyle=grd; ctx.fill();
   // Line
-  ctx.beginPath();ctx.moveTo(gPts[0].x,gPts[0].y);
-  for(let i=1;i<gPts.length;i++)ctx.lineTo(gPts[i].x,gPts[i].y);
-  ctx.strokeStyle='#f0304a';ctx.lineWidth=2.5;ctx.shadowColor='#f0304a';ctx.shadowBlur=10;ctx.stroke();ctx.shadowBlur=0;
-  // Dot at plane position
-  const lp=gPts[gPts.length-1];
-  ctx.beginPath();ctx.arc(lp.x,lp.y,4.5,0,Math.PI*2);
-  ctx.fillStyle='#f0304a';ctx.shadowColor='#f0304a';ctx.shadowBlur=16;ctx.fill();ctx.shadowBlur=0;
+  ctx.beginPath(); ctx.moveTo(pts[0].x,pts[0].y);
+  for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
+  ctx.strokeStyle='#f0304a'; ctx.lineWidth=2.5; ctx.shadowColor='#f0304a'; ctx.shadowBlur=10; ctx.stroke(); ctx.shadowBlur=0;
+  // Dot
+  const lp=pts[pts.length-1];
+  ctx.beginPath(); ctx.arc(lp.x,lp.y,5,0,Math.PI*2);
+  ctx.fillStyle='#f0304a'; ctx.shadowColor='#f0304a'; ctx.shadowBlur=18; ctx.fill(); ctx.shadowBlur=0;
 }
 
-function drawCrashGraph(){
-  if(gPts.length<2)return;
-  const ch=cv.height;
-  ctx.clearRect(0,0,cv.width,ch);
-  const grd=ctx.createLinearGradient(0,0,0,ch);grd.addColorStop(0,'rgba(50,50,80,.15)');grd.addColorStop(1,'rgba(50,50,80,.01)');
-  ctx.beginPath();ctx.moveTo(gPts[0].x,ch-28);gPts.forEach(p=>ctx.lineTo(p.x,p.y));
-  ctx.lineTo(gPts[gPts.length-1].x,ch-28);ctx.closePath();ctx.fillStyle=grd;ctx.fill();
-  ctx.beginPath();ctx.moveTo(gPts[0].x,gPts[0].y);for(let i=1;i<gPts.length;i++)ctx.lineTo(gPts[i].x,gPts[i].y);
-  ctx.strokeStyle='#333660';ctx.lineWidth=2;ctx.stroke();
+function clrCv(){ ctx.clearRect(0,0,cv.width,cv.height); }
+
+function drawCrashedG(){
+  if(pts.length<2) return;
+  const h=cv.height; ctx.clearRect(0,0,cv.width,h);
+  const grd=ctx.createLinearGradient(0,0,0,h); grd.addColorStop(0,'rgba(50,50,80,.15)'); grd.addColorStop(1,'rgba(50,50,80,.01)');
+  ctx.beginPath(); ctx.moveTo(pts[0].x,h); pts.forEach(p=>ctx.lineTo(p.x,p.y));
+  ctx.lineTo(pts[pts.length-1].x,h); ctx.closePath(); ctx.fillStyle=grd; ctx.fill();
+  ctx.beginPath(); ctx.moveTo(pts[0].x,pts[0].y);
+  for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
+  ctx.strokeStyle='#333660'; ctx.lineWidth=2; ctx.stroke();
 }
 
 function updPots(){
   ['b1','b2'].forEach(id=>{
     const p=document.getElementById(id+'P');
-    if(B[id].pl&&!B[id].cd){const v=(B[id].amt*mult).toFixed(2);p.textContent='💰 '+v+' BDT';p.classList.add('on');const sub=document.getElementById(id+'Sub');if(sub)sub.textContent=v+' BDT';}
-    else p.classList.remove('on');
+    if(B[id].pl&&!B[id].cd){
+      const v=(B[id].amt*mult).toFixed(2); p.textContent='💰 '+v+' BDT'; p.classList.add('on');
+      const sub=document.getElementById(id+'Sub'); if(sub) sub.textContent=v+' BDT';
+    } else p.classList.remove('on');
   });
 }
 
 function doCash(id){
-  if(!B[id].pl||B[id].cd||phase!=='flying')return;
-  B[id].cd=true;const win=Math.round(B[id].amt*mult*100)/100;
-  bal+=win;updBal();saveBal();addTxn(CU,'win',win);
+  if(!B[id].pl||B[id].cd||phase!=='flying') return;
+  B[id].cd=true;
+  const win=Math.round(B[id].amt*mult*100)/100;
+  bal+=win; updBal(); saveBal();
+  addTxn(CU,'win',win);
   document.getElementById(id+'P').classList.remove('on');
   document.getElementById('wpM').textContent=mult.toFixed(2)+'x';
   document.getElementById('wpA').textContent='+'+win.toFixed(2)+' BDT';
-  const wp=document.getElementById('winPop');wp.classList.add('on');clearTimeout(wp._t);wp._t=setTimeout(()=>wp.classList.remove('on'),2300);
-  setBtn(id,'won',win);addBRow('YOU ✓',mult,win,false);
+  const wp=document.getElementById('winPop'); wp.classList.add('on'); clearTimeout(wp._t); wp._t=setTimeout(()=>wp.classList.remove('on'),2300);
+  setBtn(id,'won',win); addBRow('YOU ✓',mult,win,false); sBetsCnt++;
 }
 
 async function doCrash(){
-  clearInterval(flyTmr);phase='crashed';drawCrashGraph();
-  planeEl.style.transition='transform .3s,opacity .5s';
-  planeEl.style.transform='rotate(80deg) scale(.1)';planeEl.style.opacity='0';
-  setTimeout(()=>{planeEl.style.transition='';planeEl.style.transform='rotate(0deg)';planeEl.style.opacity='1';},1500);
+  clearInterval(flyTmr); phase='crashed'; drawCrashedG(); clearTrail();
+  planeEl.style.transition='transform .3s ease, opacity .5s ease';
+  planeEl.style.transform='rotate(75deg) scale(.15)'; planeEl.style.opacity='0';
+  setTimeout(()=>{ planeEl.style.transition=''; planeEl.style.transform='rotate(0deg)'; planeEl.style.opacity='1'; },1500);
   document.getElementById('crashMT').textContent=mult.toFixed(2)+'x';
-  ovCrash.classList.add('on');setTimeout(()=>ovCrash.classList.remove('on'),2800);
-  mNumEl.textContent=mult.toFixed(2)+'x';mNumEl.className='mn-r';mLblEl.textContent='FLEW AWAY!';
-  ['b1','b2'].forEach(id=>{if(B[id].pl&&!B[id].cd){document.getElementById(id+'P').classList.remove('on');setBtn(id,'lost',B[id].amt);addBRow('YOU ✗',mult,B[id].amt,true);}});
-  addHist(mult);sRnds++;sCrs.push(mult);saveBal();updateAdmUI();
-  fbSt.roundActive=false;fbSt.forceCrash=false;
+  ovCrash.classList.add('on'); setTimeout(()=>ovCrash.classList.remove('on'),2800);
+  mNumEl.textContent=mult.toFixed(2)+'x'; mNumEl.className='mn-r'; mLblEl.textContent='FLEW AWAY!';
+  ['b1','b2'].forEach(id=>{
+    if(B[id].pl&&!B[id].cd){document.getElementById(id+'P').classList.remove('on'); setBtn(id,'lost',B[id].amt); addBRow('YOU ✗',mult,B[id].amt,true); sBetsCnt++;}
+  });
+  addHist(mult); sRnds++; sCrs.push(mult); saveBal(); updateAdmUI();
+  // Mark round over in firebase
+  fbSt.roundActive=false; fbSt.forceCrash=false;
   await window.FB.setGs(fbSt);
-  setTimeout(()=>{if(phase==='crashed')showClosed('ROUND ENDED','Admin পরের round শুরু করবে');},3600);
+  setTimeout(()=>{ if(phase==='crashed') showClosed('ROUND ENDED','Admin পরের round শুরু করবে'); },3600);
 }
 
-// ══ BET ══
-window.mAct=id=>{
+// ══════════════════════
+// BET ACTIONS
+// ══════════════════════
+window.mAct = id=>{
   if(!fbSt.gameOn||phase==='closed'){ntf('Game বন্ধ','err');return;}
   if(phase==='waiting'){
-    if(!B[id].pl){const amt=parseFloat(document.getElementById(id+'A').value)||0;if(amt<1){ntf('কমপক্ষে 1 BDT','err');return;}if(amt>bal){ntf('Balance কম','err');return;}B[id].pl=true;B[id].amt=amt;setBtn(id,'cancel');}
-    else{B[id].pl=false;resetBtn(id);}
+    if(!B[id].pl){
+      const amt=parseFloat(document.getElementById(id+'A').value)||0;
+      if(amt<1){ntf('কমপক্ষে 1 BDT','err');return;}
+      if(amt>bal){ntf('Balance কম','err');return;}
+      B[id].pl=true; B[id].amt=amt; setBtn(id,'cancel');
+    } else { B[id].pl=false; resetBtn(id); }
   } else if(phase==='flying') doCash(id);
 };
-function setBtn(id,st,ex){
-  const btn=document.getElementById(id+'Btn');btn.className='act-btn';
-  const amt=B[id].amt;
-  const M={bet:{c:'ab-bet',h:`BET<br><span class="ab-sub" id="${id}Sub">${amt.toFixed(2)} BDT</span>`},cancel:{c:'ab-cancel',h:`CANCEL ✕<br><span class="ab-sub" id="${id}Sub">${amt.toFixed(2)} BDT</span>`},cash:{c:'ab-cash',h:`CASH OUT<br><span class="ab-sub" id="${id}Sub">${(amt*mult).toFixed(2)} BDT</span>`},won:{c:'ab-won',h:`WON ✓<br><span class="ab-sub">${ex?ex.toFixed(2)+' BDT':''}</span>`},lost:{c:'ab-lost',h:`LOST ✗<br><span class="ab-sub">${ex?'−'+ex.toFixed(2)+' BDT':''}</span>`},waiting:{c:'ab-wait',h:`NEXT ROUND<br><span class="ab-sub">—</span>`}};
-  const s=M[st]||M.bet;btn.classList.add(s.c);btn.innerHTML=s.h;
-}
-function resetBtn(id){const amt=parseFloat(document.getElementById(id+'A').value)||10;const btn=document.getElementById(id+'Btn');btn.className='act-btn ab-bet';btn.innerHTML=`BET<br><span class="ab-sub" id="${id}Sub">${amt.toFixed(2)} BDT</span>`;document.getElementById(id+'P').classList.remove('on');}
-window.chgA=(id,d)=>{const i=document.getElementById(id+'A');let v=(parseFloat(i.value)||0)+d;v=Math.max(1,Math.min(bal,v));i.value=v;syncS(id);};
-window.setA=(id,v)=>{document.getElementById(id+'A').value=v;syncS(id);};
-window.syncS=id=>{if(!B[id].pl){const s=document.getElementById(id+'Sub');if(s)s.textContent=(parseFloat(document.getElementById(id+'A').value)||0).toFixed(2)+' BDT';}};
-window.togAC=id=>{const on=document.getElementById(id+'AC').checked;const i=document.getElementById(id+'AV');B[id].ao=on;i.disabled=!on;i.style.opacity=on?'1':'0.4';};
 
-// ══ UI ══
-function updBal(){document.getElementById('balEl').textContent=bal.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
-function saveBal(){if(CU&&users[CU]){users[CU].balance=bal;localStorage.setItem('av_u',JSON.stringify(users));}}
-function addHist(m){const bar=document.getElementById('histBar');const p=document.createElement('div');p.className='hpill '+(m<2?'hp-l':m<10?'hp-m':'hp-h');p.textContent=m.toFixed(2)+'x';bar.insertBefore(p,bar.firstChild);if(bar.children.length>16)bar.removeChild(bar.lastChild);}
-function genFakes(){const l=document.getElementById('betsList');l.innerHTML='';const n=5+Math.floor(Math.random()*5);for(let i=0;i<n;i++)addBRow(FN[Math.floor(Math.random()*FN.length)],null,(Math.random()*500+10).toFixed(2),false);updFt();}
-function addBRow(nm,m,amt,lost){const l=document.getElementById('betsList');const r=document.createElement('div');r.className='bets-row';r.innerHTML=`<span class="br-u">${nm}</span><span class="br-m">${m?m.toFixed(2)+'x':'—'}</span><span class="br-w${lost?' lost':''}">${parseFloat(amt).toFixed(2)}</span>`;l.insertBefore(r,l.firstChild);if(l.children.length>25)l.removeChild(l.lastChild);updFt();}
-function updFt(){const n=document.querySelectorAll('.bets-row').length;document.getElementById('bCnt').textContent=n+'/'+n+' Bets';const t=Array.from(document.querySelectorAll('.br-w:not(.lost)')).reduce((a,b)=>a+parseFloat(b.textContent),0);document.getElementById('bTot').textContent=t.toFixed(2)+' BDT';}
-setInterval(()=>{if(phase==='flying'&&Math.random()<.28){const nm=FN[Math.floor(Math.random()*FN.length)];const fm=mult*(.6+Math.random()*.5);addBRow(nm,Math.min(fm,mult),(Math.random()*400+10).toFixed(2),false);}},1800);
-function ntf(msg,type){const el=document.getElementById('notif');el.textContent=msg;el.className='on '+type;clearTimeout(el._t);el._t=setTimeout(()=>el.className='',2800);}
-function makeStars(){const l=document.getElementById('starLayer');l.innerHTML='';for(let i=0;i<40;i++){const s=document.createElement('div');s.style.cssText=`position:absolute;border-radius:50%;background:#fff;width:${Math.random()*1.8+.3}px;height:${Math.random()*1.8+.3}px;left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${Math.random()*.5+.1}`;l.appendChild(s);}}
-function rcv(){const w=document.getElementById('gcWrap');cv.width=w.offsetWidth;cv.height=w.offsetHeight;}
+function setBtn(id,st,ex){
+  const btn=document.getElementById(id+'Btn'); btn.className='act-btn';
+  const amt=B[id].amt;
+  const M={
+    bet:    {c:'ab-bet',    h:`BET<br><span class="ab-sub" id="${id}Sub">${amt.toFixed(2)} BDT</span>`},
+    cancel: {c:'ab-cancel', h:`CANCEL ✕<br><span class="ab-sub" id="${id}Sub">${amt.toFixed(2)} BDT</span>`},
+    cash:   {c:'ab-cash',   h:`CASH OUT<br><span class="ab-sub" id="${id}Sub">${(amt*mult).toFixed(2)} BDT</span>`},
+    won:    {c:'ab-won',    h:`WON ✓<br><span class="ab-sub">${ex?ex.toFixed(2)+' BDT':''}</span>`},
+    lost:   {c:'ab-lost',   h:`LOST ✗<br><span class="ab-sub">${ex?'−'+ex.toFixed(2)+' BDT':''}</span>`},
+    waiting:{c:'ab-wait',   h:`NEXT ROUND<br><span class="ab-sub">—</span>`},
+  };
+  const s=M[st]||M.bet; btn.classList.add(s.c); btn.innerHTML=s.h;
+}
+
+function resetBtn(id){
+  const amt=parseFloat(document.getElementById(id+'A').value)||10;
+  const btn=document.getElementById(id+'Btn'); btn.className='act-btn ab-bet';
+  btn.innerHTML=`BET<br><span class="ab-sub" id="${id}Sub">${amt.toFixed(2)} BDT</span>`;
+  document.getElementById(id+'P').classList.remove('on');
+}
+
+window.chgAmt = (id,d)=>{ const i=document.getElementById(id+'A'); let v=(parseFloat(i.value)||0)+d; v=Math.max(1,Math.min(bal,v)); i.value=v; syncSub(id); };
+window.setA   = (id,v)=>{ document.getElementById(id+'A').value=v; syncSub(id); };
+window.syncSub= id=>{ if(!B[id].pl){ const s=document.getElementById(id+'Sub'); if(s) s.textContent=(parseFloat(document.getElementById(id+'A').value)||0).toFixed(2)+' BDT'; }};
+window.togAC  = id=>{ const on=document.getElementById(id+'AC').checked; const i=document.getElementById(id+'AV'); B[id].ao=on; i.disabled=!on; i.style.opacity=on?'1':'0.4'; };
+
+// ══════════════════════
+// UI HELPERS
+// ══════════════════════
+function updBal(){ document.getElementById('balEl').textContent=bal.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function saveBal(){ if(CU&&users[CU]){users[CU].balance=bal;localStorage.setItem('av_u',JSON.stringify(users));} }
+
+function addHist(m){
+  const bar=document.getElementById('histBar');
+  const p=document.createElement('div'); p.className='hpill '+(m<2?'hp-l':m<10?'hp-m':'hp-h');
+  p.textContent=m.toFixed(2)+'x'; bar.insertBefore(p,bar.firstChild);
+  if(bar.children.length>16) bar.removeChild(bar.lastChild);
+}
+
+function genFakes(){
+  const list=document.getElementById('betsList'); list.innerHTML='';
+  const n=5+Math.floor(Math.random()*6);
+  for(let i=0;i<n;i++){ addBRow(FN[Math.floor(Math.random()*FN.length)],null,(Math.random()*600+10).toFixed(2),false); }
+  updFt();
+}
+function addBRow(name,m,amt,lost){
+  const list=document.getElementById('betsList');
+  const r=document.createElement('div'); r.className='bets-row';
+  r.innerHTML=`<span class="br-u">${name}</span><span class="br-m">${m?m.toFixed(2)+'x':'—'}</span><span class="br-w${lost?' lost':''}">${parseFloat(amt).toFixed(2)}</span>`;
+  list.insertBefore(r,list.firstChild); if(list.children.length>25) list.removeChild(list.lastChild); updFt();
+}
+function updFt(){
+  const n=document.querySelectorAll('.bets-row').length;
+  document.getElementById('bCnt').textContent=n+'/'+n+' Bets';
+  const t=Array.from(document.querySelectorAll('.br-w:not(.lost)')).reduce((a,b)=>a+parseFloat(b.textContent),0);
+  document.getElementById('bTot').textContent=t.toFixed(2)+' BDT';
+}
+
+setInterval(()=>{
+  if(phase==='flying'&&Math.random()<0.28){
+    const name=FN[Math.floor(Math.random()*FN.length)];
+    const fm=mult*(0.6+Math.random()*.5);
+    addBRow(name,Math.min(fm,mult),(Math.random()*400+10).toFixed(2),false);
+  }
+},1800);
+
+function ntf(msg,type){
+  const el=document.getElementById('notif'); el.textContent=msg; el.className='on '+type;
+  clearTimeout(el._t); el._t=setTimeout(()=>el.className='',2800);
+}
+
+function makeStars(){
+  const layer=document.getElementById('starLayer'); layer.innerHTML='';
+  for(let i=0;i<45;i++){
+    const s=document.createElement('div'); s.className='star-dot';
+    const sz=Math.random()*1.8+.4;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${Math.random()*.6+.15};animation:none`;
+    layer.appendChild(s);
+  }
+}
+
+function rcv(){
+  const w=document.getElementById('gcWrap');
+  cv.width=w.offsetWidth; cv.height=w.offsetHeight-24;
+  const tc=document.getElementById('trailCv');
+  tc.width=w.offsetWidth; tc.height=w.offsetHeight;
+}
 window.addEventListener('resize',rcv);
 </script>
 </body>
