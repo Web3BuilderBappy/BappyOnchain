@@ -6,22 +6,18 @@
 <title>Bappy — Web3 Builder & Founder</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <style>
   :root {
-    --black: #0a0a0a;
-    --card: #111111;
-    --card2: #161616;
+    --black: #080808;
     --lime: #c6f135;
-    --lime-dim: #a8d420;
     --white: #ffffff;
-    --gray: #888888;
-    --gray2: #333333;
-    --border: #222222;
+    --gray: #666;
+    --glass-bg: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.09);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -33,456 +29,516 @@
     overflow-x: hidden;
   }
 
+  /* AMBIENT GLOW */
+  .bg-glow {
+    position: fixed;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(198,241,53,0.07) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+    top: -150px; left: -150px;
+    filter: blur(80px);
+  }
+  .bg-glow-2 {
+    position: fixed;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(198,241,53,0.04) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+    bottom: 100px; right: -100px;
+    filter: blur(100px);
+  }
+
   /* NAV */
   nav {
     position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 20px;
-    background: rgba(10,10,10,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
+    top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 22px;
+    background: rgba(8,8,8,0.72);
+    backdrop-filter: blur(28px) saturate(1.5);
+    -webkit-backdrop-filter: blur(28px) saturate(1.5);
+    border-bottom: 1px solid var(--glass-border);
   }
-
   .logo {
     font-family: 'Syne', sans-serif;
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    color: var(--white);
+    font-size: 21px; font-weight: 800;
+    letter-spacing: -0.5px; color: var(--white);
+    position: relative; z-index: 1;
   }
   .logo span { color: var(--lime); }
 
+  /* LIQUID GLASS NAV BTN */
   .hire-btn {
-    background: var(--lime);
-    color: #000;
+    position: relative;
+    background: rgba(198,241,53,0.10);
+    color: var(--lime);
     font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    padding: 10px 20px;
-    border-radius: 50px;
-    text-decoration: none;
-    letter-spacing: 0.2px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: background 0.2s, transform 0.15s;
+    font-size: 12px; font-weight: 700;
+    padding: 9px 18px; border-radius: 50px;
+    text-decoration: none; letter-spacing: 0.3px;
+    display: flex; align-items: center; gap: 6px;
+    border: 1px solid rgba(198,241,53,0.22);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    transition: all 0.25s ease; overflow: hidden;
   }
-  .hire-btn:hover { background: var(--lime-dim); transform: scale(1.03); }
+  .hire-btn::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 100%);
+    border-radius: 50px 50px 0 0; pointer-events: none;
+  }
+  .hire-btn:hover {
+    background: rgba(198,241,53,0.2);
+    border-color: rgba(198,241,53,0.45);
+    box-shadow: 0 0 24px rgba(198,241,53,0.15);
+    transform: translateY(-1px);
+  }
 
-  /* SECTIONS */
-  section { padding: 80px 20px 40px; }
+  section { padding: 90px 22px 70px; position: relative; z-index: 1; }
 
   /* HERO */
   #hero {
-    padding-top: 120px;
+    padding-top: 110px; padding-bottom: 80px;
     min-height: 100svh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: flex; flex-direction: column; justify-content: flex-start;
   }
 
   .available-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #1a1a1a;
-    border: 1px solid var(--border);
-    border-radius: 50px;
-    padding: 8px 16px;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--lime);
-    margin-bottom: 28px;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(198,241,53,0.07);
+    border: 1px solid rgba(198,241,53,0.2);
+    border-radius: 50px; padding: 7px 14px;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 1.8px; text-transform: uppercase;
+    color: var(--lime); margin-bottom: 30px;
     width: fit-content;
-    animation: fadeUp 0.6s ease both;
+    animation: fadeUp 0.7s ease both;
+    backdrop-filter: blur(8px);
   }
   .available-badge .dot {
-    width: 7px; height: 7px;
-    background: var(--lime);
-    border-radius: 50%;
+    width: 6px; height: 6px;
+    background: var(--lime); border-radius: 50%;
+    box-shadow: 0 0 8px var(--lime);
     animation: pulse 2s infinite;
   }
-
   @keyframes pulse {
-    0%,100% { opacity:1; transform:scale(1); }
-    50% { opacity:0.5; transform:scale(1.4); }
+    0%,100% { opacity:1; transform:scale(1); box-shadow:0 0 6px var(--lime); }
+    50% { opacity:0.5; transform:scale(1.6); box-shadow:0 0 16px var(--lime); }
   }
 
   .hero-title {
     font-family: 'Syne', sans-serif;
-    font-size: clamp(52px, 14vw, 96px);
-    font-weight: 800;
-    line-height: 0.95;
-    letter-spacing: -2px;
-    margin-bottom: 24px;
+    font-size: clamp(42px, 11vw, 72px);
+    font-weight: 800; line-height: 0.98;
+    letter-spacing: -2px; margin-bottom: 22px;
   }
-  .hero-title .line1 { color: var(--white); display: block; animation: fadeUp 0.6s 0.1s ease both; }
-  .hero-title .line2 { color: var(--lime); display: block; animation: fadeUp 0.6s 0.2s ease both; }
-  .hero-title .line3 { color: transparent; -webkit-text-stroke: 1.5px #333; display: block; font-size: clamp(40px, 10vw, 72px); animation: fadeUp 0.6s 0.3s ease both; }
-  .hero-title .line4 { color: transparent; -webkit-text-stroke: 1.5px #333; display: block; font-size: clamp(40px, 10vw, 72px); animation: fadeUp 0.6s 0.35s ease both; }
+  .hero-title .line1 { color: var(--white); display: block; animation: fadeUp 0.7s 0.1s ease both; }
+  .hero-title .line2 { color: var(--lime); display: block; text-shadow: 0 0 60px rgba(198,241,53,0.3); animation: fadeUp 0.7s 0.18s ease both; }
+  .hero-title .line3 { color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.14); display: block; font-size: clamp(30px, 8vw, 54px); animation: fadeUp 0.7s 0.26s ease both; }
+  .hero-title .line4 { color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.14); display: block; font-size: clamp(30px, 8vw, 54px); animation: fadeUp 0.7s 0.32s ease both; }
 
   .hero-desc {
-    font-size: 15px;
-    color: #aaa;
-    line-height: 1.7;
-    max-width: 340px;
-    margin-bottom: 36px;
-    animation: fadeUp 0.6s 0.4s ease both;
+    font-size: 14px; color: rgba(255,255,255,0.48);
+    line-height: 1.75; max-width: 320px; margin-bottom: 32px;
+    animation: fadeUp 0.7s 0.4s ease both;
   }
   .hero-desc strong { color: var(--white); font-weight: 500; }
 
   .hero-btns {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    animation: fadeUp 0.6s 0.5s ease both;
+    display: flex; gap: 10px; flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.48s ease both;
   }
-  .btn-primary {
-    background: var(--lime);
-    color: #000;
-    font-family: 'Syne', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    padding: 14px 28px;
-    border-radius: 50px;
-    text-decoration: none;
-    transition: background 0.2s, transform 0.15s;
-  }
-  .btn-primary:hover { background: var(--lime-dim); transform: scale(1.03); }
-  .btn-secondary {
-    background: transparent;
-    color: var(--white);
-    font-family: 'Syne', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 14px 28px;
-    border-radius: 50px;
-    text-decoration: none;
-    border: 1.5px solid #333;
-    transition: border-color 0.2s, transform 0.15s;
-  }
-  .btn-secondary:hover { border-color: #666; transform: scale(1.03); }
 
-  /* STATS */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 48px;
-    animation: fadeUp 0.6s 0.6s ease both;
-  }
-  .stat-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px 20px;
-  }
-  .stat-num {
+  /* LIQUID GLASS BUTTONS */
+  .btn-primary {
+    position: relative;
+    background: var(--lime); color: #000;
     font-family: 'Syne', sans-serif;
-    font-size: 42px;
-    font-weight: 800;
-    color: var(--lime);
-    line-height: 1;
-    margin-bottom: 6px;
+    font-size: 12px; font-weight: 700;
+    padding: 12px 22px; border-radius: 50px;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    white-space: nowrap; letter-spacing: 0.2px;
+    overflow: hidden; transition: all 0.25s ease;
+    box-shadow: 0 4px 22px rgba(198,241,53,0.28);
   }
-  .stat-label {
-    font-size: 13px;
-    color: var(--gray);
-    font-weight: 400;
-    line-height: 1.4;
+  .btn-primary::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.28) 0%, transparent 100%);
+    border-radius: 50px 50px 0 0; pointer-events: none;
+  }
+  .btn-primary:hover {
+    background: #d4ff40;
+    box-shadow: 0 6px 32px rgba(198,241,53,0.45);
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .btn-secondary {
+    position: relative;
+    background: rgba(255,255,255,0.05); color: var(--white);
+    font-family: 'Syne', sans-serif;
+    font-size: 12px; font-weight: 600;
+    padding: 12px 22px; border-radius: 50px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.11);
+    display: inline-flex; align-items: center;
+    white-space: nowrap;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    overflow: hidden; transition: all 0.25s ease;
+  }
+  .btn-secondary::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.09) 0%, transparent 100%);
+    border-radius: 50px 50px 0 0; pointer-events: none;
+  }
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.09);
+    border-color: rgba(255,255,255,0.22);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+    transform: translateY(-2px);
+  }
+
+  /* PROFILE CARD */
+  .profile-card-wrap {
+    margin-top: 44px;
+    animation: fadeUp 0.7s 0.54s ease both;
+  }
+  .profile-card {
+    position: relative; border-radius: 24px;
+    overflow: hidden; height: 360px;
+    background: #181818;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .profile-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.65) 100%);
+    pointer-events: none; border-radius: inherit;
+  }
+  .profile-img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top center; display: block;
+  }
+  .profile-stat-badge {
+    position: absolute; bottom: 18px; right: 18px; z-index: 2;
+    background: rgba(8,8,8,0.65);
+    backdrop-filter: blur(22px) saturate(1.6);
+    -webkit-backdrop-filter: blur(22px) saturate(1.6);
+    border: 1px solid rgba(255,255,255,0.13);
+    border-radius: 18px; padding: 16px 20px;
+    text-align: center; min-width: 82px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.09);
+    overflow: hidden;
+  }
+  .profile-stat-badge::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+    border-radius: 18px 18px 0 0; pointer-events: none;
+  }
+  .profile-stat-num {
+    display: block; font-family: 'Syne', sans-serif;
+    font-size: 30px; font-weight: 800; color: var(--lime);
+    line-height: 1; text-shadow: 0 0 22px rgba(198,241,53,0.55);
+  }
+  .profile-stat-label {
+    display: block; font-size: 10px;
+    color: rgba(255,255,255,0.45); margin-top: 5px; letter-spacing: 0.5px;
   }
 
   /* SKILLS */
   .skills-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 40px;
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 32px; margin-bottom: 36px;
+    animation: fadeUp 0.7s 0.6s ease both;
   }
   .skill-pill {
-    background: #1a1a1a;
-    border: 1px solid var(--border);
-    border-radius: 50px;
-    padding: 8px 16px;
-    font-size: 13px;
-    color: #ccc;
-    font-weight: 400;
-    letter-spacing: 0.2px;
+    position: relative;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 50px; padding: 7px 14px;
+    font-size: 12px; color: rgba(255,255,255,0.55);
+    backdrop-filter: blur(8px); transition: all 0.2s; overflow: hidden;
+  }
+  .skill-pill::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 100%);
+    border-radius: 50px 50px 0 0; pointer-events: none;
+  }
+  .skill-pill:hover { border-color: rgba(198,241,53,0.3); color: var(--lime); background: rgba(198,241,53,0.05); }
+
+  /* STATS */
+  .stats-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    animation: fadeUp 0.7s 0.66s ease both;
+  }
+  .stat-card {
+    position: relative;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px; padding: 22px 18px;
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    overflow: hidden; transition: all 0.25s ease;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  }
+  .stat-card:hover { border-color: rgba(198,241,53,0.18); transform: translateY(-2px); }
+  .stat-num {
+    font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800;
+    color: var(--lime); line-height: 1; margin-bottom: 6px;
+  }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.38); line-height: 1.4; }
+
+  /* DIVIDER */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+    margin: 0 22px; position: relative; z-index: 1;
   }
 
   /* SECTION LABEL */
   .sec-label {
-    font-size: 11px;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: var(--lime);
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 28px;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--lime); font-weight: 600;
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 18px; opacity: 0.8;
   }
   .sec-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-    max-width: 60px;
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--glass-border), transparent);
+    max-width: 80px;
   }
-
   .sec-title {
     font-family: 'Syne', sans-serif;
-    font-size: clamp(32px, 8vw, 52px);
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -1px;
-    margin-bottom: 36px;
+    font-size: clamp(26px, 7vw, 42px); font-weight: 800;
+    line-height: 1.05; letter-spacing: -1px; margin-bottom: 36px;
   }
+
+  /* ABOUT */
+  #about { padding-top: 80px; padding-bottom: 80px; }
+  .about-text {
+    font-size: 14.5px; color: rgba(255,255,255,0.5);
+    line-height: 1.85; margin-bottom: 22px;
+  }
+  .about-text strong { color: var(--white); font-weight: 500; }
+
+  .about-highlight {
+    position: relative;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-left: 2px solid var(--lime);
+    border-radius: 0 14px 14px 0;
+    padding: 18px 20px; margin-bottom: 28px;
+    backdrop-filter: blur(12px);
+    font-size: 14px; color: rgba(255,255,255,0.55);
+    line-height: 1.7; font-style: italic;
+  }
+  .about-highlight strong { color: var(--lime); font-style: normal; }
+
+  /* TIMELINE */
+  .timeline { display: flex; flex-direction: column; }
+  .timeline-item {
+    display: flex; gap: 16px; padding-bottom: 28px; position: relative;
+  }
+  .timeline-item:not(:last-child)::before {
+    content: '';
+    position: absolute; left: 15px; top: 32px; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, var(--glass-border), transparent);
+  }
+  .timeline-dot {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 14px; backdrop-filter: blur(8px);
+  }
+  .timeline-year { font-size: 10px; color: var(--lime); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
+  .timeline-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .timeline-desc { font-size: 13px; color: rgba(255,255,255,0.38); line-height: 1.6; }
 
   /* PORTFOLIO */
-  .project-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
+  #portfolio { padding-bottom: 80px; }
+  .project-grid { display: flex; flex-direction: column; gap: 12px; }
 
   .project-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 24px;
-    display: flex;
-    gap: 18px;
-    align-items: flex-start;
-    transition: border-color 0.2s, transform 0.2s;
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
+    position: relative;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 22px; padding: 20px 18px;
+    display: flex; gap: 16px; align-items: flex-start;
+    transition: all 0.3s ease; text-decoration: none;
+    color: inherit; cursor: pointer; overflow: hidden;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   }
-  .project-card:hover {
-    border-color: #333;
-    transform: translateY(-2px);
+  .project-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
   }
+  .project-card::after {
+    content: '';
+    position: absolute; inset: 0; border-radius: inherit;
+    background: linear-gradient(135deg, rgba(198,241,53,0.04) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.3s; pointer-events: none;
+  }
+  .project-card:hover { border-color: rgba(198,241,53,0.18); transform: translateY(-3px); box-shadow: 0 14px 44px rgba(0,0,0,0.45); }
+  .project-card:hover::after { opacity: 1; }
 
   .project-logo {
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
-    object-fit: cover;
-    flex-shrink: 0;
-    background: #1a1a1a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    width: 48px; height: 48px; border-radius: 14px; flex-shrink: 0;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
   }
   .project-logo img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
-
   .project-info { flex: 1; min-width: 0; }
-  .project-name {
-    font-family: 'Syne', sans-serif;
-    font-size: 17px;
-    font-weight: 700;
-    margin-bottom: 5px;
-    color: var(--white);
-  }
-  .project-desc {
-    font-size: 13px;
-    color: var(--gray);
-    line-height: 1.5;
-    margin-bottom: 10px;
-  }
-  .project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
+  .project-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 5px; color: var(--white); }
+  .project-desc { font-size: 12.5px; color: rgba(255,255,255,0.38); line-height: 1.55; margin-bottom: 12px; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 5px; }
   .project-tag {
-    background: #1a1a1a;
-    border: 1px solid #252525;
-    border-radius: 50px;
-    padding: 3px 10px;
-    font-size: 11px;
-    color: #999;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 50px; padding: 3px 10px; font-size: 10px; color: rgba(255,255,255,0.4);
   }
-
   .project-arrow {
-    width: 32px;
-    height: 32px;
-    background: #1a1a1a;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-top: 2px;
-    transition: background 0.2s;
+    width: 30px; height: 30px;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.25s;
   }
-  .project-card:hover .project-arrow { background: var(--lime); }
+  .project-card:hover .project-arrow { background: var(--lime); border-color: var(--lime); box-shadow: 0 0 18px rgba(198,241,53,0.4); }
   .project-card:hover .project-arrow svg path { stroke: #000; }
 
+  /* TECH STACK */
+  #stack { padding-bottom: 80px; }
+  .stack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stack-item {
+    position: relative;
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    border-radius: 18px; padding: 18px 16px;
+    backdrop-filter: blur(12px); overflow: hidden; transition: all 0.25s;
+  }
+  .stack-item::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  }
+  .stack-item:hover { border-color: rgba(198,241,53,0.2); background: rgba(198,241,53,0.03); transform: translateY(-2px); }
+  .stack-icon { font-size: 22px; margin-bottom: 9px; }
+  .stack-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .stack-desc { font-size: 11px; color: rgba(255,255,255,0.32); line-height: 1.4; }
+
   /* CONNECT */
-  .social-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  #connect { padding-bottom: 80px; }
+  .social-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+
   .social-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 18px 20px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 0.2s, transform 0.15s;
+    position: relative;
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    border-radius: 18px; padding: 15px 18px;
+    display: flex; align-items: center; gap: 14px;
+    text-decoration: none; color: inherit;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    overflow: hidden; transition: all 0.25s ease;
   }
-  .social-card:hover { border-color: #333; transform: translateX(4px); }
+  .social-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+  }
+  .social-card:hover { border-color: rgba(255,255,255,0.17); background: rgba(255,255,255,0.06); transform: translateX(5px); }
 
   .social-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: #1a1a1a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    width: 40px; height: 40px; border-radius: 12px;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; backdrop-filter: blur(8px);
   }
-
   .social-info { flex: 1; }
-  .social-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 2px; }
-  .social-handle { font-size: 12px; color: var(--gray); }
-
-  .social-arrow { color: var(--gray); font-size: 16px; }
+  .social-name { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 1px; }
+  .social-handle { font-size: 11.5px; color: rgba(255,255,255,0.38); }
+  .social-arrow { color: rgba(255,255,255,0.22); font-size: 15px; transition: all 0.2s; }
+  .social-card:hover .social-arrow { color: var(--lime); transform: translate(2px,-2px); }
 
   /* MESSAGE FORM */
   .msg-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 28px 22px;
-    margin-top: 20px;
+    position: relative;
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    border-radius: 24px; padding: 26px 20px;
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); overflow: hidden;
   }
-
-  .msg-box h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
-    margin-bottom: 6px;
+  .msg-box::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
   }
-  .msg-box p {
-    font-size: 13px;
-    color: var(--gray);
-    margin-bottom: 24px;
-  }
-  .msg-box p a {
-    color: var(--lime);
-    text-decoration: none;
-  }
-
-  .form-field {
-    margin-bottom: 14px;
-  }
-  .form-label {
-    font-size: 11px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--gray);
-    font-weight: 500;
-    margin-bottom: 8px;
-    display: block;
-  }
+  .msg-box h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; margin-bottom: 20px; }
+  .form-field { margin-bottom: 14px; }
+  .form-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.32); font-weight: 600; margin-bottom: 8px; display: block; }
   .form-input, .form-textarea {
-    width: 100%;
-    background: #0f0f0f;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    color: var(--white);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    padding: 13px 16px;
-    outline: none;
-    transition: border-color 0.2s;
-    resize: none;
+    width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px; color: var(--white); font-family: 'DM Sans', sans-serif;
+    font-size: 14px; padding: 13px 16px; outline: none; transition: all 0.2s; resize: none; backdrop-filter: blur(8px);
   }
-  .form-input:focus, .form-textarea:focus { border-color: var(--lime); }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.18); }
+  .form-input:focus, .form-textarea:focus { border-color: rgba(198,241,53,0.33); background: rgba(198,241,53,0.02); box-shadow: 0 0 0 3px rgba(198,241,53,0.05); }
   .form-textarea { min-height: 120px; }
 
   .form-submit {
-    width: 100%;
-    background: var(--lime);
-    color: #000;
-    font-family: 'Syne', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    padding: 15px;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    margin-top: 8px;
-    transition: background 0.2s, transform 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    position: relative; width: 100%; background: var(--lime); color: #000;
+    font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+    padding: 14px; border-radius: 14px; border: none; cursor: pointer; margin-top: 8px;
+    transition: all 0.25s ease; display: flex; align-items: center; justify-content: center;
+    gap: 8px; overflow: hidden; box-shadow: 0 4px 22px rgba(198,241,53,0.22);
   }
-  .form-submit:hover { background: var(--lime-dim); transform: scale(1.01); }
+  .form-submit::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.26) 0%, transparent 100%);
+    border-radius: 14px 14px 0 0; pointer-events: none;
+  }
+  .form-submit:hover { background: #d4ff40; box-shadow: 0 6px 30px rgba(198,241,53,0.42); transform: translateY(-2px); }
   .form-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-  .toast {
-    display: none;
-    margin-top: 14px;
-    padding: 12px 16px;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: 500;
-  }
-  .toast.success { background: #0d2000; border: 1px solid #1a4a00; color: var(--lime); }
-  .toast.error { background: #200000; border: 1px solid #4a0000; color: #ff6b6b; }
+  .toast { display: none; margin-top: 14px; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 500; backdrop-filter: blur(8px); }
+  .toast.success { background: rgba(198,241,53,0.08); border: 1px solid rgba(198,241,53,0.2); color: var(--lime); }
+  .toast.error { background: rgba(255,60,60,0.08); border: 1px solid rgba(255,60,60,0.2); color: #ff6b6b; }
 
   /* FOOTER */
   footer {
-    padding: 32px 20px;
-    border-top: 1px solid var(--border);
-    text-align: center;
-    font-size: 12px;
-    color: var(--gray);
+    padding: 40px 22px; border-top: 1px solid var(--glass-border);
+    text-align: center; font-size: 12px; color: rgba(255,255,255,0.18);
+    position: relative; z-index: 1; letter-spacing: 0.5px;
   }
+  footer span { color: var(--lime); opacity: 0.65; }
 
   /* SCROLL ANIMATIONS */
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
+    from { opacity: 0; transform: translateY(22px); }
     to { opacity: 1; transform: translateY(0); }
   }
 </style>
 </head>
 <body>
 
+<div class="bg-glow"></div>
+<div class="bg-glow-2"></div>
+
 <!-- NAV -->
 <nav>
   <div class="logo">Bappy<span>.</span></div>
   <a href="https://discord.com/users/1331926710853177406" target="_blank" class="hire-btn">
-    Connect Me
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    Hire Me
+    <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
   </a>
 </nav>
 
@@ -503,8 +559,24 @@
     <a href="#connect" class="btn-secondary">Let's Talk</a>
   </div>
 
+  <!-- PROFILE CARD — bigger, full photo visible -->
+  <div class="profile-card-wrap">
+    <div class="profile-card">
+      <img
+        src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=600&h=750&fit=crop&crop=top"
+        alt="Bappy — Web3 Builder"
+        class="profile-img"
+        onerror="this.src='https://ui-avatars.com/api/?name=Bappy&background=c6f135&color=000&size=600&bold=true'"
+      >
+      <div class="profile-stat-badge">
+        <span class="profile-stat-num">4+</span>
+        <span class="profile-stat-label">Projects</span>
+      </div>
+    </div>
+  </div>
+
   <!-- SKILLS -->
-  <div class="skills-wrap" style="margin-top:40px;">
+  <div class="skills-wrap">
     <span class="skill-pill">Solidity</span>
     <span class="skill-pill">Web3.js</span>
     <span class="skill-pill">React</span>
@@ -536,20 +608,74 @@
   </div>
 </section>
 
+<div class="section-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-label reveal">About</div>
+  <h2 class="sec-title reveal">Who is<br>Bappy?</h2>
+
+  <p class="about-text reveal">
+    I'm <strong>Bappy</strong>, a self-taught Web3 developer and founder building at the intersection of blockchain and experience design. I believe decentralized products should feel as smooth as any Web2 app.
+  </p>
+  <div class="about-highlight reveal">
+    "I don't just write smart contracts — I craft experiences that make blockchain feel <strong>human</strong>."
+  </div>
+  <p class="about-text reveal">
+    Under the <strong>NEXORA</strong> brand, I ship products that solve real problems — from prediction markets to NFT communities. Every line of code is intentional. Every UI decision deliberate.
+  </p>
+
+  <div class="timeline reveal">
+    <div class="timeline-item">
+      <div class="timeline-dot">🌱</div>
+      <div class="timeline-content">
+        <div class="timeline-year">2022 — Start</div>
+        <div class="timeline-title">Entered Web3</div>
+        <div class="timeline-desc">Discovered Ethereum, wrote my first smart contract, never looked back.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">⚡</div>
+      <div class="timeline-content">
+        <div class="timeline-year">2023 — Growth</div>
+        <div class="timeline-title">Built CricketChain & RialoSwap</div>
+        <div class="timeline-desc">Launched two live DApps — a cricket prediction platform and a Solana DEX.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">🔥</div>
+      <div class="timeline-content">
+        <div class="timeline-year">2024 — Founder</div>
+        <div class="timeline-title">Founded NEXORA</div>
+        <div class="timeline-desc">Launched the NEXORA brand to ship Web3 products at scale.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">🚀</div>
+      <div class="timeline-content">
+        <div class="timeline-year">Now</div>
+        <div class="timeline-title">Building & Available</div>
+        <div class="timeline-desc">Open to collaborations, freelance projects, and long-term partnerships.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
 <!-- PORTFOLIO -->
 <section id="portfolio">
   <div class="sec-label reveal">Portfolio</div>
   <h2 class="sec-title reveal">Selected<br>Projects</h2>
 
   <div class="project-grid">
-
     <a class="project-card reveal" href="#" target="_blank">
       <div class="project-logo">
-        <img src="https://avatars.githubusercontent.com/u/35608644?s=200&v=4" alt="Project Logo">
+        <img src="https://avatars.githubusercontent.com/u/35608644?s=200&v=4" alt="CricketChain">
       </div>
       <div class="project-info">
         <div class="project-name">CricketChain</div>
-        <div class="project-desc">Decentralized cricket prediction platform on Ethereum Sepolia using RIALO token.</div>
+        <div class="project-desc">Decentralized cricket prediction platform on Ethereum Sepolia using RIALO token. Users stake and earn on match outcomes.</div>
         <div class="project-tags">
           <span class="project-tag">Solidity</span>
           <span class="project-tag">Ethereum</span>
@@ -557,7 +683,7 @@
         </div>
       </div>
       <div class="project-arrow">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
       </div>
     </a>
 
@@ -567,7 +693,7 @@
       </div>
       <div class="project-info">
         <div class="project-name">RialoSwap</div>
-        <div class="project-desc">Solana DEX built on Jupiter API with real-time charts and multi-wallet support.</div>
+        <div class="project-desc">Solana DEX built on Jupiter API with real-time TradingView charts and multi-wallet support.</div>
         <div class="project-tags">
           <span class="project-tag">Solana</span>
           <span class="project-tag">Jupiter API</span>
@@ -575,7 +701,7 @@
         </div>
       </div>
       <div class="project-arrow">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
       </div>
     </a>
 
@@ -585,7 +711,7 @@
       </div>
       <div class="project-info">
         <div class="project-name">Luminexis</div>
-        <div class="project-desc">Crypto wallet mobile app with TradingView charts, swap interface, and full onboarding flows.</div>
+        <div class="project-desc">Crypto wallet mobile app with TradingView charts, swap interface, and complete onboarding flow.</div>
         <div class="project-tags">
           <span class="project-tag">Wallet</span>
           <span class="project-tag">TradingView</span>
@@ -593,7 +719,7 @@
         </div>
       </div>
       <div class="project-arrow">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
       </div>
     </a>
 
@@ -603,7 +729,7 @@
       </div>
       <div class="project-info">
         <div class="project-name">Nexora</div>
-        <div class="project-desc">Web3 brand building NFT marketplaces and decentralized community tools on-chain.</div>
+        <div class="project-desc">Web3 brand building NFT marketplaces and decentralized community tools fully on-chain.</div>
         <div class="project-tags">
           <span class="project-tag">NFT</span>
           <span class="project-tag">Community</span>
@@ -611,30 +737,29 @@
         </div>
       </div>
       <div class="project-arrow">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
       </div>
     </a>
-
-    <a class="project-card reveal" href="#" target="_blank">
-      <div class="project-logo">
-        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png?v=035" alt="DApp">
-      </div>
-      <div class="project-info">
-        <div class="project-name">Perle Labs Showcase</div>
-        <div class="project-desc">Fan-made community showcase for a Solana AI data training platform with animated UI.</div>
-        <div class="project-tags">
-          <span class="project-tag">Solana</span>
-          <span class="project-tag">WebGL</span>
-          <span class="project-tag">Frontend</span>
-        </div>
-      </div>
-      <div class="project-arrow">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-      </div>
-    </a>
-
   </div>
 </section>
+
+<div class="section-divider"></div>
+
+<!-- TECH STACK -->
+<section id="stack">
+  <div class="sec-label reveal">Skills</div>
+  <h2 class="sec-title reveal">Tech<br>Stack</h2>
+  <div class="stack-grid">
+    <div class="stack-item reveal"><div class="stack-icon">⛓️</div><div class="stack-name">Solidity</div><div class="stack-desc">Smart contracts, ERC standards, auditing</div></div>
+    <div class="stack-item reveal"><div class="stack-icon">◎</div><div class="stack-name">Solana</div><div class="stack-desc">Rust programs, SPL tokens, Jupiter</div></div>
+    <div class="stack-item reveal"><div class="stack-icon">⚛️</div><div class="stack-name">React</div><div class="stack-desc">DApp frontends, wallet adapters</div></div>
+    <div class="stack-item reveal"><div class="stack-icon">🔷</div><div class="stack-name">Ethereum</div><div class="stack-desc">Mainnet, Sepolia, EVM chains</div></div>
+    <div class="stack-item reveal"><div class="stack-icon">🖼️</div><div class="stack-name">NFT</div><div class="stack-desc">ERC-721, ERC-1155, marketplaces</div></div>
+    <div class="stack-item reveal"><div class="stack-icon">🌐</div><div class="stack-name">Web3.js</div><div class="stack-desc">ethers.js, wagmi, viem</div></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
 
 <!-- CONNECT -->
 <section id="connect">
@@ -642,84 +767,46 @@
   <h2 class="sec-title reveal">Let's Build<br>Together</h2>
 
   <div class="social-list reveal">
-
-    <!-- Twitter/X -->
     <a href="https://x.com/bappy" target="_blank" class="social-card">
-      <div class="social-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      </div>
-      <div class="social-info">
-        <div class="social-name">Twitter / X</div>
-        <div class="social-handle">@bappy</div>
-      </div>
+      <div class="social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></div>
+      <div class="social-info"><div class="social-name">Twitter / X</div><div class="social-handle">@bappy</div></div>
       <div class="social-arrow">↗</div>
     </a>
-
-    <!-- Discord -->
     <a href="https://discord.com/users/1331926710853177406" target="_blank" class="social-card">
-      <div class="social-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-      </div>
-      <div class="social-info">
-        <div class="social-name">Discord</div>
-        <div class="social-handle">bappy#0000</div>
-      </div>
+      <div class="social-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg></div>
+      <div class="social-info"><div class="social-name">Discord</div><div class="social-handle">bappy#0000</div></div>
       <div class="social-arrow">↗</div>
     </a>
-
-    <!-- Telegram -->
     <a href="https://t.me/bappy" target="_blank" class="social-card">
-      <div class="social-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-      </div>
-      <div class="social-info">
-        <div class="social-name">Telegram</div>
-        <div class="social-handle">@bappy</div>
-      </div>
+      <div class="social-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></div>
+      <div class="social-info"><div class="social-name">Telegram</div><div class="social-handle">@bappy</div></div>
       <div class="social-arrow">↗</div>
     </a>
-
-    <!-- GitHub -->
     <a href="https://github.com/bappy" target="_blank" class="social-card">
-      <div class="social-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-      </div>
-      <div class="social-info">
-        <div class="social-name">GitHub</div>
-        <div class="social-handle">github.com/bappy</div>
-      </div>
+      <div class="social-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></div>
+      <div class="social-info"><div class="social-name">GitHub</div><div class="social-handle">github.com/bappy</div></div>
       <div class="social-arrow">↗</div>
     </a>
-
-    <!-- Email -->
     <a href="mailto:bappy@example.com" class="social-card">
-      <div class="social-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c6f135" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      </div>
-      <div class="social-info">
-        <div class="social-name">Email</div>
-        <div class="social-handle">bappy@example.com</div>
-      </div>
+      <div class="social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c6f135" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+      <div class="social-info"><div class="social-name">Email</div><div class="social-handle">bappy@example.com</div></div>
       <div class="social-arrow">↗</div>
     </a>
-
   </div>
 
   <!-- MESSAGE FORM -->
   <div class="msg-box reveal">
     <h3>Send a Message</h3>
-    <p>Or drop me a direct message below. Also reach me at <a href="mailto:bappy@example.com">bappy@example.com</a></p>
-
     <div class="form-field">
       <label class="form-label">Your Name</label>
-      <input class="form-input" id="fname" type="text" placeholder="John Doe">
+      <input class="form-input" id="fname" type="text" placeholder="Your name">
     </div>
     <div class="form-field">
       <label class="form-label">Your Message</label>
       <textarea class="form-textarea" id="fmsg" placeholder="Hey Bappy, let's work together..."></textarea>
     </div>
     <button class="form-submit" id="fsend" onclick="sendMsg()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       Send Message
     </button>
     <div class="toast" id="toast"></div>
@@ -727,76 +814,46 @@
 </section>
 
 <footer>
-  Built by Bappy · Web3 Builder & Founder · NEXORA
+  Built by <span>Bappy</span> · Web3 Builder & Founder · <span>NEXORA</span>
 </footer>
 
 <script>
-  // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const obs = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
-        e.target.style.transitionDelay = (i % 4) * 0.07 + 's';
+        e.target.style.transitionDelay = (i % 5) * 0.06 + 's';
         e.target.classList.add('visible');
         obs.unobserve(e.target);
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.08 });
   reveals.forEach(r => obs.observe(r));
 
-  // Discord webhook message
   async function sendMsg() {
     const name = document.getElementById('fname').value.trim();
     const msg = document.getElementById('fmsg').value.trim();
     const btn = document.getElementById('fsend');
-    const toast = document.getElementById('toast');
-
-    if (!name || !msg) {
-      showToast('Please fill in your name and message.', 'error');
-      return;
-    }
-
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
-
+    if (!name || !msg) { showToast('Please fill in your name and message.', 'error'); return; }
+    btn.disabled = true; btn.textContent = 'Sending...';
     try {
       const res = await fetch('https://discord.com/api/webhooks/1487636333282463834/iYeI8FP5Ao52ZlDPtJemnn2v73mX3vntWKHJzGXY4GNg2u-fTkNga9Ar_IWVWwYBAVne', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          embeds: [{
-            title: '📩 New Portfolio Message',
-            color: 0xc6f135,
-            fields: [
-              { name: 'From', value: name, inline: true },
-              { name: 'Message', value: msg }
-            ],
-            footer: { text: 'Sent from bappy portfolio' },
-            timestamp: new Date().toISOString()
-          }]
-        })
+        body: JSON.stringify({ embeds: [{ title: '📩 New Portfolio Message', color: 0xc6f135, fields: [{ name: 'From', value: name, inline: true }, { name: 'Message', value: msg }], footer: { text: 'Sent from bappy portfolio' }, timestamp: new Date().toISOString() }] })
       });
-
       if (res.ok || res.status === 204) {
-        showToast('Message sent! I\'ll get back to you soon.', 'success');
+        showToast("Message sent! I'll get back to you soon.", 'success');
         document.getElementById('fname').value = '';
         document.getElementById('fmsg').value = '';
-      } else {
-        showToast('Failed to send. Try Discord directly.', 'error');
-      }
-    } catch {
-      showToast('Network error. Try Discord directly.', 'error');
-    }
-
+      } else { showToast('Failed to send. Try Discord directly.', 'error'); }
+    } catch { showToast('Network error. Try Discord directly.', 'error'); }
     btn.disabled = false;
-    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message';
+    btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message';
   }
-
   function showToast(msg, type) {
     const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = 'toast ' + type;
-    t.style.display = 'block';
+    t.textContent = msg; t.className = 'toast ' + type; t.style.display = 'block';
     setTimeout(() => { t.style.display = 'none'; }, 5000);
   }
 </script>
