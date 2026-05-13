@@ -12,185 +12,182 @@ body { font-family: monospace; background:#fff; color:#111; }
 header {
   border-bottom: 2px solid #111;
   padding: 14px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
 }
 .logo { font-size:16px; font-weight:bold; }
-.logo span { color:#999; }
+.logo span { color:#999; font-weight:normal; }
 
-#walletBtn {
-  display:flex; align-items:center; gap:7px;
-  border:1.5px solid #111; padding:7px 13px;
+.connect-btn {
+  border:1.5px solid #111; padding:7px 14px;
   background:#fff; cursor:pointer;
   font-family:monospace; font-size:12px; font-weight:bold;
 }
-#walletBtn:hover { background:#111; color:#fff; }
+.connect-btn:hover { background:#111; color:#fff; }
 
-.w-connected {
-  display:flex; align-items:center; gap:7px;
-  border:1.5px solid #111; padding:7px 13px;
-  background:#111; color:#fff;
-  font-family:monospace; font-size:12px;
+.w-on {
+  display:flex; align-items:center; gap:6px;
+  border:1.5px solid #111; padding:6px 12px;
+  background:#111; color:#fff; font-family:monospace; font-size:12px;
 }
-.dot { width:7px; height:7px; background:#4caf50; border-radius:50%; flex-shrink:0; }
-.dis-btn {
-  background:none; border:none; color:#aaa;
-  cursor:pointer; font-size:13px; line-height:1; padding:0 2px;
-}
-.dis-btn:hover { color:#fff; }
+.dot { width:7px; height:7px; background:#4caf50; border-radius:50%; }
+.w-on img { width:16px; height:16px; object-fit:contain; }
+.dis { background:none; border:none; color:#888; cursor:pointer; font-size:12px; margin-left:2px; }
+.dis:hover { color:#fff; }
 
-.overlay {
-  display:none; position:fixed; inset:0;
-  background:rgba(0,0,0,.55); z-index:99;
-  align-items:center; justify-content:center;
-}
-.overlay.on { display:flex; }
-.modal {
-  background:#fff; border:2px solid #111;
-  padding:22px; width:270px;
-}
-.modal h3 { font-size:14px; margin-bottom:14px; }
-.w-opt {
+/* modal */
+.ov { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:99; align-items:center; justify-content:center; }
+.ov.on { display:flex; }
+.modal { background:#fff; border:2px solid #111; padding:22px; width:260px; }
+.modal h3 { font-size:12px; font-weight:bold; letter-spacing:2px; text-transform:uppercase; margin-bottom:14px; }
+.wopt {
   display:flex; align-items:center; gap:10px;
-  padding:11px 10px; border:1.5px solid #ddd;
-  cursor:pointer; margin-bottom:8px;
-  font-family:monospace; font-size:13px;
+  padding:10px; border:1.5px solid #ddd;
+  cursor:pointer; margin-bottom:8px; font-family:monospace; font-size:13px;
 }
-.w-opt:hover { border-color:#111; }
-.w-opt img { width:22px; height:22px; object-fit:contain; }
-.cancel-btn {
-  width:100%; padding:9px; margin-top:4px;
-  border:1.5px solid #111; background:#fff;
-  cursor:pointer; font-family:monospace; font-size:13px;
-}
-.cancel-btn:hover { background:#111; color:#fff; }
+.wopt:hover { border-color:#111; }
+.wopt img { width:22px; height:22px; object-fit:contain; }
+.can { width:100%; padding:9px; margin-top:2px; border:1.5px solid #111; background:#fff; cursor:pointer; font-family:monospace; font-size:12px; }
+.can:hover { background:#111; color:#fff; }
 
-main { max-width:520px; margin:0 auto; padding:26px 18px; }
-
-.net-tag {
-  display:inline-block; border:1px solid #111;
-  padding:3px 9px; font-size:11px; margin-bottom:20px;
+/* inline error banner */
+.err-banner {
+  display:none; background:#fff3f3; border:1.5px solid #e53935;
+  padding:10px 14px; font-size:12px; color:#c62828;
+  margin:0 18px; margin-top:12px;
 }
+.err-banner.on { display:flex; align-items:center; justify-content:space-between; }
+.err-banner button { background:none; border:none; color:#c62828; cursor:pointer; font-size:14px; }
+
+main { max-width:500px; margin:0 auto; padding:24px 18px; }
+
+.ntag {
+  display:inline-flex; align-items:center; gap:5px;
+  border:1px solid #ccc; padding:3px 9px;
+  font-size:11px; color:#666; margin-bottom:22px;
+}
+.ndot { width:6px; height:6px; background:#4caf50; border-radius:50%; }
 
 h1 { font-size:20px; margin-bottom:4px; }
-p.sub { font-size:12px; color:#888; margin-bottom:18px; }
-.ca {
-  font-size:10px; color:#aaa; word-break:break-all;
-  border:1px solid #eee; padding:8px 10px; margin-bottom:24px;
-}
+.sub { font-size:12px; color:#999; margin-bottom:26px; }
 
-.sec { margin-bottom:28px; }
-.sec-title {
-  font-size:10px; font-weight:bold; letter-spacing:2px;
-  text-transform:uppercase; color:#999;
-  border-bottom:1px solid #eee; padding-bottom:6px; margin-bottom:12px;
-}
+.searchbar { display:flex; border:2px solid #111; margin-bottom:10px; }
+.searchbar input { flex:1; border:none; padding:11px 13px; font-family:monospace; font-size:14px; outline:none; }
+.searchbar input::placeholder { color:#ccc; }
+.searchbar button { border:none; border-left:2px solid #111; background:#111; color:#fff; padding:0 16px; cursor:pointer; font-family:monospace; font-size:13px; font-weight:bold; }
+.searchbar button:hover { background:#333; }
 
-input {
-  width:100%; border:1.5px solid #111;
-  padding:9px 11px; font-family:monospace;
-  font-size:13px; margin-bottom:8px; outline:none;
-}
-input:focus { border-color:#000; }
-input::placeholder { color:#ccc; }
-
-.btn {
-  width:100%; padding:10px;
-  border:1.5px solid #111; background:#111;
-  color:#fff; cursor:pointer;
-  font-family:monospace; font-size:13px; font-weight:bold;
-}
-.btn:hover { background:#333; }
-.btn:disabled { background:#ccc; border-color:#ccc; cursor:not-allowed; }
-.btn.out { background:#fff; color:#111; }
-.btn.out:hover { background:#f5f5f5; }
-
-.msg { display:none; padding:9px 11px; border:1.5px solid; font-size:12px; margin-top:8px; }
-.msg.on { display:block; }
-.msg.ok { border-color:#4caf50; color:#2e7d32; }
-.msg.err { border-color:#f44336; color:#c62828; }
-.msg.info { border-color:#111; color:#111; }
-
-.spin { display:none; font-size:11px; color:#888; margin-top:6px; }
+.spin { display:none; font-size:11px; color:#999; margin-bottom:10px; }
 .spin.on { display:block; }
 
-.res { display:none; border:1.5px solid #111; padding:12px; font-size:12px; margin-top:8px; }
-.res.on { display:block; }
-.rrow { display:flex; justify-content:space-between; margin-bottom:5px; }
-.rl { color:#999; font-size:11px; }
-.rv { font-weight:bold; font-size:11px; word-break:break-all; max-width:58%; text-align:right; }
-.green { color:#2e7d32; }
-.red { color:#c62828; }
+/* result card */
+.card { border:1.5px solid #111; padding:16px; margin-bottom:10px; display:none; }
+.card.on { display:block; }
+.card-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.dname { font-size:15px; font-weight:bold; }
+.badge { font-size:10px; font-weight:bold; padding:3px 8px; border:1px solid; letter-spacing:1px; text-transform:uppercase; }
+.badge.av { border-color:#4caf50; color:#2e7d32; }
+.badge.tk { border-color:#999; color:#777; }
 
-footer {
-  border-top:1px solid #eee; padding:14px 18px;
-  text-align:center; font-size:11px; color:#ccc; margin-top:30px;
-}
-footer a { color:#999; text-decoration:none; }
+.card-row { display:flex; justify-content:space-between; font-size:11px; padding:5px 0; border-bottom:1px solid #f0f0f0; }
+.card-row:last-of-type { border-bottom:none; }
+.cl { color:#999; }
+.cv { font-weight:bold; word-break:break-all; max-width:60%; text-align:right; }
+
+.reg-btn { width:100%; margin-top:12px; padding:10px; border:1.5px solid #111; background:#111; color:#fff; cursor:pointer; font-family:monospace; font-size:13px; font-weight:bold; }
+.reg-btn:hover { background:#333; }
+.reg-btn:disabled { background:#ccc; border-color:#ccc; cursor:not-allowed; }
+
+/* wallet required hint */
+.wallet-hint { font-size:11px; color:#999; margin-top:8px; text-align:center; }
+
+.msg { display:none; padding:9px 12px; border:1.5px solid; font-size:12px; margin-top:8px; }
+.msg.on { display:block; }
+.msg.ok { border-color:#4caf50; color:#2e7d32; }
+.msg.err { border-color:#e53935; color:#c62828; }
+.msg.inf { border-color:#111; color:#111; }
+
+/* my domains */
+.sec-title { font-size:10px; font-weight:bold; letter-spacing:2px; text-transform:uppercase; color:#aaa; border-bottom:1px solid #eee; padding-bottom:6px; margin-bottom:12px; margin-top:28px; }
+.my-btn { width:100%; padding:9px; border:1.5px solid #111; background:#fff; cursor:pointer; font-family:monospace; font-size:12px; }
+.my-btn:hover { background:#f5f5f5; }
+.my-btn:disabled { color:#ccc; border-color:#ddd; cursor:not-allowed; }
+.dlist { margin-top:10px; display:none; }
+.dlist.on { display:block; }
+.ditem { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f0f0f0; font-size:12px; }
+.ditem:last-child { border-bottom:none; }
+.ditem-name { font-weight:bold; }
+.ditem-n { color:#bbb; font-size:11px; }
+
+footer { border-top:1px solid #eee; padding:12px 18px; text-align:center; font-size:11px; color:#ccc; margin-top:20px; }
+footer a { color:#aaa; text-decoration:none; }
 footer a:hover { text-decoration:underline; }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">ARC<span>.domains</span></div>
+  <div class="logo">domains<span>.eth</span></div>
   <div id="wArea">
-    <button id="walletBtn" onclick="openModal()">Connect Wallet</button>
+    <button class="connect-btn" onclick="openModal()">Connect Wallet</button>
   </div>
 </header>
 
-<div class="overlay" id="overlay">
+<!-- inline error banner (no alert!) -->
+<div class="err-banner" id="errBanner">
+  <span id="errText"></span>
+  <button onclick="closeErr()">✕</button>
+</div>
+
+<!-- Wallet Modal -->
+<div class="ov" id="ov">
   <div class="modal">
     <h3>Select Wallet</h3>
-    <div class="w-opt" onclick="connect('metamask')">
+    <div class="wopt" onclick="connect('metamask')">
       <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask">
       MetaMask
     </div>
-    <div class="w-opt" onclick="connect('rabby')">
-      <img src="https://assets.rabby.io/assets/images/logo-cache.png"
-        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Crect width=%2240%22 height=%2240%22 rx=%228%22 fill=%22%238B5CF6%22/%3E%3Ctext x=%2250%25%22 y=%2256%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2222%22 font-family=%22monospace%22%3ER%3C/text%3E%3C/svg%3E'"
+    <div class="wopt" onclick="connect('rabby')">
+      <img
+        src="https://cdn.jsdelivr.net/gh/rabbykit/rabby-static/dist/images/rabby-logo.png"
+        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Crect width=%2240%22 height=%2240%22 rx=%228%22 fill=%22%237c3aed%22/%3E%3Ctext x=%2250%25%22 y=%2256%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2220%22 font-family=%22monospace%22%3ER%3C/text%3E%3C/svg%3E'"
         alt="Rabby">
       Rabby Wallet
     </div>
-    <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+    <button class="can" onclick="closeModal()">Cancel</button>
   </div>
 </div>
 
 <main>
-  <div class="net-tag" id="netTag">● Sepolia Testnet</div>
-  <h1>Domain Registry</h1>
-  <p class="sub">Register .arc domains on Sepolia Testnet</p>
-  <div class="ca">Contract: 0xb1a35954c4047E26EcA526E2098b8c97993eF66b</div>
+  <div class="ntag"><span class="ndot"></span>Sepolia Testnet</div>
+  <h1>Find your domain</h1>
+  <p class="sub">Register .eth domains on Sepolia Testnet</p>
 
-  <div class="sec">
-    <div class="sec-title">Register Domain</div>
-    <input id="rDomain" placeholder="domain name (e.g. myname)" />
-    <input id="rIpfs" placeholder="IPFS Hash (optional)" />
-    <button class="btn" id="rBtn" onclick="registerDomain()" disabled>Register .arc</button>
-    <div class="spin" id="rSpin">⏳ Processing transaction...</div>
-    <div class="msg" id="rMsg"></div>
+  <div class="searchbar">
+    <input id="sInput" placeholder="Search for a name" onkeydown="if(event.key==='Enter')searchDomain()" />
+    <button onclick="searchDomain()">Search</button>
+  </div>
+  <div class="spin" id="searchSpin">⏳ Searching...</div>
+
+  <div class="card" id="card">
+    <div class="card-top">
+      <span class="dname" id="cardName"></span>
+      <span class="badge" id="cardBadge"></span>
+    </div>
+    <div id="cardDetails"></div>
+    <button class="reg-btn" id="cardRegBtn" onclick="registerFromCard()" style="display:none">Register</button>
+    <div class="wallet-hint" id="walletHint" style="display:none">Connect wallet to register</div>
+    <div class="spin" id="regSpin">⏳ Processing transaction...</div>
+    <div class="msg" id="regMsg"></div>
   </div>
 
-  <div class="sec">
-    <div class="sec-title">Lookup Domain</div>
-    <input id="lDomain" placeholder="Search domain name" />
-    <button class="btn out" onclick="lookupDomain()">Search</button>
-    <div class="spin" id="lSpin">⏳ Searching...</div>
-    <div class="res" id="lRes"></div>
-  </div>
-
-  <div class="sec">
-    <div class="sec-title">My Domains</div>
-    <button class="btn out" id="mBtn" onclick="myDomains()" disabled>Load My Domains</button>
-    <div class="spin" id="mSpin">⏳ Loading...</div>
-    <div class="res" id="mRes"></div>
-  </div>
+  <div class="sec-title">My Domains</div>
+  <button class="my-btn" id="myBtn" onclick="loadMyDomains()" disabled>Load My Domains</button>
+  <div class="spin" id="mySpin">⏳ Loading...</div>
+  <div class="dlist" id="dList"></div>
 </main>
 
 <footer>
-  <a href="https://sepolia.etherscan.io/address/0xb1a35954c4047E26EcA526E2098b8c97993eF66b" target="_blank">View on Etherscan</a>
-  &nbsp;·&nbsp; Sepolia Testnet
+  <a href="https://sepolia.etherscan.io/address/0xb1a35954c4047E26EcA526E2098b8c97993eF66b" target="_blank">View Contract on Etherscan</a>
 </footer>
 
 <script>
@@ -203,154 +200,159 @@ const ABI = [
 ];
 const RPC = "https://rpc.sepolia.org";
 
-let provider, signer, contract, myAddr;
+let provider, signer, contract, myAddr, currentDomain = '';
 
-function openModal() { document.getElementById('overlay').classList.add('on'); }
-function closeModal() { document.getElementById('overlay').classList.remove('on'); }
+function openModal() { document.getElementById('ov').classList.add('on'); }
+function closeModal() { document.getElementById('ov').classList.remove('on'); }
+
+function showErr(msg) {
+  document.getElementById('errText').textContent = msg;
+  document.getElementById('errBanner').classList.add('on');
+}
+function closeErr() { document.getElementById('errBanner').classList.remove('on'); }
+
+function spin(id, on) { document.getElementById(id).className = 'spin' + (on ? ' on' : ''); }
+function setMsg(id, txt, cls) { const el = document.getElementById(id); el.textContent = txt; el.className = 'msg on ' + cls; }
 
 async function connect(type) {
   closeModal();
+  closeErr();
+  if (!window.ethereum) {
+    showErr('No wallet detected. Please install MetaMask or Rabby extension first.');
+    return;
+  }
   try {
-    if (!window.ethereum) { alert('Wallet not found! Install MetaMask or Rabby.'); return; }
     await window.ethereum.request({ method: 'eth_requestAccounts' });
     provider = new ethers.providers.Web3Provider(window.ethereum);
     signer = provider.getSigner();
     myAddr = await signer.getAddress();
     contract = new ethers.Contract(CA, ABI, signer);
 
-    const net = await provider.getNetwork();
-    updateNet(net.chainId);
-
     const short = myAddr.slice(0,6) + '...' + myAddr.slice(-4);
-    const mmLogo = 'https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg';
-    const rabbyFallback = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%238B5CF6'/%3E%3Ctext x='50%25' y='56%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='22' font-family='monospace'%3ER%3C/text%3E%3C/svg%3E";
-    const logo = type === 'metamask'
-      ? `<img src="${mmLogo}" style="width:15px;height:15px;object-fit:contain;">`
-      : `<img src="https://assets.rabby.io/assets/images/logo-cache.png" onerror="this.src='${rabbyFallback}'" style="width:15px;height:15px;object-fit:contain;">`;
+    const mmSrc = 'https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg';
+    const rSrc = 'https://cdn.jsdelivr.net/gh/rabbykit/rabby-static/dist/images/rabby-logo.png';
+    const rFall = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%237c3aed'/%3E%3Ctext x='50%25' y='56%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='20' font-family='monospace'%3ER%3C/text%3E%3C/svg%3E";
+    const imgHtml = type === 'metamask'
+      ? `<img src="${mmSrc}">`
+      : `<img src="${rSrc}" onerror="this.src='${rFall}'">`;
 
     document.getElementById('wArea').innerHTML = `
-      <div class="w-connected">
-        <span class="dot"></span>${logo}&nbsp;${short}
-        <button class="dis-btn" onclick="disconnect()" title="Disconnect">✕</button>
+      <div class="w-on">
+        <span class="dot"></span>${imgHtml}&nbsp;${short}
+        <button class="dis" onclick="disconnect()" title="Disconnect">✕</button>
       </div>`;
 
-    document.getElementById('rBtn').disabled = false;
-    document.getElementById('mBtn').disabled = false;
+    document.getElementById('myBtn').disabled = false;
+
+    // update register button if card showing
+    const rb = document.getElementById('cardRegBtn');
+    const wh = document.getElementById('walletHint');
+    if (rb.style.display !== 'none' || wh.style.display !== 'none') {
+      rb.style.display = 'block'; rb.disabled = false;
+      wh.style.display = 'none';
+    }
 
     window.ethereum.on('accountsChanged', () => location.reload());
     window.ethereum.on('chainChanged', () => location.reload());
   } catch(e) {
-    alert('Failed: ' + (e.message || e));
-  }
-}
-
-function updateNet(id) {
-  const t = document.getElementById('netTag');
-  if (id === 11155111) {
-    t.textContent = '● Sepolia Testnet'; t.removeAttribute('style');
-  } else if (id === 5042002) {
-    t.textContent = '● Arc Testnet';
-    t.style.color = '#2e7d32'; t.style.borderColor = '#4caf50';
-  } else {
-    t.textContent = '● Chain: ' + id;
+    showErr('Connection cancelled or failed. Please try again.');
   }
 }
 
 function disconnect() {
   provider = signer = contract = myAddr = null;
-  document.getElementById('wArea').innerHTML = `<button id="walletBtn" onclick="openModal()">Connect Wallet</button>`;
-  document.getElementById('rBtn').disabled = true;
-  document.getElementById('mBtn').disabled = true;
-  document.getElementById('netTag').textContent = '● Not Connected';
-  document.getElementById('netTag').removeAttribute('style');
+  document.getElementById('wArea').innerHTML = `<button class="connect-btn" onclick="openModal()">Connect Wallet</button>`;
+  document.getElementById('myBtn').disabled = true;
+  document.getElementById('dList').className = 'dlist';
 }
 
-function setMsg(id, txt, cls) {
-  const el = document.getElementById(id);
-  el.textContent = txt; el.className = 'msg on ' + cls;
-}
-function spin(id, on) {
-  document.getElementById(id).className = 'spin' + (on ? ' on' : '');
-}
-
-async function registerDomain() {
-  const dom = document.getElementById('rDomain').value.trim();
-  const ipfs = document.getElementById('rIpfs').value.trim();
-  if (!dom) { setMsg('rMsg', 'Enter a domain name', 'err'); return; }
-  if (!contract) { setMsg('rMsg', 'Connect wallet first', 'err'); return; }
-
-  document.getElementById('rBtn').disabled = true;
-  spin('rSpin', true);
-  document.getElementById('rMsg').className = 'msg';
-
-  try {
-    const taken = await contract.isDomainTaken(dom);
-    if (taken) throw new Error('Domain already taken!');
-    const tx = await contract.registerDomain(dom, ipfs || '');
-    setMsg('rMsg', 'Tx sent: ' + tx.hash.slice(0,20) + '...', 'info');
-    await tx.wait();
-    setMsg('rMsg', '✓ "' + dom + '.arc" registered!', 'ok');
-    document.getElementById('rDomain').value = '';
-    document.getElementById('rIpfs').value = '';
-  } catch(e) {
-    setMsg('rMsg', '✗ ' + (e.reason || e.message), 'err');
-  }
-  spin('rSpin', false);
-  document.getElementById('rBtn').disabled = false;
-}
-
-async function lookupDomain() {
-  const dom = document.getElementById('lDomain').value.trim();
-  if (!dom) return;
-  spin('lSpin', true);
-  document.getElementById('lRes').className = 'res';
+async function searchDomain() {
+  const val = document.getElementById('sInput').value.trim().toLowerCase().replace(/\.eth$/,'');
+  if (!val) return;
+  currentDomain = val;
+  closeErr();
+  document.getElementById('card').classList.remove('on');
+  document.getElementById('regMsg').className = 'msg';
+  spin('searchSpin', true);
 
   try {
     const rp = provider || new ethers.providers.JsonRpcProvider(RPC);
     const rc = new ethers.Contract(CA, ABI, rp);
-    const d = await rc.getDomain(dom);
-    const box = document.getElementById('lRes');
-    if (d[0] === '0x0000000000000000000000000000000000000000') {
-      box.innerHTML = '<div style="color:#2e7d32;font-size:13px;">✓ Available</div>';
+    const taken = await rc.isDomainTaken(val);
+
+    document.getElementById('cardName').textContent = val + '.eth';
+    const badge = document.getElementById('cardBadge');
+    const rb = document.getElementById('cardRegBtn');
+    const wh = document.getElementById('walletHint');
+    const details = document.getElementById('cardDetails');
+
+    if (!taken) {
+      badge.textContent = 'Available'; badge.className = 'badge av';
+      details.innerHTML = '<div style="font-size:12px;color:#999;padding:4px 0 8px;">This name is available to register.</div>';
+      if (myAddr) { rb.style.display = 'block'; rb.disabled = false; wh.style.display = 'none'; }
+      else { rb.style.display = 'none'; wh.style.display = 'block'; }
+      rb.textContent = 'Register ' + val + '.eth';
     } else {
+      const d = await rc.getDomain(val);
+      badge.textContent = 'Registered'; badge.className = 'badge tk';
       const exp = new Date(d[3].toNumber() * 1000).toLocaleDateString();
-      box.innerHTML = `
-        <div class="rrow"><span class="rl">Domain</span><span class="rv">${dom}.arc</span></div>
-        <div class="rrow"><span class="rl">Owner</span><span class="rv">${d[0].slice(0,8)}...${d[0].slice(-6)}</span></div>
-        <div class="rrow"><span class="rl">Expires</span><span class="rv">${exp}</span></div>
-        <div class="rrow"><span class="rl">Status</span><span class="rv ${d[4]?'green':'red'}">${d[4]?'Active':'Expired'}</span></div>`;
+      details.innerHTML = `
+        <div class="card-row"><span class="cl">Owner</span><span class="cv">${d[0].slice(0,8)}...${d[0].slice(-6)}</span></div>
+        <div class="card-row"><span class="cl">Expires</span><span class="cv">${exp}</span></div>
+        <div class="card-row"><span class="cl">Status</span><span class="cv" style="color:${d[4]?'#2e7d32':'#c62828'}">${d[4]?'Active':'Expired'}</span></div>`;
+      rb.style.display = 'none'; wh.style.display = 'none';
     }
-    box.classList.add('on');
+    document.getElementById('card').classList.add('on');
   } catch(e) {
-    const box = document.getElementById('lRes');
-    box.innerHTML = '<div style="color:#c62828;font-size:12px;">Error: ' + (e.reason||e.message) + '</div>';
-    box.classList.add('on');
+    showErr('Search failed: ' + (e.reason || e.message));
   }
-  spin('lSpin', false);
+  spin('searchSpin', false);
 }
 
-async function myDomains() {
+async function registerFromCard() {
+  if (!contract) { showErr('Please connect your wallet first.'); return; }
+  const rb = document.getElementById('cardRegBtn');
+  rb.disabled = true;
+  spin('regSpin', true);
+  document.getElementById('regMsg').className = 'msg';
+
+  try {
+    const tx = await contract.registerDomain(currentDomain, '');
+    setMsg('regMsg', 'Tx sent: ' + tx.hash.slice(0,20) + '...', 'inf');
+    await tx.wait();
+    setMsg('regMsg', '✓ "' + currentDomain + '.eth" registered successfully!', 'ok');
+    await searchDomain();
+  } catch(e) {
+    setMsg('regMsg', '✗ ' + (e.reason || e.message), 'err');
+    rb.disabled = false;
+  }
+  spin('regSpin', false);
+}
+
+async function loadMyDomains() {
   if (!contract || !myAddr) return;
-  spin('mSpin', true);
-  document.getElementById('mRes').className = 'res';
+  spin('mySpin', true);
+  document.getElementById('dList').className = 'dlist';
 
   try {
     const list = await contract.getOwnerDomains(myAddr);
-    const box = document.getElementById('mRes');
+    const box = document.getElementById('dList');
     if (!list.length) {
-      box.innerHTML = '<div style="color:#999;font-size:12px;">No domains yet.</div>';
+      box.innerHTML = '<div style="font-size:12px;color:#bbb;padding:10px 0;">No domains registered yet.</div>';
     } else {
-      box.innerHTML = list.map((d,i) =>
-        `<div class="rrow"><span class="rl">#${i+1}</span><span class="rv">${d}.arc</span></div>`
-      ).join('');
+      box.innerHTML = list.map((d,i) => `
+        <div class="ditem">
+          <span class="ditem-name">${d}.eth</span>
+          <span class="ditem-n">#${i+1}</span>
+        </div>`).join('');
     }
     box.classList.add('on');
   } catch(e) {
-    const box = document.getElementById('mRes');
-    box.innerHTML = '<div style="color:#c62828;font-size:12px;">Error: ' + (e.reason||e.message) + '</div>';
+    const box = document.getElementById('dList');
+    box.innerHTML = '<div style="font-size:12px;color:#c62828;">Failed to load domains.</div>';
     box.classList.add('on');
   }
-  spin('mSpin', false);
+  spin('mySpin', false);
 }
 </script>
 </body>
