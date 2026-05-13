@@ -16,70 +16,61 @@ header {
 }
 .logo { font-size:16px; font-weight:bold; }
 .logo span { color:#999; font-weight:normal; }
-
-.connect-btn {
-  border:1.5px solid #111; padding:7px 14px;
-  background:#fff; cursor:pointer;
-  font-family:monospace; font-size:12px; font-weight:bold;
-}
+.connect-btn { border:1.5px solid #111; padding:7px 14px; background:#fff; cursor:pointer; font-family:monospace; font-size:12px; font-weight:bold; }
 .connect-btn:hover { background:#111; color:#fff; }
-
-.w-on {
-  display:flex; align-items:center; gap:6px;
-  border:1.5px solid #111; padding:6px 12px;
-  background:#111; color:#fff; font-family:monospace; font-size:12px;
-}
+.w-on { display:flex; align-items:center; gap:6px; border:1.5px solid #111; padding:6px 12px; background:#111; color:#fff; font-family:monospace; font-size:12px; }
 .dot { width:7px; height:7px; background:#4caf50; border-radius:50%; }
 .w-on img { width:16px; height:16px; object-fit:contain; }
 .dis { background:none; border:none; color:#888; cursor:pointer; font-size:12px; margin-left:2px; }
 .dis:hover { color:#fff; }
 
-/* modal */
 .ov { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:99; align-items:center; justify-content:center; }
 .ov.on { display:flex; }
 .modal { background:#fff; border:2px solid #111; padding:22px; width:260px; }
 .modal h3 { font-size:12px; font-weight:bold; letter-spacing:2px; text-transform:uppercase; margin-bottom:14px; }
-.wopt {
-  display:flex; align-items:center; gap:10px;
-  padding:10px; border:1.5px solid #ddd;
-  cursor:pointer; margin-bottom:8px; font-family:monospace; font-size:13px;
-}
+.wopt { display:flex; align-items:center; gap:10px; padding:10px; border:1.5px solid #ddd; cursor:pointer; margin-bottom:8px; font-family:monospace; font-size:13px; }
 .wopt:hover { border-color:#111; }
 .wopt img { width:22px; height:22px; object-fit:contain; }
 .can { width:100%; padding:9px; margin-top:2px; border:1.5px solid #111; background:#fff; cursor:pointer; font-family:monospace; font-size:12px; }
 .can:hover { background:#111; color:#fff; }
 
-/* inline error banner */
-.err-banner {
-  display:none; background:#fff3f3; border:1.5px solid #e53935;
-  padding:10px 14px; font-size:12px; color:#c62828;
-  margin:0 18px; margin-top:12px;
-}
+.err-banner { display:none; background:#fff3f3; border:1.5px solid #e53935; padding:10px 14px; font-size:12px; color:#c62828; margin:0 18px; margin-top:12px; }
 .err-banner.on { display:flex; align-items:center; justify-content:space-between; }
 .err-banner button { background:none; border:none; color:#c62828; cursor:pointer; font-size:14px; }
 
+.toast { position:fixed; bottom:20px; right:20px; background:#111; color:#fff; padding:10px 16px; font-size:12px; font-family:monospace; border:1.5px solid #333; z-index:999; display:none; max-width:280px; }
+.toast.on { display:block; }
+
 main { max-width:500px; margin:0 auto; padding:24px 18px; }
 
-.ntag {
-  display:inline-flex; align-items:center; gap:5px;
-  border:1px solid #ccc; padding:3px 9px;
-  font-size:11px; color:#666; margin-bottom:22px;
-}
-.ndot { width:6px; height:6px; background:#4caf50; border-radius:50%; }
+.stats-bar { display:flex; gap:12px; margin-bottom:22px; flex-wrap:wrap; }
+.stat-box { border:1px solid #ddd; padding:8px 14px; font-size:11px; flex:1; min-width:100px; }
+.stat-box .sv { font-size:16px; font-weight:bold; display:block; margin-bottom:2px; }
+.stat-box .sl { color:#999; }
 
+.ntag { display:inline-flex; align-items:center; gap:5px; border:1px solid #ccc; padding:3px 9px; font-size:11px; color:#666; margin-bottom:22px; }
+.ndot { width:6px; height:6px; background:#4caf50; border-radius:50%; }
 h1 { font-size:20px; margin-bottom:4px; }
 .sub { font-size:12px; color:#999; margin-bottom:26px; }
 
-.searchbar { display:flex; border:2px solid #111; margin-bottom:10px; }
+.searchbar { display:flex; border:2px solid #111; margin-bottom:6px; }
 .searchbar input { flex:1; border:none; padding:11px 13px; font-family:monospace; font-size:14px; outline:none; }
 .searchbar input::placeholder { color:#ccc; }
 .searchbar button { border:none; border-left:2px solid #111; background:#111; color:#fff; padding:0 16px; cursor:pointer; font-family:monospace; font-size:13px; font-weight:bold; }
 .searchbar button:hover { background:#333; }
 
+.hist-wrap { margin-bottom:12px; display:none; }
+.hist-wrap.on { display:block; }
+.hist-label { font-size:10px; color:#bbb; letter-spacing:1px; text-transform:uppercase; margin-bottom:5px; }
+.hist-tags { display:flex; flex-wrap:wrap; gap:5px; }
+.hist-tag { font-size:11px; border:1px solid #ddd; padding:3px 8px; cursor:pointer; color:#666; }
+.hist-tag:hover { border-color:#111; color:#111; }
+.hist-clear { font-size:10px; color:#bbb; cursor:pointer; margin-left:4px; border:none; background:none; }
+.hist-clear:hover { color:#e53935; }
+
 .spin { display:none; font-size:11px; color:#999; margin-bottom:10px; }
 .spin.on { display:block; }
 
-/* result card */
 .card { border:1.5px solid #111; padding:16px; margin-bottom:10px; display:none; }
 .card.on { display:block; }
 .card-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
@@ -87,17 +78,24 @@ h1 { font-size:20px; margin-bottom:4px; }
 .badge { font-size:10px; font-weight:bold; padding:3px 8px; border:1px solid; letter-spacing:1px; text-transform:uppercase; }
 .badge.av { border-color:#4caf50; color:#2e7d32; }
 .badge.tk { border-color:#999; color:#777; }
+.badge.ex { border-color:#e53935; color:#c62828; }
 
-.card-row { display:flex; justify-content:space-between; font-size:11px; padding:5px 0; border-bottom:1px solid #f0f0f0; }
+.card-row { display:flex; justify-content:space-between; align-items:center; font-size:11px; padding:5px 0; border-bottom:1px solid #f0f0f0; }
 .card-row:last-of-type { border-bottom:none; }
 .cl { color:#999; }
-.cv { font-weight:bold; word-break:break-all; max-width:60%; text-align:right; }
+.cv { font-weight:bold; word-break:break-all; max-width:65%; text-align:right; display:flex; align-items:center; gap:5px; justify-content:flex-end; }
+.copy-btn { background:none; border:1px solid #ddd; cursor:pointer; font-size:10px; padding:1px 5px; font-family:monospace; color:#999; flex-shrink:0; }
+.copy-btn:hover { border-color:#111; color:#111; }
 
-.reg-btn { width:100%; margin-top:12px; padding:10px; border:1.5px solid #111; background:#111; color:#fff; cursor:pointer; font-family:monospace; font-size:13px; font-weight:bold; }
+.countdown { font-size:11px; color:#e65100; font-weight:bold; margin-top:6px; padding:4px 8px; border:1px solid #ffe0b2; background:#fff8f0; display:none; }
+.countdown.on { display:block; }
+
+.card-actions { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+.reg-btn { flex:1; padding:10px; border:1.5px solid #111; background:#111; color:#fff; cursor:pointer; font-family:monospace; font-size:13px; font-weight:bold; min-width:120px; }
 .reg-btn:hover { background:#333; }
 .reg-btn:disabled { background:#ccc; border-color:#ccc; cursor:not-allowed; }
-
-/* wallet required hint */
+.action-btn { padding:10px 12px; border:1.5px solid #ddd; background:#fff; cursor:pointer; font-family:monospace; font-size:11px; color:#666; text-decoration:none; display:inline-flex; align-items:center; }
+.action-btn:hover { border-color:#111; color:#111; }
 .wallet-hint { font-size:11px; color:#999; margin-top:8px; text-align:center; }
 
 .msg { display:none; padding:9px 12px; border:1.5px solid; font-size:12px; margin-top:8px; }
@@ -106,17 +104,31 @@ h1 { font-size:20px; margin-bottom:4px; }
 .msg.err { border-color:#e53935; color:#c62828; }
 .msg.inf { border-color:#111; color:#111; }
 
-/* my domains */
+.t-modal { background:#fff; border:2px solid #111; padding:22px; width:300px; }
+.t-modal h3 { font-size:12px; font-weight:bold; letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; }
+.t-sub { font-size:12px; color:#999; margin-bottom:12px; }
+.t-input { width:100%; border:1.5px solid #111; padding:9px; font-family:monospace; font-size:12px; outline:none; margin-bottom:10px; }
+.t-input::placeholder { color:#ccc; }
+.t-btn { width:100%; padding:9px; border:1.5px solid #111; background:#111; color:#fff; cursor:pointer; font-family:monospace; font-size:12px; margin-bottom:6px; }
+.t-btn:hover { background:#333; }
+.t-btn:disabled { background:#ccc; border-color:#ccc; cursor:not-allowed; }
+
 .sec-title { font-size:10px; font-weight:bold; letter-spacing:2px; text-transform:uppercase; color:#aaa; border-bottom:1px solid #eee; padding-bottom:6px; margin-bottom:12px; margin-top:28px; }
 .my-btn { width:100%; padding:9px; border:1.5px solid #111; background:#fff; cursor:pointer; font-family:monospace; font-size:12px; }
 .my-btn:hover { background:#f5f5f5; }
 .my-btn:disabled { color:#ccc; border-color:#ddd; cursor:not-allowed; }
 .dlist { margin-top:10px; display:none; }
 .dlist.on { display:block; }
-.ditem { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f0f0f0; font-size:12px; }
+.ditem { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid #f0f0f0; font-size:12px; flex-wrap:wrap; gap:6px; }
 .ditem:last-child { border-bottom:none; }
+.ditem-left { display:flex; flex-direction:column; gap:3px; }
 .ditem-name { font-weight:bold; }
-.ditem-n { color:#bbb; font-size:11px; }
+.ditem-exp { font-size:10px; color:#999; }
+.ditem-exp.red { color:#e53935; }
+.ditem-exp.orange { color:#e65100; }
+.ditem-right { display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
+.sm-btn { font-size:10px; border:1px solid #ddd; padding:3px 7px; cursor:pointer; background:#fff; font-family:monospace; color:#666; }
+.sm-btn:hover { border-color:#111; color:#111; }
 
 footer { border-top:1px solid #eee; padding:12px 18px; text-align:center; font-size:11px; color:#ccc; margin-top:20px; }
 footer a { color:#aaa; text-decoration:none; }
@@ -136,27 +148,55 @@ footer a:hover { text-decoration:underline; }
   <span id="errText"></span>
   <button onclick="closeErr()">✕</button>
 </div>
+<div class="toast" id="toast"></div>
 
 <!-- Wallet Modal -->
 <div class="ov" id="ov">
   <div class="modal">
     <h3>Select Wallet</h3>
     <div class="wopt" onclick="connect('metamask')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask">
-      MetaMask
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MM">MetaMask
     </div>
     <div class="wopt" onclick="connect('rabby')">
-      <img
-        src="https://cdn.jsdelivr.net/gh/rabbykit/rabby-static/dist/images/rabby-logo.png"
-        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Crect width=%2240%22 height=%2240%22 rx=%228%22 fill=%22%237c3aed%22/%3E%3Ctext x=%2250%25%22 y=%2256%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2220%22 font-family=%22monospace%22%3ER%3C/text%3E%3C/svg%3E'"
-        alt="Rabby">
+      <img src="https://cdn.jsdelivr.net/gh/rabbykit/rabby-static/dist/images/rabby-logo.png"
+        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Crect width=%2240%22 height=%2240%22 rx=%228%22 fill=%22%237c3aed%22/%3E%3Ctext x=%2250%25%22 y=%2256%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2220%22 font-family=%22monospace%22%3ER%3C/text%3E%3C/svg%3E'" alt="Rabby">
       Rabby Wallet
     </div>
     <button class="can" onclick="closeModal()">Cancel</button>
   </div>
 </div>
 
+<!-- Transfer Modal -->
+<div class="ov" id="transferOv">
+  <div class="t-modal">
+    <h3>Transfer Domain</h3>
+    <div class="t-sub">Transferring: <strong id="transferDomainName"></strong></div>
+    <input class="t-input" id="transferAddr" placeholder="Recipient address (0x...)" />
+    <div class="msg" id="transferMsg"></div>
+    <button class="t-btn" id="transferConfirmBtn" onclick="confirmTransfer()">Confirm Transfer</button>
+    <button class="can" onclick="closeTransferModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- Renew Modal -->
+<div class="ov" id="renewOv">
+  <div class="t-modal">
+    <h3>Renew Domain</h3>
+    <div class="t-sub">Domain: <strong id="renewDomainName"></strong></div>
+    <div style="font-size:12px;color:#555;margin-bottom:12px;">Extends the domain by 1 year.</div>
+    <div class="msg" id="renewMsg"></div>
+    <button class="t-btn" id="renewConfirmBtn" onclick="confirmRenew()">Confirm Renewal</button>
+    <button class="can" onclick="closeRenewModal()">Cancel</button>
+  </div>
+</div>
+
 <main>
+  <div class="stats-bar">
+    <div class="stat-box"><span class="sv" id="statTotal">—</span><span class="sl">Total Domains</span></div>
+    <div class="stat-box"><span class="sv" id="statMine">—</span><span class="sl">My Domains</span></div>
+    <div class="stat-box"><span class="sv">Sepolia</span><span class="sl">Network</span></div>
+  </div>
+
   <div class="ntag"><span class="ndot"></span>Sepolia Testnet</div>
   <h1>Find your domain</h1>
   <p class="sub">Register .eth domains on Sepolia Testnet</p>
@@ -165,6 +205,12 @@ footer a:hover { text-decoration:underline; }
     <input id="sInput" placeholder="Search for a name" onkeydown="if(event.key==='Enter')searchDomain()" />
     <button onclick="searchDomain()">Search</button>
   </div>
+
+  <div class="hist-wrap" id="histWrap">
+    <div class="hist-label">Recent searches <button class="hist-clear" onclick="clearHistory()">clear</button></div>
+    <div class="hist-tags" id="histTags"></div>
+  </div>
+
   <div class="spin" id="searchSpin">⏳ Searching...</div>
 
   <div class="card" id="card">
@@ -173,306 +219,359 @@ footer a:hover { text-decoration:underline; }
       <span class="badge" id="cardBadge"></span>
     </div>
     <div id="cardDetails"></div>
-    <button class="reg-btn" id="cardRegBtn" onclick="registerFromCard()" style="display:none">Register</button>
+    <div class="countdown" id="countdown"></div>
+    <div class="card-actions">
+      <button class="reg-btn" id="cardRegBtn" onclick="registerFromCard()" style="display:none">Register</button>
+      <a class="action-btn" id="etherscanLink" href="#" target="_blank" style="display:none">↗ Etherscan</a>
+    </div>
     <div class="wallet-hint" id="walletHint" style="display:none">Connect wallet to register</div>
-    <div class="spin" id="regSpin">⏳ Processing transaction...</div>
+    <div class="spin" id="regSpin">⏳ Processing...</div>
     <div class="msg" id="regMsg"></div>
   </div>
 
   <div class="sec-title">My Domains</div>
-  <button class="my-btn" id="myBtn" onclick="loadMyDomains()" disabled>Load My Domains</button>
+  <button class="my-btn" id="myBtn" onclick="loadMyDomains(false)" disabled>Load My Domains</button>
   <div class="spin" id="mySpin">⏳ Loading...</div>
   <div class="dlist" id="dList"></div>
 </main>
 
 <footer>
-  <a href="https://sepolia.etherscan.io/address/0xb1a35954c4047E26EcA526E2098b8c97993eF66b" target="_blank">View Contract on Etherscan</a>
+  <a href="https://sepolia.etherscan.io/address/0xB85cA26dABD72CcC935189aA0391D20D961662f5" target="_blank">View Contract on Etherscan</a>
 </footer>
 
 <script>
-const CA  = "0xb1a35954c4047E26EcA526E2098b8c97993eF66b";
+const CA  = "0xB85cA26dABD72CcC935189aA0391D20D961662f5";
 const ABI = [
   "function registerDomain(string,string) external",
   "function getDomain(string) external view returns (address,string,uint256,uint256,bool)",
   "function getOwnerDomains(address) external view returns (string[])",
-  "function isDomainTaken(string) public view returns (bool)"
+  "function isDomainTaken(string) public view returns (bool)",
+  "function transferDomain(string,address) external",
+  "function renewDomain(string) external",
+  "function setResolver(string,string) external",
+  "function getTotalDomains() external view returns (uint256)"
 ];
-
-// ── FIX 1: Multiple fallback RPCs for Sepolia ──────────────────────────────
-const SEPOLIA_RPCS = [
-  "https://ethereum-sepolia-rpc.publicnode.com",
+const RPCS = [
+  "https://rpc.ankr.com/eth_sepolia",
+  "https://sepolia.drpc.org",
   "https://rpc2.sepolia.org",
-  "https://sepolia.drpc.org"
+  "https://ethereum-sepolia-rpc.publicnode.com"
 ];
-const SEPOLIA_CHAIN_ID = 11155111;
+const CHAIN_ID   = 11155111;
+const ETHERSCAN  = "https://sepolia.etherscan.io";
+const MAX_HIST   = 6;
 
-let provider, signer, contract, myAddr, currentDomain = '';
+let provider, signer, contract, myAddr;
+let currentDomain = '', transferTarget = '', renewTarget = '';
+let cdInterval = null, toastTimer = null;
 
-// ── FIX 2: Always use a reliable read-only provider (not wallet provider) ──
-function getReadProvider() {
-  // Always use a dedicated JsonRpcProvider for READ calls
-  // This avoids using the wallet's Web3Provider which may be on wrong network
-  return new ethers.providers.FallbackProvider(
-    SEPOLIA_RPCS.map((url, i) => ({
-      provider: new ethers.providers.JsonRpcProvider(url),
-      priority: i + 1,
-      stallTimeout: 2000,
-      weight: 1
-    })),
-    1 // quorum = 1 (first to respond wins)
-  );
+// ── RPC Fallback ──────────────────────────────────────────────────────────────
+async function getRC() {
+  for (const url of RPCS) {
+    try {
+      const rp = new ethers.providers.JsonRpcProvider(url);
+      await Promise.race([
+        rp.getBlockNumber(),
+        new Promise((_, r) => setTimeout(() => r(new Error('timeout')), 5000))
+      ]);
+      return new ethers.Contract(CA, ABI, rp);
+    } catch { continue; }
+  }
+  throw new Error('All RPCs failed. Check your internet connection.');
 }
 
-function openModal() { document.getElementById('ov').classList.add('on'); }
-function closeModal() { document.getElementById('ov').classList.remove('on'); }
+// ── Helpers ───────────────────────────────────────────────────────────────────
+const $  = id => document.getElementById(id);
+const openModal  = () => $('ov').classList.add('on');
+const closeModal = () => $('ov').classList.remove('on');
+const showErr = msg => { $('errText').textContent = msg; $('errBanner').classList.add('on'); };
+const closeErr = () => $('errBanner').classList.remove('on');
+const spin = (id, on) => $(id).className = 'spin' + (on ? ' on' : '');
+const setMsg = (id, txt, cls) => { $(id).textContent = txt; $(id).className = 'msg on ' + cls; };
+const fmtAddr = a => a.slice(0,8) + '...' + a.slice(-6);
 
-function showErr(msg) {
-  document.getElementById('errText').textContent = msg;
-  document.getElementById('errBanner').classList.add('on');
+function showToast(msg) {
+  $('toast').textContent = msg;
+  $('toast').classList.add('on');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => $('toast').classList.remove('on'), 3000);
 }
-function closeErr() { document.getElementById('errBanner').classList.remove('on'); }
 
-function spin(id, on) { document.getElementById(id).className = 'spin' + (on ? ' on' : ''); }
-function setMsg(id, txt, cls) {
-  const el = document.getElementById(id);
-  el.textContent = txt;
-  el.className = 'msg on ' + cls;
+function copyText(text) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => showToast('Copied!')).catch(() => fbCopy(text));
+  } else fbCopy(text);
+}
+function fbCopy(text) {
+  const t = document.createElement('textarea');
+  t.value = text; t.style.cssText = 'position:fixed;opacity:0';
+  document.body.appendChild(t); t.select();
+  try { document.execCommand('copy'); showToast('Copied!'); } catch { showToast('Copy failed.'); }
+  document.body.removeChild(t);
 }
 
-// ── FIX 3: Switch to Sepolia before connecting ─────────────────────────────
-async function switchToSepolia() {
+// ── Countdown ─────────────────────────────────────────────────────────────────
+function startCD(expTs) {
+  if (cdInterval) clearInterval(cdInterval);
+  const el = $('countdown');
+  const tick = () => {
+    const diff = expTs - Math.floor(Date.now() / 1000);
+    if (diff <= 0) { el.textContent = '⚠ Expired'; el.classList.add('on'); clearInterval(cdInterval); return; }
+    const d = Math.floor(diff/86400), h = Math.floor(diff%86400/3600),
+          m = Math.floor(diff%3600/60), s = diff%60;
+    el.textContent = `⏱ Expires in: ${d}d ${h}h ${m}m ${s}s`;
+    el.classList.add('on');
+  };
+  tick(); cdInterval = setInterval(tick, 1000);
+}
+function stopCD() {
+  if (cdInterval) { clearInterval(cdInterval); cdInterval = null; }
+  $('countdown').classList.remove('on');
+}
+
+// ── History ───────────────────────────────────────────────────────────────────
+function getHist() { try { return JSON.parse(localStorage.getItem('dh') || '[]'); } catch { return []; } }
+function saveHist(n) {
+  let h = getHist().filter(x => x !== n); h.unshift(n);
+  if (h.length > MAX_HIST) h = h.slice(0, MAX_HIST);
+  localStorage.setItem('dh', JSON.stringify(h)); renderHist();
+}
+function clearHistory() { localStorage.removeItem('dh'); renderHist(); }
+function renderHist() {
+  const h = getHist(); const wrap = $('histWrap');
+  if (!h.length) { wrap.classList.remove('on'); return; }
+  $('histTags').innerHTML = h.map(x => `<span class="hist-tag" onclick="fillSearch('${x}')">${x}.eth</span>`).join('');
+  wrap.classList.add('on');
+}
+function fillSearch(n) { $('sInput').value = n; searchDomain(); }
+
+// ── Stats ─────────────────────────────────────────────────────────────────────
+async function loadStats() {
+  try { const rc = await getRC(); $('statTotal').textContent = (await rc.getTotalDomains()).toString(); }
+  catch { $('statTotal').textContent = '—'; }
+}
+
+// ── Network ───────────────────────────────────────────────────────────────────
+async function ensureSepolia() {
   try {
-    await window.ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: '0x' + SEPOLIA_CHAIN_ID.toString(16) }]
-    });
-  } catch (switchErr) {
-    // Chain not added yet — add it
-    if (switchErr.code === 4902) {
-      await window.ethereum.request({
-        method: 'wallet_addEthereumChain',
-        params: [{
-          chainId: '0x' + SEPOLIA_CHAIN_ID.toString(16),
-          chainName: 'Sepolia Testnet',
-          nativeCurrency: { name: 'SepoliaETH', symbol: 'ETH', decimals: 18 },
-          rpcUrls: SEPOLIA_RPCS,
-          blockExplorerUrls: ['https://sepolia.etherscan.io']
-        }]
-      });
-    } else {
-      throw switchErr;
-    }
+    await window.ethereum.request({ method:'wallet_switchEthereumChain', params:[{ chainId:'0x'+CHAIN_ID.toString(16) }] });
+  } catch(e) {
+    if (e.code === 4902) {
+      await window.ethereum.request({ method:'wallet_addEthereumChain', params:[{
+        chainId:'0x'+CHAIN_ID.toString(16), chainName:'Sepolia Testnet',
+        nativeCurrency:{ name:'SepoliaETH', symbol:'ETH', decimals:18 },
+        rpcUrls: RPCS, blockExplorerUrls:[ETHERSCAN]
+      }]});
+    } else if (e.code === 4001) {
+      throw new Error('Please switch to Sepolia Testnet.');
+    } else throw e;
   }
 }
 
+// ── Connect ───────────────────────────────────────────────────────────────────
 async function connect(type) {
-  closeModal();
-  closeErr();
-
-  if (!window.ethereum) {
-    showErr('No wallet detected. Please install MetaMask or Rabby extension first.');
-    return;
-  }
-
+  closeModal(); closeErr();
+  if (!window.ethereum) { showErr('No wallet found. Install MetaMask or Rabby.'); return; }
   try {
-    // FIX 4: Switch network BEFORE requesting accounts
-    await switchToSepolia();
-
-    await window.ethereum.request({ method: 'eth_requestAccounts' });
+    await ensureSepolia();
+    await window.ethereum.request({ method:'eth_requestAccounts' });
     provider = new ethers.providers.Web3Provider(window.ethereum);
     signer   = provider.getSigner();
     myAddr   = await signer.getAddress();
-
-    // FIX 5: Verify we're actually on Sepolia after connecting
-    const network = await provider.getNetwork();
-    if (network.chainId !== SEPOLIA_CHAIN_ID) {
-      showErr('Wrong network detected. Please switch to Sepolia Testnet.');
-      provider = signer = myAddr = null;
-      return;
-    }
-
+    const net = await provider.getNetwork();
+    if (net.chainId !== CHAIN_ID) { showErr('Wrong network. Switch to Sepolia.'); provider=signer=myAddr=null; return; }
     contract = new ethers.Contract(CA, ABI, signer);
-
-    const short = myAddr.slice(0,6) + '...' + myAddr.slice(-4);
-    const mmSrc = 'https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg';
-    const rSrc  = 'https://cdn.jsdelivr.net/gh/rabbykit/rabby-static/dist/images/rabby-logo.png';
-    const rFall = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%237c3aed'/%3E%3Ctext x='50%25' y='56%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='20' font-family='monospace'%3ER%3C/text%3E%3C/svg%3E";
-    const imgHtml = type === 'metamask'
-      ? `<img src="${mmSrc}">`
-      : `<img src="${rSrc}" onerror="this.src='${rFall}'">`;
-
-    document.getElementById('wArea').innerHTML = `
-      <div class="w-on">
-        <span class="dot"></span>${imgHtml}&nbsp;${short}
-        <button class="dis" onclick="disconnect()" title="Disconnect">✕</button>
-      </div>`;
-
-    document.getElementById('myBtn').disabled = false;
-
-    // Update register button if card already showing
-    const rb = document.getElementById('cardRegBtn');
-    const wh = document.getElementById('walletHint');
-    if (rb.style.display !== 'none' || wh.style.display !== 'none') {
-      rb.style.display = 'block'; rb.disabled = false;
-      wh.style.display = 'none';
-    }
-
+    const short = myAddr.slice(0,6)+'...'+myAddr.slice(-4);
+    const mm = 'https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg';
+    const rb = 'https://cdn.jsdelivr.net/gh/rabbykit/rabby-static/dist/images/rabby-logo.png';
+    const rf = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%237c3aed'/%3E%3Ctext x='50%25' y='56%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='20' font-family='monospace'%3ER%3C/text%3E%3C/svg%3E";
+    const img = type==='metamask' ? `<img src="${mm}">` : `<img src="${rb}" onerror="this.src='${rf}'">`;
+    $('wArea').innerHTML = `<div class="w-on"><span class="dot"></span>${img}&nbsp;${short}<button class="dis" onclick="disconnect()">✕</button></div>`;
+    $('myBtn').disabled = false;
+    const wh = $('walletHint'), regBtn = $('cardRegBtn');
+    if (wh.style.display === 'block') { wh.style.display='none'; regBtn.style.display='block'; regBtn.disabled=false; }
     window.ethereum.on('accountsChanged', () => location.reload());
     window.ethereum.on('chainChanged',    () => location.reload());
-
+    loadStats();
   } catch(e) {
-    if (e.code === 4001) {
-      showErr('Connection rejected by user.');
-    } else {
-      showErr('Connection failed: ' + (e.message || 'Unknown error'));
-    }
+    showErr(e.code===4001 ? 'Connection rejected.' : 'Failed: '+(e.message||''));
   }
 }
 
 function disconnect() {
-  provider = signer = contract = myAddr = null;
-  document.getElementById('wArea').innerHTML = `<button class="connect-btn" onclick="openModal()">Connect Wallet</button>`;
-  document.getElementById('myBtn').disabled = true;
-  document.getElementById('dList').className = 'dlist';
+  provider=signer=contract=myAddr=null; stopCD();
+  $('wArea').innerHTML = `<button class="connect-btn" onclick="openModal()">Connect Wallet</button>`;
+  $('myBtn').disabled = true;
+  $('dList').className = 'dlist';
+  $('statMine').textContent = '—';
 }
 
+// ── Search ────────────────────────────────────────────────────────────────────
 async function searchDomain() {
-  const val = document.getElementById('sInput').value.trim().toLowerCase().replace(/\.eth$/, '');
-  if (!val) return;
-  currentDomain = val;
-  closeErr();
-  document.getElementById('card').classList.remove('on');
-  document.getElementById('regMsg').className = 'msg';
+  const raw = $('sInput').value.trim().toLowerCase().replace(/\.eth$/,'');
+  if (!raw) return;
+  if (!/^[a-z0-9-]+$/.test(raw)) { showErr('Only letters (a-z), numbers, hyphens allowed.'); return; }
+  currentDomain = raw;
+  closeErr(); stopCD();
+  $('card').classList.remove('on');
+  $('regMsg').className = 'msg';
   spin('searchSpin', true);
-
   try {
-    // FIX 6: ALWAYS use the dedicated read provider for search
-    // Never use wallet provider (Web3Provider) for read calls
-    const readProvider = getReadProvider();
-    const rc = new ethers.Contract(CA, ABI, readProvider);
-
-    const taken = await rc.isDomainTaken(val);
-
-    document.getElementById('cardName').textContent = val + '.eth';
-    const badge   = document.getElementById('cardBadge');
-    const rb      = document.getElementById('cardRegBtn');
-    const wh      = document.getElementById('walletHint');
-    const details = document.getElementById('cardDetails');
+    const rc    = await getRC();
+    const taken = await rc.isDomainTaken(raw);
+    $('cardName').textContent = raw+'.eth';
+    const badge = $('cardBadge'), regBtn = $('cardRegBtn'), wh = $('walletHint');
+    const eLink = $('etherscanLink');
+    eLink.href = `${ETHERSCAN}/address/${CA}`; eLink.style.display = 'inline-flex';
 
     if (!taken) {
-      badge.textContent = 'Available';
-      badge.className   = 'badge av';
-      details.innerHTML = '<div style="font-size:12px;color:#999;padding:4px 0 8px;">This name is available to register.</div>';
-      rb.textContent    = 'Register ' + val + '.eth';
-      if (myAddr) {
-        rb.style.display = 'block'; rb.disabled = false;
-        wh.style.display = 'none';
-      } else {
-        rb.style.display = 'none';
-        wh.style.display = 'block';
-      }
+      badge.textContent='Available'; badge.className='badge av';
+      $('cardDetails').innerHTML='<div style="font-size:12px;color:#999;padding:4px 0 8px;">This name is available to register.</div>';
+      regBtn.textContent='Register '+raw+'.eth';
+      if (myAddr) { regBtn.style.display='block'; regBtn.disabled=false; wh.style.display='none'; }
+      else { regBtn.style.display='none'; wh.style.display='block'; }
     } else {
-      const d = await rc.getDomain(val);
-      badge.textContent = 'Registered';
-      badge.className   = 'badge tk';
-      const exp = new Date(d[3].toNumber() * 1000).toLocaleDateString();
-      details.innerHTML = `
-        <div class="card-row"><span class="cl">Owner</span><span class="cv">${d[0].slice(0,8)}...${d[0].slice(-6)}</span></div>
-        <div class="card-row"><span class="cl">Expires</span><span class="cv">${exp}</span></div>
-        <div class="card-row"><span class="cl">Status</span><span class="cv" style="color:${d[4]?'#2e7d32':'#c62828'}">${d[4]?'Active':'Expired'}</span></div>`;
-      rb.style.display = 'none';
-      wh.style.display = 'none';
+      const d = await rc.getDomain(raw);
+      const owner=d[0], expTs=d[3].toNumber();
+      const active = expTs >= Math.floor(Date.now()/1000);
+      const expDate = new Date(expTs*1000).toLocaleDateString();
+      badge.textContent = active?'Registered':'Expired';
+      badge.className   = active?'badge tk':'badge ex';
+      $('cardDetails').innerHTML = `
+        <div class="card-row"><span class="cl">Owner</span><span class="cv">${fmtAddr(owner)}<button class="copy-btn" onclick="copyText('${owner}')">copy</button></span></div>
+        <div class="card-row"><span class="cl">Expires</span><span class="cv">${expDate}</span></div>
+        <div class="card-row"><span class="cl">Status</span><span class="cv" style="color:${active?'#2e7d32':'#c62828'}">${active?'Active':'Expired'}</span></div>`;
+      if (active) startCD(expTs);
+      regBtn.style.display='none'; wh.style.display='none';
     }
-
-    document.getElementById('card').classList.add('on');
-
+    $('card').classList.add('on');
+    saveHist(raw);
   } catch(e) {
-    // FIX 7: Better error messaging
-    let errMsg = 'Search failed.';
-    if (e.code === 'CALL_EXCEPTION') {
-      errMsg = 'Contract not found on Sepolia. Check the contract address or try again.';
-    } else if (e.code === 'NETWORK_ERROR' || e.message?.includes('network')) {
-      errMsg = 'Network error. Check your internet connection and try again.';
-    } else {
-      errMsg = 'Search failed: ' + (e.reason || e.message || 'Unknown error');
-    }
-    showErr(errMsg);
+    let msg = e.code==='CALL_EXCEPTION'
+      ? 'Contract call failed. Verify contract on Etherscan.'
+      : 'Search failed: '+(e.reason||e.message||'Unknown error');
+    showErr(msg);
   }
-
   spin('searchSpin', false);
 }
 
+// ── Register ──────────────────────────────────────────────────────────────────
 async function registerFromCard() {
-  if (!contract || !myAddr) {
-    showErr('Please connect your wallet first.');
-    return;
-  }
-
-  // FIX 8: Verify network before sending transaction
+  if (!contract||!myAddr) { showErr('Connect wallet first.'); return; }
+  const btn = $('cardRegBtn'); btn.disabled=true;
+  spin('regSpin',true); $('regMsg').className='msg';
   try {
-    const network = await provider.getNetwork();
-    if (network.chainId !== SEPOLIA_CHAIN_ID) {
-      showErr('Wrong network. Please switch to Sepolia Testnet and try again.');
-      await switchToSepolia();
-      return;
-    }
-  } catch(e) {
-    showErr('Could not verify network. Please reconnect your wallet.');
-    return;
-  }
-
-  const rb = document.getElementById('cardRegBtn');
-  rb.disabled = true;
-  spin('regSpin', true);
-  document.getElementById('regMsg').className = 'msg';
-
-  try {
-    const tx = await contract.registerDomain(currentDomain, '');
-    setMsg('regMsg', 'Tx sent: ' + tx.hash.slice(0,20) + '...', 'inf');
+    const tx = await contract.registerDomain(currentDomain,'');
+    setMsg('regMsg','⏳ Tx sent: '+tx.hash.slice(0,20)+'...','inf');
     await tx.wait();
-    setMsg('regMsg', '✓ "' + currentDomain + '.eth" registered successfully!', 'ok');
-    await searchDomain();
+    setMsg('regMsg','✓ "'+currentDomain+'.eth" registered!','ok');
+    showToast('Domain registered!');
+    await searchDomain(); loadMyDomains(true); loadStats();
   } catch(e) {
-    let errMsg = e.reason || e.message || 'Transaction failed';
-    if (e.code === 4001) errMsg = 'Transaction rejected by user.';
-    setMsg('regMsg', '✗ ' + errMsg, 'err');
-    rb.disabled = false;
+    let msg=e.reason||e.message||'Failed'; if(e.code===4001)msg='Rejected.';
+    setMsg('regMsg','✗ '+msg,'err'); btn.disabled=false;
   }
-
-  spin('regSpin', false);
+  spin('regSpin',false);
 }
 
-async function loadMyDomains() {
-  if (!contract || !myAddr) return;
-  spin('mySpin', true);
-  document.getElementById('dList').className = 'dlist';
-
+// ── Transfer ──────────────────────────────────────────────────────────────────
+function openTransferModal(n) {
+  transferTarget=n; $('transferDomainName').textContent=n+'.eth';
+  $('transferAddr').value=''; $('transferMsg').className='msg';
+  $('transferConfirmBtn').disabled=false; $('transferOv').classList.add('on');
+}
+function closeTransferModal() { $('transferOv').classList.remove('on'); transferTarget=''; }
+async function confirmTransfer() {
+  if (!contract||!myAddr) { showErr('Wallet not connected.'); return; }
+  const to=$('transferAddr').value.trim();
+  if (!ethers.utils.isAddress(to)) { setMsg('transferMsg','Invalid address.','err'); return; }
+  if (to.toLowerCase()===myAddr.toLowerCase()) { setMsg('transferMsg','Cannot transfer to yourself.','err'); return; }
+  const btn=$('transferConfirmBtn'); btn.disabled=true;
+  setMsg('transferMsg','⏳ Processing...','inf');
   try {
-    // FIX 9: Use read provider for fetching domains too
-    const readProvider = getReadProvider();
-    const rc   = new ethers.Contract(CA, ABI, readProvider);
-    const list = await rc.getOwnerDomains(myAddr);
-    const box  = document.getElementById('dList');
-
-    if (!list.length) {
-      box.innerHTML = '<div style="font-size:12px;color:#bbb;padding:10px 0;">No domains registered yet.</div>';
-    } else {
-      box.innerHTML = list.map((d, i) => `
-        <div class="ditem">
-          <span class="ditem-name">${d}.eth</span>
-          <span class="ditem-n">#${i+1}</span>
-        </div>`).join('');
-    }
-    box.classList.add('on');
-
+    const tx=await contract.transferDomain(transferTarget,to);
+    setMsg('transferMsg','⏳ Tx sent...','inf');
+    await tx.wait();
+    setMsg('transferMsg','✓ Transferred!','ok');
+    showToast('Domain transferred!');
+    setTimeout(()=>{ closeTransferModal(); loadMyDomains(false); },1500);
   } catch(e) {
-    const box = document.getElementById('dList');
-    box.innerHTML = '<div style="font-size:12px;color:#c62828;">Failed to load domains: ' + (e.reason || e.message || 'Unknown error') + '</div>';
+    let msg=e.reason||e.message||'Failed'; if(e.code===4001)msg='Rejected.';
+    setMsg('transferMsg','✗ '+msg,'err'); btn.disabled=false;
+  }
+}
+
+// ── Renew ─────────────────────────────────────────────────────────────────────
+function openRenewModal(n) {
+  renewTarget=n; $('renewDomainName').textContent=n+'.eth';
+  $('renewMsg').className='msg'; $('renewConfirmBtn').disabled=false;
+  $('renewOv').classList.add('on');
+}
+function closeRenewModal() { $('renewOv').classList.remove('on'); renewTarget=''; }
+async function confirmRenew() {
+  if (!contract||!myAddr) { showErr('Wallet not connected.'); return; }
+  const btn=$('renewConfirmBtn'); btn.disabled=true;
+  setMsg('renewMsg','⏳ Processing...','inf');
+  try {
+    const tx=await contract.renewDomain(renewTarget);
+    setMsg('renewMsg','⏳ Tx sent...','inf');
+    await tx.wait();
+    setMsg('renewMsg','✓ Renewed for 1 year!','ok');
+    showToast('Domain renewed!');
+    setTimeout(()=>{ closeRenewModal(); loadMyDomains(false); },1500);
+  } catch(e) {
+    let msg=e.reason||e.message||'Failed'; if(e.code===4001)msg='Rejected.';
+    setMsg('renewMsg','✗ '+msg,'err'); btn.disabled=false;
+  }
+}
+
+// ── My Domains ────────────────────────────────────────────────────────────────
+async function loadMyDomains(silent) {
+  if (!myAddr) return;
+  if (!silent) { spin('mySpin',true); $('dList').className='dlist'; }
+  try {
+    const rc   = await getRC();
+    const list = await rc.getOwnerDomains(myAddr);
+    const box  = $('dList');
+    $('statMine').textContent = list.length.toString();
+    if (!list.length) {
+      box.innerHTML='<div style="font-size:12px;color:#bbb;padding:10px 0;">No domains registered yet.</div>';
+      box.classList.add('on'); if(!silent)spin('mySpin',false); return;
+    }
+    const now  = Math.floor(Date.now()/1000);
+    const data = await Promise.all(list.map(async n => {
+      try { const d=await rc.getDomain(n); return { n, expTs:d[3].toNumber() }; }
+      catch { return { n, expTs:0 }; }
+    }));
+    box.innerHTML = data.map(({n, expTs}) => {
+      const diff=expTs-now, expDate=expTs?new Date(expTs*1000).toLocaleDateString():'—';
+      const expired=diff<=0, soon=!expired&&diff<30*86400;
+      const cls=expired?'red':(soon?'orange':'');
+      const label=expired?'⚠ Expired':(soon?`⚡ Expires ${expDate}`:`Expires ${expDate}`);
+      return `<div class="ditem">
+        <div class="ditem-left">
+          <span class="ditem-name">${n}.eth</span>
+          <span class="ditem-exp ${cls}">${label}</span>
+        </div>
+        <div class="ditem-right">
+          <button class="sm-btn" onclick="copyText('${n}.eth')">copy</button>
+          <button class="sm-btn" onclick="openRenewModal('${n}')">Renew</button>
+          <button class="sm-btn" onclick="openTransferModal('${n}')">Transfer</button>
+        </div>
+      </div>`;
+    }).join('');
+    box.classList.add('on');
+  } catch(e) {
+    const box=$('dList');
+    box.innerHTML=`<div style="font-size:12px;color:#c62828;">Failed: ${e.reason||e.message||'Unknown'}</div>`;
     box.classList.add('on');
   }
-
-  spin('mySpin', false);
+  if (!silent) spin('mySpin',false);
 }
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+renderHist();
+loadStats();
 </script>
 </body>
 </html>
