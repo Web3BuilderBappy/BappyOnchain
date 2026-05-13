@@ -132,7 +132,6 @@ footer a:hover { text-decoration:underline; }
   </div>
 </header>
 
-<!-- inline error banner (no alert!) -->
 <div class="err-banner" id="errBanner">
   <span id="errText"></span>
   <button onclick="closeErr()">✕</button>
@@ -191,16 +190,38 @@ footer a:hover { text-decoration:underline; }
 </footer>
 
 <script>
-const CA = "0xb1a35954c4047E26EcA526E2098b8c97993eF66b";
+const CA  = "0xb1a35954c4047E26EcA526E2098b8c97993eF66b";
 const ABI = [
   "function registerDomain(string,string) external",
   "function getDomain(string) external view returns (address,string,uint256,uint256,bool)",
   "function getOwnerDomains(address) external view returns (string[])",
   "function isDomainTaken(string) public view returns (bool)"
 ];
-const RPC = "https://rpc.sepolia.org";
+
+// ── FIX 1: Multiple fallback RPCs for Sepolia ──────────────────────────────
+const SEPOLIA_RPCS = [
+  "https://ethereum-sepolia-rpc.publicnode.com",
+  "https://rpc2.sepolia.org",
+  "https://sepolia.drpc.org"
+];
+const SEPOLIA_CHAIN_ID = 11155111;
 
 let provider, signer, contract, myAddr, currentDomain = '';
+
+// ── FIX 2: Always use a reliable read-only provider (not wallet provider) ──
+function getReadProvider() {
+  // Always use a dedicated JsonRpcProvider for READ calls
+  // This avoids using the wallet's Web3Provider which may be on wrong network
+  return new ethers.providers.FallbackProvider(
+    SEPOLIA_RPCS.map((url, i) => ({
+      provider: new ethers.providers.JsonRpcProvider(url),
+      priority: i + 1,
+      stallTimeout: 2000,
+      weight: 1
+    })),
+    1 // quorum = 1 (first to respond wins)
+  );
+}
 
 function openModal() { document.getElementById('ov').classList.add('on'); }
 function closeModal() { document.getElementById('ov').classList.remove('on'); }
@@ -212,25 +233,69 @@ function showErr(msg) {
 function closeErr() { document.getElementById('errBanner').classList.remove('on'); }
 
 function spin(id, on) { document.getElementById(id).className = 'spin' + (on ? ' on' : ''); }
-function setMsg(id, txt, cls) { const el = document.getElementById(id); el.textContent = txt; el.className = 'msg on ' + cls; }
+function setMsg(id, txt, cls) {
+  const el = document.getElementById(id);
+  el.textContent = txt;
+  el.className = 'msg on ' + cls;
+}
+
+// ── FIX 3: Switch to Sepolia before connecting ─────────────────────────────
+async function switchToSepolia() {
+  try {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: '0x' + SEPOLIA_CHAIN_ID.toString(16) }]
+    });
+  } catch (switchErr) {
+    // Chain not added yet — add it
+    if (switchErr.code === 4902) {
+      await window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [{
+          chainId: '0x' + SEPOLIA_CHAIN_ID.toString(16),
+          chainName: 'Sepolia Testnet',
+          nativeCurrency: { name: 'SepoliaETH', symbol: 'ETH', decimals: 18 },
+          rpcUrls: SEPOLIA_RPCS,
+          blockExplorerUrls: ['https://sepolia.etherscan.io']
+        }]
+      });
+    } else {
+      throw switchErr;
+    }
+  }
+}
 
 async function connect(type) {
   closeModal();
   closeErr();
+
   if (!window.ethereum) {
     showErr('No wallet detected. Please install MetaMask or Rabby extension first.');
     return;
   }
+
   try {
+    // FIX 4: Switch network BEFORE requesting accounts
+    await switchToSepolia();
+
     await window.ethereum.request({ method: 'eth_requestAccounts' });
     provider = new ethers.providers.Web3Provider(window.ethereum);
-    signer = provider.getSigner();
-    myAddr = await signer.getAddress();
+    signer   = provider.getSigner();
+    myAddr   = await signer.getAddress();
+
+    // FIX 5: Verify we're actually on Sepolia after connecting
+    const network = await provider.getNetwork();
+    if (network.chainId !== SEPOLIA_CHAIN_ID) {
+      showErr('Wrong network detected. Please switch to Sepolia Testnet.');
+      provider = signer = myAddr = null;
+      return;
+    }
+
     contract = new ethers.Contract(CA, ABI, signer);
 
     const short = myAddr.slice(0,6) + '...' + myAddr.slice(-4);
     const mmSrc = 'https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg';
-    const rSrc = 'https://cdn.jsdelivr.net/gh/rabbykit/rabby-static/dist/images/rabby-logo.png';
+    const rSrc  = 'https://cdn.jsdelivr.net/gh/rabbykit/rabby-static/dist/images/rabby-logo.png';
     const rFall = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%237c3aed'/%3E%3Ctext x='50%25' y='56%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='20' font-family='monospace'%3ER%3C/text%3E%3C/svg%3E";
     const imgHtml = type === 'metamask'
       ? `<img src="${mmSrc}">`
@@ -244,7 +309,7 @@ async function connect(type) {
 
     document.getElementById('myBtn').disabled = false;
 
-    // update register button if card showing
+    // Update register button if card already showing
     const rb = document.getElementById('cardRegBtn');
     const wh = document.getElementById('walletHint');
     if (rb.style.display !== 'none' || wh.style.display !== 'none') {
@@ -253,9 +318,14 @@ async function connect(type) {
     }
 
     window.ethereum.on('accountsChanged', () => location.reload());
-    window.ethereum.on('chainChanged', () => location.reload());
+    window.ethereum.on('chainChanged',    () => location.reload());
+
   } catch(e) {
-    showErr('Connection cancelled or failed. Please try again.');
+    if (e.code === 4001) {
+      showErr('Connection rejected by user.');
+    } else {
+      showErr('Connection failed: ' + (e.message || 'Unknown error'));
+    }
   }
 }
 
@@ -267,7 +337,7 @@ function disconnect() {
 }
 
 async function searchDomain() {
-  const val = document.getElementById('sInput').value.trim().toLowerCase().replace(/\.eth$/,'');
+  const val = document.getElementById('sInput').value.trim().toLowerCase().replace(/\.eth$/, '');
   if (!val) return;
   currentDomain = val;
   closeErr();
@@ -276,41 +346,81 @@ async function searchDomain() {
   spin('searchSpin', true);
 
   try {
-    const rp = provider || new ethers.providers.JsonRpcProvider(RPC);
-    const rc = new ethers.Contract(CA, ABI, rp);
+    // FIX 6: ALWAYS use the dedicated read provider for search
+    // Never use wallet provider (Web3Provider) for read calls
+    const readProvider = getReadProvider();
+    const rc = new ethers.Contract(CA, ABI, readProvider);
+
     const taken = await rc.isDomainTaken(val);
 
     document.getElementById('cardName').textContent = val + '.eth';
-    const badge = document.getElementById('cardBadge');
-    const rb = document.getElementById('cardRegBtn');
-    const wh = document.getElementById('walletHint');
+    const badge   = document.getElementById('cardBadge');
+    const rb      = document.getElementById('cardRegBtn');
+    const wh      = document.getElementById('walletHint');
     const details = document.getElementById('cardDetails');
 
     if (!taken) {
-      badge.textContent = 'Available'; badge.className = 'badge av';
+      badge.textContent = 'Available';
+      badge.className   = 'badge av';
       details.innerHTML = '<div style="font-size:12px;color:#999;padding:4px 0 8px;">This name is available to register.</div>';
-      if (myAddr) { rb.style.display = 'block'; rb.disabled = false; wh.style.display = 'none'; }
-      else { rb.style.display = 'none'; wh.style.display = 'block'; }
-      rb.textContent = 'Register ' + val + '.eth';
+      rb.textContent    = 'Register ' + val + '.eth';
+      if (myAddr) {
+        rb.style.display = 'block'; rb.disabled = false;
+        wh.style.display = 'none';
+      } else {
+        rb.style.display = 'none';
+        wh.style.display = 'block';
+      }
     } else {
       const d = await rc.getDomain(val);
-      badge.textContent = 'Registered'; badge.className = 'badge tk';
+      badge.textContent = 'Registered';
+      badge.className   = 'badge tk';
       const exp = new Date(d[3].toNumber() * 1000).toLocaleDateString();
       details.innerHTML = `
         <div class="card-row"><span class="cl">Owner</span><span class="cv">${d[0].slice(0,8)}...${d[0].slice(-6)}</span></div>
         <div class="card-row"><span class="cl">Expires</span><span class="cv">${exp}</span></div>
         <div class="card-row"><span class="cl">Status</span><span class="cv" style="color:${d[4]?'#2e7d32':'#c62828'}">${d[4]?'Active':'Expired'}</span></div>`;
-      rb.style.display = 'none'; wh.style.display = 'none';
+      rb.style.display = 'none';
+      wh.style.display = 'none';
     }
+
     document.getElementById('card').classList.add('on');
+
   } catch(e) {
-    showErr('Search failed: ' + (e.reason || e.message));
+    // FIX 7: Better error messaging
+    let errMsg = 'Search failed.';
+    if (e.code === 'CALL_EXCEPTION') {
+      errMsg = 'Contract not found on Sepolia. Check the contract address or try again.';
+    } else if (e.code === 'NETWORK_ERROR' || e.message?.includes('network')) {
+      errMsg = 'Network error. Check your internet connection and try again.';
+    } else {
+      errMsg = 'Search failed: ' + (e.reason || e.message || 'Unknown error');
+    }
+    showErr(errMsg);
   }
+
   spin('searchSpin', false);
 }
 
 async function registerFromCard() {
-  if (!contract) { showErr('Please connect your wallet first.'); return; }
+  if (!contract || !myAddr) {
+    showErr('Please connect your wallet first.');
+    return;
+  }
+
+  // FIX 8: Verify network before sending transaction
+  try {
+    const network = await provider.getNetwork();
+    if (network.chainId !== SEPOLIA_CHAIN_ID) {
+      showErr('Wrong network. Please switch to Sepolia Testnet and try again.');
+      await switchToSepolia();
+      return;
+    }
+  } catch(e) {
+    showErr('Could not verify network. Please reconnect your wallet.');
+    return;
+  }
+
   const rb = document.getElementById('cardRegBtn');
   rb.disabled = true;
   spin('regSpin', true);
@@ -323,9 +433,12 @@ async function registerFromCard() {
     setMsg('regMsg', '✓ "' + currentDomain + '.eth" registered successfully!', 'ok');
     await searchDomain();
   } catch(e) {
-    setMsg('regMsg', '✗ ' + (e.reason || e.message), 'err');
+    let errMsg = e.reason || e.message || 'Transaction failed';
+    if (e.code === 4001) errMsg = 'Transaction rejected by user.';
+    setMsg('regMsg', '✗ ' + errMsg, 'err');
     rb.disabled = false;
   }
+
   spin('regSpin', false);
 }
 
@@ -335,23 +448,29 @@ async function loadMyDomains() {
   document.getElementById('dList').className = 'dlist';
 
   try {
-    const list = await contract.getOwnerDomains(myAddr);
-    const box = document.getElementById('dList');
+    // FIX 9: Use read provider for fetching domains too
+    const readProvider = getReadProvider();
+    const rc   = new ethers.Contract(CA, ABI, readProvider);
+    const list = await rc.getOwnerDomains(myAddr);
+    const box  = document.getElementById('dList');
+
     if (!list.length) {
       box.innerHTML = '<div style="font-size:12px;color:#bbb;padding:10px 0;">No domains registered yet.</div>';
     } else {
-      box.innerHTML = list.map((d,i) => `
+      box.innerHTML = list.map((d, i) => `
         <div class="ditem">
           <span class="ditem-name">${d}.eth</span>
           <span class="ditem-n">#${i+1}</span>
         </div>`).join('');
     }
     box.classList.add('on');
+
   } catch(e) {
     const box = document.getElementById('dList');
-    box.innerHTML = '<div style="font-size:12px;color:#c62828;">Failed to load domains.</div>';
+    box.innerHTML = '<div style="font-size:12px;color:#c62828;">Failed to load domains: ' + (e.reason || e.message || 'Unknown error') + '</div>';
     box.classList.add('on');
   }
+
   spin('mySpin', false);
 }
 </script>
