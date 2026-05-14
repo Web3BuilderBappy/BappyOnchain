@@ -6,141 +6,178 @@
 <title>Domain Registry — Sepolia</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: monospace; background:#fff; color:#111; }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:monospace;background:#fff;color:#111;}
 
-header {
-  border-bottom: 2px solid #111;
-  padding: 14px 18px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.logo { font-size:16px; font-weight:bold; }
-.logo span { color:#999; font-weight:normal; }
-.connect-btn { border:1.5px solid #111; padding:7px 14px; background:#fff; cursor:pointer; font-family:monospace; font-size:12px; font-weight:bold; }
-.connect-btn:hover { background:#111; color:#fff; }
-.w-on { display:flex; align-items:center; gap:6px; border:1.5px solid #111; padding:6px 12px; background:#111; color:#fff; font-family:monospace; font-size:12px; }
-.dot { width:7px; height:7px; background:#4caf50; border-radius:50%; }
-.w-on img { width:16px; height:16px; object-fit:contain; }
-.dis { background:none; border:none; color:#888; cursor:pointer; font-size:12px; margin-left:2px; }
-.dis:hover { color:#fff; }
+/* ── Header ── */
+header{border-bottom:2px solid #111;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-size:16px;font-weight:bold;}
+.logo span{color:#999;font-weight:normal;}
+.hdr-right{display:flex;align-items:center;gap:10px;}
 
-.ov { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:99; align-items:center; justify-content:center; }
-.ov.on { display:flex; }
-.modal { background:#fff; border:2px solid #111; padding:22px; width:260px; }
-.modal h3 { font-size:12px; font-weight:bold; letter-spacing:2px; text-transform:uppercase; margin-bottom:14px; }
-.wopt { display:flex; align-items:center; gap:10px; padding:10px; border:1.5px solid #ddd; cursor:pointer; margin-bottom:8px; font-family:monospace; font-size:13px; }
-.wopt:hover { border-color:#111; }
-.wopt img { width:22px; height:22px; object-fit:contain; }
-.can { width:100%; padding:9px; margin-top:2px; border:1.5px solid #111; background:#fff; cursor:pointer; font-family:monospace; font-size:12px; }
-.can:hover { background:#111; color:#fff; }
+.connect-btn{border:1.5px solid #111;padding:7px 14px;background:#fff;cursor:pointer;font-family:monospace;font-size:12px;font-weight:bold;}
+.connect-btn:hover{background:#111;color:#fff;}
 
-.err-banner { display:none; background:#fff3f3; border:1.5px solid #e53935; padding:10px 14px; font-size:12px; color:#c62828; margin:0 18px; margin-top:12px; }
-.err-banner.on { display:flex; align-items:center; justify-content:space-between; }
-.err-banner button { background:none; border:none; color:#c62828; cursor:pointer; font-size:14px; }
+.w-on{display:flex;align-items:center;gap:6px;border:1.5px solid #111;padding:6px 12px;background:#111;color:#fff;font-family:monospace;font-size:12px;}
+.dot{width:7px;height:7px;background:#4caf50;border-radius:50%;flex-shrink:0;}
+.w-on svg,.w-on img{width:16px;height:16px;object-fit:contain;flex-shrink:0;}
+.dis{background:none;border:none;color:#888;cursor:pointer;font-size:14px;margin-left:4px;line-height:1;}
+.dis:hover{color:#fff;}
 
-.toast { position:fixed; bottom:20px; right:20px; background:#111; color:#fff; padding:10px 16px; font-size:12px; font-family:monospace; border:1.5px solid #333; z-index:999; display:none; max-width:280px; }
-.toast.on { display:block; }
+/* ── Modals ── */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99;align-items:center;justify-content:center;}
+.ov.on{display:flex;}
+.modal{background:#fff;border:2px solid #111;padding:22px;width:270px;}
+.modal h3{font-size:11px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
+.wopt{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1.5px solid #ddd;cursor:pointer;margin-bottom:8px;font-family:monospace;font-size:13px;transition:border-color .15s;}
+.wopt:hover{border-color:#111;}
+.wopt svg,.wopt img{width:24px;height:24px;object-fit:contain;flex-shrink:0;}
+.can{width:100%;padding:9px;margin-top:4px;border:1.5px solid #111;background:#fff;cursor:pointer;font-family:monospace;font-size:12px;}
+.can:hover{background:#111;color:#fff;}
 
-main { max-width:500px; margin:0 auto; padding:24px 18px; }
+.t-modal{background:#fff;border:2px solid #111;padding:22px;width:310px;}
+.t-modal h3{font-size:11px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.t-sub{font-size:12px;color:#777;margin-bottom:14px;}
+.t-input{width:100%;border:1.5px solid #111;padding:9px;font-family:monospace;font-size:12px;outline:none;margin-bottom:10px;}
+.t-input::placeholder{color:#ccc;}
+.t-btn{width:100%;padding:10px;border:1.5px solid #111;background:#111;color:#fff;cursor:pointer;font-family:monospace;font-size:12px;margin-bottom:6px;}
+.t-btn:hover{background:#333;}
+.t-btn:disabled{background:#ccc;border-color:#ccc;cursor:not-allowed;}
 
-.stats-bar { display:flex; gap:12px; margin-bottom:22px; flex-wrap:wrap; }
-.stat-box { border:1px solid #ddd; padding:8px 14px; font-size:11px; flex:1; min-width:100px; }
-.stat-box .sv { font-size:16px; font-weight:bold; display:block; margin-bottom:2px; }
-.stat-box .sl { color:#999; }
+/* ── Error banner ── */
+.err-banner{display:none;background:#fff3f3;border:1.5px solid #e53935;padding:10px 14px;font-size:12px;color:#c62828;margin:12px 18px 0;}
+.err-banner.on{display:flex;align-items:center;justify-content:space-between;}
+.err-banner button{background:none;border:none;color:#c62828;cursor:pointer;font-size:15px;}
 
-.ntag { display:inline-flex; align-items:center; gap:5px; border:1px solid #ccc; padding:3px 9px; font-size:11px; color:#666; margin-bottom:22px; }
-.ndot { width:6px; height:6px; background:#4caf50; border-radius:50%; }
-h1 { font-size:20px; margin-bottom:4px; }
-.sub { font-size:12px; color:#999; margin-bottom:26px; }
+/* ── Toast ── */
+.toast{position:fixed;bottom:22px;right:22px;background:#111;color:#fff;padding:11px 16px;font-size:12px;font-family:monospace;border:1.5px solid #444;z-index:999;display:none;max-width:290px;line-height:1.4;}
+.toast.on{display:block;}
 
-.searchbar { display:flex; border:2px solid #111; margin-bottom:6px; }
-.searchbar input { flex:1; border:none; padding:11px 13px; font-family:monospace; font-size:14px; outline:none; }
-.searchbar input::placeholder { color:#ccc; }
-.searchbar button { border:none; border-left:2px solid #111; background:#111; color:#fff; padding:0 16px; cursor:pointer; font-family:monospace; font-size:13px; font-weight:bold; }
-.searchbar button:hover { background:#333; }
+/* ── Loading overlay (full-page spinner) ── */
+.loader-overlay{display:none;position:fixed;inset:0;background:rgba(255,255,255,.8);z-index:88;align-items:center;justify-content:center;flex-direction:column;gap:12px;}
+.loader-overlay.on{display:flex;}
+.spinner{width:32px;height:32px;border:3px solid #ddd;border-top-color:#111;border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loader-txt{font-size:12px;color:#555;}
 
-.hist-wrap { margin-bottom:12px; display:none; }
-.hist-wrap.on { display:block; }
-.hist-label { font-size:10px; color:#bbb; letter-spacing:1px; text-transform:uppercase; margin-bottom:5px; }
-.hist-tags { display:flex; flex-wrap:wrap; gap:5px; }
-.hist-tag { font-size:11px; border:1px solid #ddd; padding:3px 8px; cursor:pointer; color:#666; }
-.hist-tag:hover { border-color:#111; color:#111; }
-.hist-clear { font-size:10px; color:#bbb; cursor:pointer; margin-left:4px; border:none; background:none; }
-.hist-clear:hover { color:#e53935; }
+/* ── Main layout ── */
+main{max-width:520px;margin:0 auto;padding:26px 18px;}
 
-.spin { display:none; font-size:11px; color:#999; margin-bottom:10px; }
-.spin.on { display:block; }
+/* Stats */
+.stats-bar{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;}
+.stat-box{border:1px solid #e0e0e0;padding:10px 14px;font-size:11px;flex:1;min-width:110px;}
+.stat-box .sv{font-size:17px;font-weight:bold;display:block;margin-bottom:2px;}
+.stat-box .sl{color:#999;}
 
-.card { border:1.5px solid #111; padding:16px; margin-bottom:10px; display:none; }
-.card.on { display:block; }
-.card-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
-.dname { font-size:15px; font-weight:bold; }
-.badge { font-size:10px; font-weight:bold; padding:3px 8px; border:1px solid; letter-spacing:1px; text-transform:uppercase; }
-.badge.av { border-color:#4caf50; color:#2e7d32; }
-.badge.tk { border-color:#999; color:#777; }
-.badge.ex { border-color:#e53935; color:#c62828; }
+.ntag{display:inline-flex;align-items:center;gap:5px;border:1px solid #ccc;padding:3px 9px;font-size:11px;color:#666;margin-bottom:20px;}
+.ndot{width:6px;height:6px;background:#4caf50;border-radius:50%;}
+h1{font-size:20px;margin-bottom:4px;}
+.sub{font-size:12px;color:#999;margin-bottom:24px;}
 
-.card-row { display:flex; justify-content:space-between; align-items:center; font-size:11px; padding:5px 0; border-bottom:1px solid #f0f0f0; }
-.card-row:last-of-type { border-bottom:none; }
-.cl { color:#999; }
-.cv { font-weight:bold; word-break:break-all; max-width:65%; text-align:right; display:flex; align-items:center; gap:5px; justify-content:flex-end; }
-.copy-btn { background:none; border:1px solid #ddd; cursor:pointer; font-size:10px; padding:1px 5px; font-family:monospace; color:#999; flex-shrink:0; }
-.copy-btn:hover { border-color:#111; color:#111; }
+/* Search */
+.searchbar{display:flex;border:2px solid #111;margin-bottom:6px;}
+.searchbar input{flex:1;border:none;padding:11px 13px;font-family:monospace;font-size:14px;outline:none;}
+.searchbar input::placeholder{color:#ccc;}
+.searchbar button{border:none;border-left:2px solid #111;background:#111;color:#fff;padding:0 18px;cursor:pointer;font-family:monospace;font-size:13px;font-weight:bold;}
+.searchbar button:hover{background:#333;}
 
-.countdown { font-size:11px; color:#e65100; font-weight:bold; margin-top:6px; padding:4px 8px; border:1px solid #ffe0b2; background:#fff8f0; display:none; }
-.countdown.on { display:block; }
+/* Inline spinner (search/load) */
+.spin{display:none;font-size:11px;color:#999;margin-bottom:8px;align-items:center;gap:7px;}
+.spin.on{display:flex;}
+.mini-spin{width:12px;height:12px;border:2px solid #ddd;border-top-color:#111;border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0;}
 
-.card-actions { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
-.reg-btn { flex:1; padding:10px; border:1.5px solid #111; background:#111; color:#fff; cursor:pointer; font-family:monospace; font-size:13px; font-weight:bold; min-width:120px; }
-.reg-btn:hover { background:#333; }
-.reg-btn:disabled { background:#ccc; border-color:#ccc; cursor:not-allowed; }
-.action-btn { padding:10px 12px; border:1.5px solid #ddd; background:#fff; cursor:pointer; font-family:monospace; font-size:11px; color:#666; text-decoration:none; display:inline-flex; align-items:center; }
-.action-btn:hover { border-color:#111; color:#111; }
-.wallet-hint { font-size:11px; color:#999; margin-top:8px; text-align:center; }
+/* History */
+.hist-wrap{margin-bottom:12px;display:none;}
+.hist-wrap.on{display:block;}
+.hist-label{font-size:10px;color:#bbb;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
+.hist-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.hist-tag{font-size:11px;border:1px solid #e0e0e0;padding:3px 9px;cursor:pointer;color:#666;}
+.hist-tag:hover{border-color:#111;color:#111;}
+.hist-clear{font-size:10px;color:#ccc;cursor:pointer;margin-left:6px;border:none;background:none;}
+.hist-clear:hover{color:#e53935;}
 
-.msg { display:none; padding:9px 12px; border:1.5px solid; font-size:12px; margin-top:8px; }
-.msg.on { display:block; }
-.msg.ok { border-color:#4caf50; color:#2e7d32; }
-.msg.err { border-color:#e53935; color:#c62828; }
-.msg.inf { border-color:#111; color:#111; }
+/* Result card */
+.card{border:1.5px solid #111;padding:18px;margin-bottom:12px;display:none;}
+.card.on{display:block;}
+.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.dname{font-size:15px;font-weight:bold;}
+.badge{font-size:10px;font-weight:bold;padding:3px 9px;border:1px solid;letter-spacing:1px;text-transform:uppercase;}
+.badge.av{border-color:#4caf50;color:#2e7d32;}
+.badge.tk{border-color:#888;color:#666;}
+.badge.ex{border-color:#e53935;color:#c62828;}
 
-.t-modal { background:#fff; border:2px solid #111; padding:22px; width:300px; }
-.t-modal h3 { font-size:12px; font-weight:bold; letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; }
-.t-sub { font-size:12px; color:#999; margin-bottom:12px; }
-.t-input { width:100%; border:1.5px solid #111; padding:9px; font-family:monospace; font-size:12px; outline:none; margin-bottom:10px; }
-.t-input::placeholder { color:#ccc; }
-.t-btn { width:100%; padding:9px; border:1.5px solid #111; background:#111; color:#fff; cursor:pointer; font-family:monospace; font-size:12px; margin-bottom:6px; }
-.t-btn:hover { background:#333; }
-.t-btn:disabled { background:#ccc; border-color:#ccc; cursor:not-allowed; }
+.card-row{display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:6px 0;border-bottom:1px solid #f2f2f2;}
+.card-row:last-of-type{border-bottom:none;}
+.cl{color:#999;}
+.cv{font-weight:bold;word-break:break-all;max-width:65%;text-align:right;display:flex;align-items:center;gap:5px;justify-content:flex-end;}
 
-.sec-title { font-size:10px; font-weight:bold; letter-spacing:2px; text-transform:uppercase; color:#aaa; border-bottom:1px solid #eee; padding-bottom:6px; margin-bottom:12px; margin-top:28px; }
-.my-btn { width:100%; padding:9px; border:1.5px solid #111; background:#fff; cursor:pointer; font-family:monospace; font-size:12px; }
-.my-btn:hover { background:#f5f5f5; }
-.my-btn:disabled { color:#ccc; border-color:#ddd; cursor:not-allowed; }
-.dlist { margin-top:10px; display:none; }
-.dlist.on { display:block; }
-.ditem { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid #f0f0f0; font-size:12px; flex-wrap:wrap; gap:6px; }
-.ditem:last-child { border-bottom:none; }
-.ditem-left { display:flex; flex-direction:column; gap:3px; }
-.ditem-name { font-weight:bold; }
-.ditem-exp { font-size:10px; color:#999; }
-.ditem-exp.red { color:#e53935; }
-.ditem-exp.orange { color:#e65100; }
-.ditem-right { display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
-.sm-btn { font-size:10px; border:1px solid #ddd; padding:3px 7px; cursor:pointer; background:#fff; font-family:monospace; color:#666; }
-.sm-btn:hover { border-color:#111; color:#111; }
+.copy-btn{background:none;border:1px solid #e0e0e0;cursor:pointer;font-size:10px;padding:2px 6px;font-family:monospace;color:#999;flex-shrink:0;}
+.copy-btn:hover{border-color:#111;color:#111;}
 
-footer { border-top:1px solid #eee; padding:12px 18px; text-align:center; font-size:11px; color:#ccc; margin-top:20px; }
-footer a { color:#aaa; text-decoration:none; }
-footer a:hover { text-decoration:underline; }
+/* Countdown */
+.countdown{font-size:11px;color:#e65100;font-weight:bold;margin-top:8px;padding:5px 9px;border:1px solid #ffe0b2;background:#fff8f0;display:none;}
+.countdown.on{display:block;}
+
+/* Card actions */
+.card-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.reg-btn{flex:1;padding:11px;border:1.5px solid #111;background:#111;color:#fff;cursor:pointer;font-family:monospace;font-size:13px;font-weight:bold;min-width:130px;}
+.reg-btn:hover{background:#333;}
+.reg-btn:disabled{background:#bbb;border-color:#bbb;cursor:not-allowed;}
+.action-btn{padding:10px 12px;border:1.5px solid #ddd;background:#fff;cursor:pointer;font-family:monospace;font-size:11px;color:#666;text-decoration:none;display:inline-flex;align-items:center;gap:4px;}
+.action-btn:hover{border-color:#111;color:#111;}
+
+.wallet-hint{font-size:11px;color:#999;margin-top:10px;text-align:center;}
+
+.msg{display:none;padding:9px 12px;border:1.5px solid;font-size:12px;margin-top:10px;line-height:1.5;}
+.msg.on{display:block;}
+.msg.ok{border-color:#4caf50;color:#2e7d32;background:#f1fdf4;}
+.msg.err{border-color:#e53935;color:#c62828;background:#fff3f3;}
+.msg.inf{border-color:#111;color:#111;background:#f8f8f8;}
+
+/* Tx link */
+.tx-link{display:none;font-size:11px;margin-top:6px;color:#111;border-bottom:1px solid #ccc;cursor:pointer;width:fit-content;}
+.tx-link.on{display:block;}
+.tx-link:hover{color:#555;}
+
+/* My domains */
+.sec-title{font-size:10px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;color:#aaa;border-bottom:1px solid #eee;padding-bottom:6px;margin-bottom:12px;margin-top:30px;}
+.my-btn{width:100%;padding:9px;border:1.5px solid #111;background:#fff;cursor:pointer;font-family:monospace;font-size:12px;}
+.my-btn:hover{background:#f5f5f5;}
+.my-btn:disabled{color:#ccc;border-color:#ddd;cursor:not-allowed;}
+.dlist{margin-top:10px;display:none;}
+.dlist.on{display:block;}
+.ditem{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f2f2f2;gap:6px;flex-wrap:wrap;}
+.ditem:last-child{border-bottom:none;}
+.ditem-left{display:flex;flex-direction:column;gap:3px;}
+.ditem-name{font-size:13px;font-weight:bold;}
+.ditem-exp{font-size:10px;color:#999;}
+.ditem-exp.red{color:#e53935;}
+.ditem-exp.orange{color:#e65100;}
+.ditem-right{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.sm-btn{font-size:10px;border:1px solid #e0e0e0;padding:3px 8px;cursor:pointer;background:#fff;font-family:monospace;color:#666;}
+.sm-btn:hover{border-color:#111;color:#111;}
+
+/* Footer */
+footer{border-top:1px solid #eee;padding:14px 18px;font-size:11px;color:#ccc;margin-top:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+footer a{color:#aaa;text-decoration:none;}
+footer a:hover{color:#111;}
+.footer-contract{display:flex;align-items:center;gap:6px;font-size:11px;color:#bbb;}
 </style>
 </head>
 <body>
 
+<!-- Full-page loader -->
+<div class="loader-overlay" id="loaderOverlay">
+  <div class="spinner"></div>
+  <div class="loader-txt" id="loaderTxt">Processing...</div>
+</div>
+
 <header>
   <div class="logo">domains<span>.eth</span></div>
-  <div id="wArea">
-    <button class="connect-btn" onclick="openModal()">Connect Wallet</button>
+  <div class="hdr-right">
+    <div id="wArea">
+      <button class="connect-btn" onclick="openModal()">Connect Wallet</button>
+    </div>
   </div>
 </header>
 
@@ -150,47 +187,65 @@ footer a:hover { text-decoration:underline; }
 </div>
 <div class="toast" id="toast"></div>
 
-<!-- Wallet Modal -->
+<!-- ── Wallet Modal ── -->
 <div class="ov" id="ov">
   <div class="modal">
     <h3>Select Wallet</h3>
-    <div class="wopt" onclick="connect('metamask')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MM">MetaMask
+    <!-- MetaMask -->
+    <div class="wopt" onclick="connectWallet('metamask')">
+      <img src="https://i.postimg.cc/tRvmSVhJ/images.png" width="24" height="24" alt="MetaMask" style="flex-shrink:0;">
+      MetaMask
     </div>
-    <div class="wopt" onclick="connect('rabby')">
-      <img src="https://cdn.jsdelivr.net/gh/rabbykit/rabby-static/dist/images/rabby-logo.png"
-        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Crect width=%2240%22 height=%2240%22 rx=%228%22 fill=%22%237c3aed%22/%3E%3Ctext x=%2250%25%22 y=%2256%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2220%22 font-family=%22monospace%22%3ER%3C/text%3E%3C/svg%3E'" alt="Rabby">
+    <!-- Rabby Wallet -->
+    <div class="wopt" onclick="connectWallet('rabby')">
+      <img src="https://i.postimg.cc/xjmb7wmw/images.jpg" width="24" height="24" alt="Rabby" style="flex-shrink:0;border-radius:5px;">
       Rabby Wallet
     </div>
     <button class="can" onclick="closeModal()">Cancel</button>
   </div>
 </div>
 
-<!-- Transfer Modal -->
+<!-- ── Transfer Modal ── -->
 <div class="ov" id="transferOv">
   <div class="t-modal">
     <h3>Transfer Domain</h3>
-    <div class="t-sub">Transferring: <strong id="transferDomainName"></strong></div>
-    <input class="t-input" id="transferAddr" placeholder="Recipient address (0x...)" />
+    <div class="t-sub">Domain: <strong id="transferDomainName"></strong></div>
+    <input class="t-input" id="transferAddr" placeholder="Recipient wallet address (0x...)" />
     <div class="msg" id="transferMsg"></div>
+    <div class="tx-link" id="transferTxLink" onclick="openTx('transferTxLink')">↗ View on Etherscan</div>
     <button class="t-btn" id="transferConfirmBtn" onclick="confirmTransfer()">Confirm Transfer</button>
     <button class="can" onclick="closeTransferModal()">Cancel</button>
   </div>
 </div>
 
-<!-- Renew Modal -->
+<!-- ── Renew Modal ── -->
 <div class="ov" id="renewOv">
   <div class="t-modal">
     <h3>Renew Domain</h3>
     <div class="t-sub">Domain: <strong id="renewDomainName"></strong></div>
-    <div style="font-size:12px;color:#555;margin-bottom:12px;">Extends the domain by 1 year.</div>
+    <div style="font-size:12px;color:#555;margin-bottom:14px;line-height:1.6;">Renewing will extend this domain by <strong>1 year</strong> from its current expiry date.</div>
     <div class="msg" id="renewMsg"></div>
+    <div class="tx-link" id="renewTxLink" onclick="openTx('renewTxLink')">↗ View on Etherscan</div>
     <button class="t-btn" id="renewConfirmBtn" onclick="confirmRenew()">Confirm Renewal</button>
     <button class="can" onclick="closeRenewModal()">Cancel</button>
   </div>
 </div>
 
+<!-- ── Set Resolver Modal ── -->
+<div class="ov" id="resolverOv">
+  <div class="t-modal">
+    <h3>Set Resolver</h3>
+    <div class="t-sub">Domain: <strong id="resolverDomainName"></strong></div>
+    <input class="t-input" id="resolverVal" placeholder="Wallet address or IPFS hash" />
+    <div class="msg" id="resolverMsg"></div>
+    <div class="tx-link" id="resolverTxLink" onclick="openTx('resolverTxLink')">↗ View on Etherscan</div>
+    <button class="t-btn" id="resolverConfirmBtn" onclick="confirmResolver()">Save Resolver</button>
+    <button class="can" onclick="closeResolverModal()">Cancel</button>
+  </div>
+</div>
+
 <main>
+  <!-- Stats -->
   <div class="stats-bar">
     <div class="stat-box"><span class="sv" id="statTotal">—</span><span class="sl">Total Domains</span></div>
     <div class="stat-box"><span class="sv" id="statMine">—</span><span class="sl">My Domains</span></div>
@@ -199,20 +254,24 @@ footer a:hover { text-decoration:underline; }
 
   <div class="ntag"><span class="ndot"></span>Sepolia Testnet</div>
   <h1>Find your domain</h1>
-  <p class="sub">Register .eth domains on Sepolia Testnet</p>
+  <p class="sub">Register .eth names on Sepolia Testnet — decentralized, on-chain.</p>
 
+  <!-- Search -->
   <div class="searchbar">
-    <input id="sInput" placeholder="Search for a name" onkeydown="if(event.key==='Enter')searchDomain()" />
+    <input id="sInput" placeholder="Search a domain name..." onkeydown="if(event.key==='Enter')searchDomain()"/>
     <button onclick="searchDomain()">Search</button>
   </div>
 
+  <!-- History -->
   <div class="hist-wrap" id="histWrap">
-    <div class="hist-label">Recent searches <button class="hist-clear" onclick="clearHistory()">clear</button></div>
+    <div class="hist-label">Recent <button class="hist-clear" onclick="clearHistory()">clear all</button></div>
     <div class="hist-tags" id="histTags"></div>
   </div>
 
-  <div class="spin" id="searchSpin">⏳ Searching...</div>
+  <!-- Search spinner -->
+  <div class="spin" id="searchSpin"><div class="mini-spin"></div>Searching on-chain...</div>
 
+  <!-- Result Card -->
   <div class="card" id="card">
     <div class="card-top">
       <span class="dname" id="cardName"></span>
@@ -222,24 +281,30 @@ footer a:hover { text-decoration:underline; }
     <div class="countdown" id="countdown"></div>
     <div class="card-actions">
       <button class="reg-btn" id="cardRegBtn" onclick="registerFromCard()" style="display:none">Register</button>
-      <a class="action-btn" id="etherscanLink" href="#" target="_blank" style="display:none">↗ Etherscan</a>
+      <a class="action-btn" id="etherscanLink" href="#" target="_blank" style="display:none">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Etherscan
+      </a>
     </div>
-    <div class="wallet-hint" id="walletHint" style="display:none">Connect wallet to register</div>
-    <div class="spin" id="regSpin">⏳ Processing...</div>
+    <div class="wallet-hint" id="walletHint" style="display:none">Connect your wallet to register this domain</div>
+    <div class="spin" id="regSpin"><div class="mini-spin"></div>Processing transaction...</div>
     <div class="msg" id="regMsg"></div>
+    <div class="tx-link" id="regTxLink" onclick="openTx('regTxLink')">↗ View transaction on Etherscan</div>
   </div>
 
+  <!-- My Domains -->
   <div class="sec-title">My Domains</div>
   <button class="my-btn" id="myBtn" onclick="loadMyDomains(false)" disabled>Load My Domains</button>
-  <div class="spin" id="mySpin">⏳ Loading...</div>
+  <div class="spin" id="mySpin"><div class="mini-spin"></div>Loading your domains...</div>
   <div class="dlist" id="dList"></div>
 </main>
 
 <footer>
-  <a href="https://sepolia.etherscan.io/address/0xB85cA26dABD72CcC935189aA0391D20D961662f5" target="_blank">View Contract on Etherscan</a>
+  <span>domains.eth — Sepolia Testnet</span>
 </footer>
 
 <script>
+// ── Constants ────────────────────────────────────────────────────────────────
 const CA  = "0xB85cA26dABD72CcC935189aA0391D20D961662f5";
 const ABI = [
   "function registerDomain(string,string) external",
@@ -257,316 +322,417 @@ const RPCS = [
   "https://rpc2.sepolia.org",
   "https://ethereum-sepolia-rpc.publicnode.com"
 ];
-const CHAIN_ID   = 11155111;
-const ETHERSCAN  = "https://sepolia.etherscan.io";
-const MAX_HIST   = 6;
+const CHAIN_ID  = 11155111;
+const ESCAN     = "https://sepolia.etherscan.io";
+const MAX_HIST  = 6;
 
+// ── State ────────────────────────────────────────────────────────────────────
 let provider, signer, contract, myAddr;
-let currentDomain = '', transferTarget = '', renewTarget = '';
-let cdInterval = null, toastTimer = null;
+let currentDomain='', transferTarget='', renewTarget='', resolverTarget='';
+let cdInterval=null, toastTimer=null;
+const txHashes = {}; // id -> hash
 
-// ── RPC Fallback ──────────────────────────────────────────────────────────────
+// ── RPC Fallback ─────────────────────────────────────────────────────────────
 async function getRC() {
   for (const url of RPCS) {
     try {
       const rp = new ethers.providers.JsonRpcProvider(url);
       await Promise.race([
         rp.getBlockNumber(),
-        new Promise((_, r) => setTimeout(() => r(new Error('timeout')), 5000))
+        new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),5000))
       ]);
       return new ethers.Contract(CA, ABI, rp);
     } catch { continue; }
   }
-  throw new Error('All RPCs failed. Check your internet connection.');
+  throw new Error('All RPCs unavailable. Check your internet connection.');
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
-const $  = id => document.getElementById(id);
+// ── DOM Helpers ──────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
 const openModal  = () => $('ov').classList.add('on');
 const closeModal = () => $('ov').classList.remove('on');
-const showErr = msg => { $('errText').textContent = msg; $('errBanner').classList.add('on'); };
-const closeErr = () => $('errBanner').classList.remove('on');
-const spin = (id, on) => $(id).className = 'spin' + (on ? ' on' : '');
-const setMsg = (id, txt, cls) => { $(id).textContent = txt; $(id).className = 'msg on ' + cls; };
-const fmtAddr = a => a.slice(0,8) + '...' + a.slice(-6);
+const showErr = msg => { $('errText').textContent=msg; $('errBanner').classList.add('on'); };
+const closeErr  = () => $('errBanner').classList.remove('on');
+const spin = (id,on) => $(id).className='spin'+(on?' on':'');
+const setMsg = (id,txt,cls) => { $(id).textContent=txt; $(id).className='msg on '+cls; };
+const fmtAddr = a => a.slice(0,8)+'...'+a.slice(-6);
+
+function loader(on, txt='Processing...') {
+  $('loaderTxt').textContent=txt;
+  $('loaderOverlay').className='loader-overlay'+(on?' on':'');
+}
 
 function showToast(msg) {
-  $('toast').textContent = msg;
-  $('toast').classList.add('on');
-  if (toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => $('toast').classList.remove('on'), 3000);
+  $('toast').textContent=msg; $('toast').classList.add('on');
+  if(toastTimer) clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>$('toast').classList.remove('on'),3500);
 }
 
 function copyText(text) {
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => showToast('Copied!')).catch(() => fbCopy(text));
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(()=>showToast('✓ Copied!')).catch(()=>fbCopy(text));
   } else fbCopy(text);
 }
-function fbCopy(text) {
-  const t = document.createElement('textarea');
-  t.value = text; t.style.cssText = 'position:fixed;opacity:0';
-  document.body.appendChild(t); t.select();
-  try { document.execCommand('copy'); showToast('Copied!'); } catch { showToast('Copy failed.'); }
-  document.body.removeChild(t);
+function fbCopy(t) {
+  const el=document.createElement('textarea'); el.value=t;
+  el.style.cssText='position:fixed;opacity:0'; document.body.appendChild(el);
+  el.select(); try{document.execCommand('copy');showToast('✓ Copied!');}catch{showToast('Copy failed.');}
+  document.body.removeChild(el);
 }
 
-// ── Countdown ─────────────────────────────────────────────────────────────────
+function setTxLink(id, hash) {
+  txHashes[id]=hash;
+  const el=$(id); el.dataset.hash=hash; el.classList.add('on');
+}
+function openTx(id) {
+  const hash=$(id).dataset.hash;
+  if(hash) window.open(`${ESCAN}/tx/${hash}`,'_blank');
+}
+
+// ── Countdown ────────────────────────────────────────────────────────────────
 function startCD(expTs) {
-  if (cdInterval) clearInterval(cdInterval);
-  const el = $('countdown');
-  const tick = () => {
-    const diff = expTs - Math.floor(Date.now() / 1000);
-    if (diff <= 0) { el.textContent = '⚠ Expired'; el.classList.add('on'); clearInterval(cdInterval); return; }
-    const d = Math.floor(diff/86400), h = Math.floor(diff%86400/3600),
-          m = Math.floor(diff%3600/60), s = diff%60;
-    el.textContent = `⏱ Expires in: ${d}d ${h}h ${m}m ${s}s`;
+  if(cdInterval) clearInterval(cdInterval);
+  const el=$('countdown');
+  const tick=()=>{
+    const diff=expTs-Math.floor(Date.now()/1000);
+    if(diff<=0){el.textContent='⚠ Domain has expired'; el.classList.add('on'); clearInterval(cdInterval); return;}
+    const d=Math.floor(diff/86400), h=Math.floor(diff%86400/3600),
+          m=Math.floor(diff%3600/60), s=diff%60;
+    el.textContent=`⏱ Expires in: ${d}d ${h}h ${m}m ${s}s`;
     el.classList.add('on');
   };
-  tick(); cdInterval = setInterval(tick, 1000);
+  tick(); cdInterval=setInterval(tick,1000);
 }
-function stopCD() {
-  if (cdInterval) { clearInterval(cdInterval); cdInterval = null; }
+function stopCD(){
+  if(cdInterval){clearInterval(cdInterval);cdInterval=null;}
   $('countdown').classList.remove('on');
 }
 
-// ── History ───────────────────────────────────────────────────────────────────
-function getHist() { try { return JSON.parse(localStorage.getItem('dh') || '[]'); } catch { return []; } }
-function saveHist(n) {
-  let h = getHist().filter(x => x !== n); h.unshift(n);
-  if (h.length > MAX_HIST) h = h.slice(0, MAX_HIST);
-  localStorage.setItem('dh', JSON.stringify(h)); renderHist();
+// ── Search History ────────────────────────────────────────────────────────────
+function getHist(){try{return JSON.parse(localStorage.getItem('dh')||'[]');}catch{return[];}}
+function saveHist(n){
+  let h=getHist().filter(x=>x!==n); h.unshift(n);
+  if(h.length>MAX_HIST)h=h.slice(0,MAX_HIST);
+  localStorage.setItem('dh',JSON.stringify(h)); renderHist();
 }
-function clearHistory() { localStorage.removeItem('dh'); renderHist(); }
-function renderHist() {
-  const h = getHist(); const wrap = $('histWrap');
-  if (!h.length) { wrap.classList.remove('on'); return; }
-  $('histTags').innerHTML = h.map(x => `<span class="hist-tag" onclick="fillSearch('${x}')">${x}.eth</span>`).join('');
+function clearHistory(){localStorage.removeItem('dh');renderHist();}
+function renderHist(){
+  const h=getHist(); const wrap=$('histWrap');
+  if(!h.length){wrap.classList.remove('on');return;}
+  $('histTags').innerHTML=h.map(x=>`<span class="hist-tag" onclick="fillSearch('${x}')">${x}.eth</span>`).join('');
   wrap.classList.add('on');
 }
-function fillSearch(n) { $('sInput').value = n; searchDomain(); }
+function fillSearch(n){$('sInput').value=n;searchDomain();}
 
 // ── Stats ─────────────────────────────────────────────────────────────────────
-async function loadStats() {
-  try { const rc = await getRC(); $('statTotal').textContent = (await rc.getTotalDomains()).toString(); }
-  catch { $('statTotal').textContent = '—'; }
+async function loadStats(){
+  try{const rc=await getRC(); $('statTotal').textContent=(await rc.getTotalDomains()).toString();}
+  catch{$('statTotal').textContent='—';}
 }
 
-// ── Network ───────────────────────────────────────────────────────────────────
-async function ensureSepolia() {
-  try {
-    await window.ethereum.request({ method:'wallet_switchEthereumChain', params:[{ chainId:'0x'+CHAIN_ID.toString(16) }] });
-  } catch(e) {
-    if (e.code === 4902) {
-      await window.ethereum.request({ method:'wallet_addEthereumChain', params:[{
+// ── Network ──────────────────────────────────────────────────────────────────
+async function ensureSepolia(){
+  try{
+    await window.ethereum.request({method:'wallet_switchEthereumChain',params:[{chainId:'0x'+CHAIN_ID.toString(16)}]});
+  } catch(e){
+    if(e.code===4902){
+      await window.ethereum.request({method:'wallet_addEthereumChain',params:[{
         chainId:'0x'+CHAIN_ID.toString(16), chainName:'Sepolia Testnet',
-        nativeCurrency:{ name:'SepoliaETH', symbol:'ETH', decimals:18 },
-        rpcUrls: RPCS, blockExplorerUrls:[ETHERSCAN]
+        nativeCurrency:{name:'SepoliaETH',symbol:'ETH',decimals:18},
+        rpcUrls:RPCS, blockExplorerUrls:[ESCAN]
       }]});
-    } else if (e.code === 4001) {
+    } else if(e.code===4001){
       throw new Error('Please switch to Sepolia Testnet.');
     } else throw e;
   }
 }
 
-// ── Connect ───────────────────────────────────────────────────────────────────
-async function connect(type) {
+// ── Connect / Disconnect ─────────────────────────────────────────────────────
+async function connectWallet(type){
   closeModal(); closeErr();
-  if (!window.ethereum) { showErr('No wallet found. Install MetaMask or Rabby.'); return; }
-  try {
-    await ensureSepolia();
-    await window.ethereum.request({ method:'eth_requestAccounts' });
-    provider = new ethers.providers.Web3Provider(window.ethereum);
-    signer   = provider.getSigner();
-    myAddr   = await signer.getAddress();
-    const net = await provider.getNetwork();
-    if (net.chainId !== CHAIN_ID) { showErr('Wrong network. Switch to Sepolia.'); provider=signer=myAddr=null; return; }
-    contract = new ethers.Contract(CA, ABI, signer);
-    const short = myAddr.slice(0,6)+'...'+myAddr.slice(-4);
-    const mm = 'https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg';
-    const rb = 'https://cdn.jsdelivr.net/gh/rabbykit/rabby-static/dist/images/rabby-logo.png';
-    const rf = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%237c3aed'/%3E%3Ctext x='50%25' y='56%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='20' font-family='monospace'%3ER%3C/text%3E%3C/svg%3E";
-    const img = type==='metamask' ? `<img src="${mm}">` : `<img src="${rb}" onerror="this.src='${rf}'">`;
-    $('wArea').innerHTML = `<div class="w-on"><span class="dot"></span>${img}&nbsp;${short}<button class="dis" onclick="disconnect()">✕</button></div>`;
-    $('myBtn').disabled = false;
-    const wh = $('walletHint'), regBtn = $('cardRegBtn');
-    if (wh.style.display === 'block') { wh.style.display='none'; regBtn.style.display='block'; regBtn.disabled=false; }
-    window.ethereum.on('accountsChanged', () => location.reload());
-    window.ethereum.on('chainChanged',    () => location.reload());
+  loader(true,'Connecting wallet...');
+  try{
+    // Detect correct provider based on wallet type
+    let ethProvider = null;
+
+    if(window.ethereum){
+      // Multiple wallets injected (MetaMask + Rabby both installed)
+      if(window.ethereum.providers && window.ethereum.providers.length){
+        if(type==='metamask'){
+          ethProvider = window.ethereum.providers.find(p=>p.isMetaMask && !p.isRabby) || window.ethereum.providers.find(p=>p.isMetaMask);
+        } else {
+          ethProvider = window.ethereum.providers.find(p=>p.isRabby) || window.ethereum.providers.find(p=>!p.isMetaMask);
+        }
+      }
+      // Single wallet
+      if(!ethProvider){
+        if(type==='metamask' && window.ethereum.isMetaMask) ethProvider=window.ethereum;
+        else if(type==='rabby' && window.ethereum.isRabby) ethProvider=window.ethereum;
+        else ethProvider=window.ethereum; // fallback
+      }
+    }
+
+    if(!ethProvider){
+      const name=type==='metamask'?'MetaMask':'Rabby Wallet';
+      showErr(name+' not detected. Please install it first.');
+      loader(false); return;
+    }
+
+    await ethProvider.request({method:'eth_requestAccounts'});
+    provider=new ethers.providers.Web3Provider(ethProvider);
+    signer=provider.getSigner();
+    myAddr=await signer.getAddress();
+    const net=await provider.getNetwork();
+
+    // Switch network using detected provider
+    if(net.chainId!==CHAIN_ID){
+      try{
+        await ethProvider.request({method:'wallet_switchEthereumChain',params:[{chainId:'0x'+CHAIN_ID.toString(16)}]});
+        provider=new ethers.providers.Web3Provider(ethProvider);
+        signer=provider.getSigner();
+        myAddr=await signer.getAddress();
+      } catch(se){
+        if(se.code===4902){
+          await ethProvider.request({method:'wallet_addEthereumChain',params:[{
+            chainId:'0x'+CHAIN_ID.toString(16),chainName:'Sepolia Testnet',
+            nativeCurrency:{name:'SepoliaETH',symbol:'ETH',decimals:18},
+            rpcUrls:RPCS,blockExplorerUrls:[ESCAN]
+          }]});
+          provider=new ethers.providers.Web3Provider(ethProvider);
+          signer=provider.getSigner();
+          myAddr=await signer.getAddress();
+        } else { throw se; }
+      }
+    }
+
+    if(net.chainId!==CHAIN_ID){showErr('Wrong network. Please switch to Sepolia.');provider=signer=myAddr=null;loader(false);return;}
+    contract=new ethers.Contract(CA,ABI,signer);
+    const short=myAddr.slice(0,6)+'...'+myAddr.slice(-4);
+
+    // Build wallet icon
+    const mmImg=`<img src="https://i.postimg.cc/tRvmSVhJ/images.png" width="16" height="16" alt="MM" style="flex-shrink:0">`;
+    const rImg=`<img src="https://i.postimg.cc/xjmb7wmw/images.jpg" width="16" height="16" alt="Rabby" style="flex-shrink:0;border-radius:3px">`;
+    const icon=type==='metamask'?mmImg:rImg;
+
+    $('wArea').innerHTML=`<div class="w-on"><span class="dot"></span>${icon}&nbsp;${short}<button class="dis" onclick="disconnectWallet()" title="Disconnect">✕</button></div>`;
+    $('myBtn').disabled=false;
+
+    // If card showing available domain, enable register button
+    const wh=$('walletHint'),rb=$('cardRegBtn');
+    if(wh.style.display==='block'){wh.style.display='none';rb.style.display='block';rb.disabled=false;}
+
+    ethProvider.on('accountsChanged',()=>location.reload());
+    ethProvider.on('chainChanged',()=>location.reload());
     loadStats();
-  } catch(e) {
-    showErr(e.code===4001 ? 'Connection rejected.' : 'Failed: '+(e.message||''));
+  } catch(e){
+    showErr(e.code===4001?'Connection rejected.':(e.message||'Connection failed.'));
   }
+  loader(false);
 }
 
-function disconnect() {
+function disconnectWallet(){
   provider=signer=contract=myAddr=null; stopCD();
-  $('wArea').innerHTML = `<button class="connect-btn" onclick="openModal()">Connect Wallet</button>`;
-  $('myBtn').disabled = true;
-  $('dList').className = 'dlist';
-  $('statMine').textContent = '—';
+  $('wArea').innerHTML=`<button class="connect-btn" onclick="openModal()">Connect Wallet</button>`;
+  $('myBtn').disabled=true;
+  $('dList').className='dlist';
+  $('statMine').textContent='—';
 }
 
 // ── Search ────────────────────────────────────────────────────────────────────
-async function searchDomain() {
-  const raw = $('sInput').value.trim().toLowerCase().replace(/\.eth$/,'');
-  if (!raw) return;
-  if (!/^[a-z0-9-]+$/.test(raw)) { showErr('Only letters (a-z), numbers, hyphens allowed.'); return; }
-  currentDomain = raw;
-  closeErr(); stopCD();
-  $('card').classList.remove('on');
-  $('regMsg').className = 'msg';
-  spin('searchSpin', true);
-  try {
-    const rc    = await getRC();
-    const taken = await rc.isDomainTaken(raw);
-    $('cardName').textContent = raw+'.eth';
-    const badge = $('cardBadge'), regBtn = $('cardRegBtn'), wh = $('walletHint');
-    const eLink = $('etherscanLink');
-    eLink.href = `${ETHERSCAN}/address/${CA}`; eLink.style.display = 'inline-flex';
+async function searchDomain(){
+  const raw=$('sInput').value.trim().toLowerCase().replace(/\.eth$/,'');
+  if(!raw)return;
+  if(!/^[a-z0-9-]+$/.test(raw)){showErr('Only lowercase letters (a-z), numbers, and hyphens allowed.');return;}
+  if(raw.length<2){showErr('Domain name must be at least 2 characters.');return;}
 
-    if (!taken) {
+  currentDomain=raw; closeErr(); stopCD();
+  $('card').classList.remove('on'); $('regMsg').className='msg'; $('regTxLink').className='tx-link';
+  spin('searchSpin',true);
+
+  try{
+    const rc=await getRC();
+    const taken=await rc.isDomainTaken(raw);
+    $('cardName').textContent=raw+'.eth';
+    const badge=$('cardBadge'),rb=$('cardRegBtn'),wh=$('walletHint');
+    const eLink=$('etherscanLink');
+    eLink.href=`${ESCAN}/address/${CA}`; eLink.style.display='inline-flex';
+
+    if(!taken){
       badge.textContent='Available'; badge.className='badge av';
-      $('cardDetails').innerHTML='<div style="font-size:12px;color:#999;padding:4px 0 8px;">This name is available to register.</div>';
-      regBtn.textContent='Register '+raw+'.eth';
-      if (myAddr) { regBtn.style.display='block'; regBtn.disabled=false; wh.style.display='none'; }
-      else { regBtn.style.display='none'; wh.style.display='block'; }
+      $('cardDetails').innerHTML=`<div style="font-size:12px;color:#999;padding:5px 0 10px;line-height:1.6;">This name is available. Register it before someone else does!</div>`;
+      rb.textContent='Register '+raw+'.eth';
+      if(myAddr){rb.style.display='block';rb.disabled=false;wh.style.display='none';}
+      else{rb.style.display='none';wh.style.display='block';}
     } else {
-      const d = await rc.getDomain(raw);
+      const d=await rc.getDomain(raw);
       const owner=d[0], expTs=d[3].toNumber();
-      const active = expTs >= Math.floor(Date.now()/1000);
-      const expDate = new Date(expTs*1000).toLocaleDateString();
-      badge.textContent = active?'Registered':'Expired';
-      badge.className   = active?'badge tk':'badge ex';
-      $('cardDetails').innerHTML = `
+      const active=expTs>=Math.floor(Date.now()/1000);
+      const expDate=new Date(expTs*1000).toLocaleDateString();
+      badge.textContent=active?'Registered':'Expired'; badge.className=active?'badge tk':'badge ex';
+      $('cardDetails').innerHTML=`
         <div class="card-row"><span class="cl">Owner</span><span class="cv">${fmtAddr(owner)}<button class="copy-btn" onclick="copyText('${owner}')">copy</button></span></div>
         <div class="card-row"><span class="cl">Expires</span><span class="cv">${expDate}</span></div>
-        <div class="card-row"><span class="cl">Status</span><span class="cv" style="color:${active?'#2e7d32':'#c62828'}">${active?'Active':'Expired'}</span></div>`;
-      if (active) startCD(expTs);
-      regBtn.style.display='none'; wh.style.display='none';
+        <div class="card-row"><span class="cl">Status</span><span class="cv" style="color:${active?'#2e7d32':'#c62828'}">${active?'Active':'Expired'}</span></div>
+        <div class="card-row"><span class="cl">Etherscan</span><span class="cv"><a href="${ESCAN}/address/${owner}" target="_blank" style="color:#111;font-size:11px;">View owner ↗</a></span></div>`;
+      if(active) startCD(expTs);
+      rb.style.display='none'; wh.style.display='none';
     }
     $('card').classList.add('on');
     saveHist(raw);
-  } catch(e) {
-    let msg = e.code==='CALL_EXCEPTION'
-      ? 'Contract call failed. Verify contract on Etherscan.'
-      : 'Search failed: '+(e.reason||e.message||'Unknown error');
-    showErr(msg);
+  } catch(e){
+    showErr(e.code==='CALL_EXCEPTION'?'Contract call failed. Verify contract is deployed correctly.':'Search failed: '+(e.reason||e.message||'Unknown'));
   }
-  spin('searchSpin', false);
+  spin('searchSpin',false);
 }
 
 // ── Register ──────────────────────────────────────────────────────────────────
-async function registerFromCard() {
-  if (!contract||!myAddr) { showErr('Connect wallet first.'); return; }
-  const btn = $('cardRegBtn'); btn.disabled=true;
-  spin('regSpin',true); $('regMsg').className='msg';
-  try {
-    const tx = await contract.registerDomain(currentDomain,'');
-    setMsg('regMsg','⏳ Tx sent: '+tx.hash.slice(0,20)+'...','inf');
+async function registerFromCard(){
+  if(!contract||!myAddr){showErr('Please connect your wallet first.');return;}
+  const rb=$('cardRegBtn'); rb.disabled=true;
+  $('regMsg').className='msg'; $('regTxLink').className='tx-link';
+  spin('regSpin',true);
+  try{
+    const tx=await contract.registerDomain(currentDomain,'');
+    setMsg('regMsg','⏳ Transaction sent, waiting for confirmation...','inf');
     await tx.wait();
-    setMsg('regMsg','✓ "'+currentDomain+'.eth" registered!','ok');
-    showToast('Domain registered!');
+    setMsg('regMsg','✓ "'+currentDomain+'.eth" registered successfully!','ok');
+    setTxLink('regTxLink', tx.hash);
+    showToast('🎉 Domain registered!');
     await searchDomain(); loadMyDomains(true); loadStats();
-  } catch(e) {
-    let msg=e.reason||e.message||'Failed'; if(e.code===4001)msg='Rejected.';
-    setMsg('regMsg','✗ '+msg,'err'); btn.disabled=false;
+  } catch(e){
+    let msg=e.reason||e.message||'Transaction failed'; if(e.code===4001)msg='Transaction rejected by user.';
+    setMsg('regMsg','✗ '+msg,'err'); rb.disabled=false;
   }
   spin('regSpin',false);
 }
 
 // ── Transfer ──────────────────────────────────────────────────────────────────
-function openTransferModal(n) {
+function openTransferModal(n){
   transferTarget=n; $('transferDomainName').textContent=n+'.eth';
-  $('transferAddr').value=''; $('transferMsg').className='msg';
+  $('transferAddr').value=''; $('transferMsg').className='msg'; $('transferTxLink').className='tx-link';
   $('transferConfirmBtn').disabled=false; $('transferOv').classList.add('on');
 }
-function closeTransferModal() { $('transferOv').classList.remove('on'); transferTarget=''; }
-async function confirmTransfer() {
-  if (!contract||!myAddr) { showErr('Wallet not connected.'); return; }
+function closeTransferModal(){$('transferOv').classList.remove('on');transferTarget='';}
+async function confirmTransfer(){
+  if(!contract||!myAddr){showErr('Wallet not connected.');return;}
   const to=$('transferAddr').value.trim();
-  if (!ethers.utils.isAddress(to)) { setMsg('transferMsg','Invalid address.','err'); return; }
-  if (to.toLowerCase()===myAddr.toLowerCase()) { setMsg('transferMsg','Cannot transfer to yourself.','err'); return; }
+  if(!ethers.utils.isAddress(to)){setMsg('transferMsg','Invalid wallet address.','err');return;}
+  if(to.toLowerCase()===myAddr.toLowerCase()){setMsg('transferMsg','Cannot transfer to yourself.','err');return;}
   const btn=$('transferConfirmBtn'); btn.disabled=true;
   setMsg('transferMsg','⏳ Processing...','inf');
-  try {
+  try{
     const tx=await contract.transferDomain(transferTarget,to);
-    setMsg('transferMsg','⏳ Tx sent...','inf');
+    setMsg('transferMsg','⏳ Waiting for confirmation...','inf');
     await tx.wait();
-    setMsg('transferMsg','✓ Transferred!','ok');
+    setMsg('transferMsg','✓ Domain transferred successfully!','ok');
+    setTxLink('transferTxLink',tx.hash);
     showToast('Domain transferred!');
-    setTimeout(()=>{ closeTransferModal(); loadMyDomains(false); },1500);
-  } catch(e) {
-    let msg=e.reason||e.message||'Failed'; if(e.code===4001)msg='Rejected.';
+    setTimeout(()=>{closeTransferModal();loadMyDomains(false);},2000);
+  } catch(e){
+    let msg=e.reason||e.message||'Transfer failed'; if(e.code===4001)msg='Transaction rejected.';
     setMsg('transferMsg','✗ '+msg,'err'); btn.disabled=false;
   }
 }
 
 // ── Renew ─────────────────────────────────────────────────────────────────────
-function openRenewModal(n) {
+function openRenewModal(n){
   renewTarget=n; $('renewDomainName').textContent=n+'.eth';
-  $('renewMsg').className='msg'; $('renewConfirmBtn').disabled=false;
-  $('renewOv').classList.add('on');
+  $('renewMsg').className='msg'; $('renewTxLink').className='tx-link';
+  $('renewConfirmBtn').disabled=false; $('renewOv').classList.add('on');
 }
-function closeRenewModal() { $('renewOv').classList.remove('on'); renewTarget=''; }
-async function confirmRenew() {
-  if (!contract||!myAddr) { showErr('Wallet not connected.'); return; }
+function closeRenewModal(){$('renewOv').classList.remove('on');renewTarget='';}
+async function confirmRenew(){
+  if(!contract||!myAddr){showErr('Wallet not connected.');return;}
   const btn=$('renewConfirmBtn'); btn.disabled=true;
   setMsg('renewMsg','⏳ Processing...','inf');
-  try {
+  try{
     const tx=await contract.renewDomain(renewTarget);
-    setMsg('renewMsg','⏳ Tx sent...','inf');
+    setMsg('renewMsg','⏳ Waiting for confirmation...','inf');
     await tx.wait();
-    setMsg('renewMsg','✓ Renewed for 1 year!','ok');
+    setMsg('renewMsg','✓ Domain renewed for 1 year!','ok');
+    setTxLink('renewTxLink',tx.hash);
     showToast('Domain renewed!');
-    setTimeout(()=>{ closeRenewModal(); loadMyDomains(false); },1500);
-  } catch(e) {
-    let msg=e.reason||e.message||'Failed'; if(e.code===4001)msg='Rejected.';
+    setTimeout(()=>{closeRenewModal();loadMyDomains(false);},2000);
+  } catch(e){
+    let msg=e.reason||e.message||'Renewal failed'; if(e.code===4001)msg='Transaction rejected.';
     setMsg('renewMsg','✗ '+msg,'err'); btn.disabled=false;
   }
 }
 
+// ── Resolver ─────────────────────────────────────────────────────────────────
+function openResolverModal(n){
+  resolverTarget=n; $('resolverDomainName').textContent=n+'.eth';
+  $('resolverVal').value=''; $('resolverMsg').className='msg'; $('resolverTxLink').className='tx-link';
+  $('resolverConfirmBtn').disabled=false; $('resolverOv').classList.add('on');
+}
+function closeResolverModal(){$('resolverOv').classList.remove('on');resolverTarget='';}
+async function confirmResolver(){
+  if(!contract||!myAddr){showErr('Wallet not connected.');return;}
+  const val=$('resolverVal').value.trim();
+  if(!val){setMsg('resolverMsg','Please enter a value.','err');return;}
+  const btn=$('resolverConfirmBtn'); btn.disabled=true;
+  setMsg('resolverMsg','⏳ Processing...','inf');
+  try{
+    const tx=await contract.setResolver(resolverTarget,val);
+    setMsg('resolverMsg','⏳ Waiting for confirmation...','inf');
+    await tx.wait();
+    setMsg('resolverMsg','✓ Resolver updated!','ok');
+    setTxLink('resolverTxLink',tx.hash);
+    showToast('Resolver updated!');
+  } catch(e){
+    let msg=e.reason||e.message||'Failed'; if(e.code===4001)msg='Transaction rejected.';
+    setMsg('resolverMsg','✗ '+msg,'err'); btn.disabled=false;
+  }
+}
+
 // ── My Domains ────────────────────────────────────────────────────────────────
-async function loadMyDomains(silent) {
-  if (!myAddr) return;
-  if (!silent) { spin('mySpin',true); $('dList').className='dlist'; }
-  try {
-    const rc   = await getRC();
-    const list = await rc.getOwnerDomains(myAddr);
-    const box  = $('dList');
-    $('statMine').textContent = list.length.toString();
-    if (!list.length) {
-      box.innerHTML='<div style="font-size:12px;color:#bbb;padding:10px 0;">No domains registered yet.</div>';
+async function loadMyDomains(silent){
+  if(!myAddr) return;
+  if(!silent){spin('mySpin',true);$('dList').className='dlist';}
+  try{
+    const rc=await getRC();
+    const list=await rc.getOwnerDomains(myAddr);
+    const box=$('dList');
+    $('statMine').textContent=list.length.toString();
+
+    if(!list.length){
+      box.innerHTML='<div style="font-size:12px;color:#bbb;padding:12px 0;">No domains registered yet. Search for a name above to get started!</div>';
       box.classList.add('on'); if(!silent)spin('mySpin',false); return;
     }
-    const now  = Math.floor(Date.now()/1000);
-    const data = await Promise.all(list.map(async n => {
-      try { const d=await rc.getDomain(n); return { n, expTs:d[3].toNumber() }; }
-      catch { return { n, expTs:0 }; }
+
+    const now=Math.floor(Date.now()/1000);
+    const data=await Promise.all(list.map(async n=>{
+      try{const d=await rc.getDomain(n);return{n,expTs:d[3].toNumber()};}
+      catch{return{n,expTs:0};}
     }));
-    box.innerHTML = data.map(({n, expTs}) => {
-      const diff=expTs-now, expDate=expTs?new Date(expTs*1000).toLocaleDateString():'—';
+
+    box.innerHTML=data.map(({n,expTs})=>{
+      const diff=expTs-now;
+      const expDate=expTs?new Date(expTs*1000).toLocaleDateString():'—';
       const expired=diff<=0, soon=!expired&&diff<30*86400;
       const cls=expired?'red':(soon?'orange':'');
-      const label=expired?'⚠ Expired':(soon?`⚡ Expires ${expDate}`:`Expires ${expDate}`);
+      const label=expired?'⚠ Expired':(soon?`⚡ Expires soon · ${expDate}`:`Expires ${expDate}`);
       return `<div class="ditem">
         <div class="ditem-left">
           <span class="ditem-name">${n}.eth</span>
           <span class="ditem-exp ${cls}">${label}</span>
         </div>
         <div class="ditem-right">
-          <button class="sm-btn" onclick="copyText('${n}.eth')">copy</button>
-          <button class="sm-btn" onclick="openRenewModal('${n}')">Renew</button>
-          <button class="sm-btn" onclick="openTransferModal('${n}')">Transfer</button>
+          <button class="sm-btn" onclick="copyText('${n}.eth')" title="Copy">copy</button>
+          <button class="sm-btn" onclick="openResolverModal('${n}')" title="Set Resolver">resolver</button>
+          <button class="sm-btn" onclick="openRenewModal('${n}')" title="Renew">renew</button>
+          <button class="sm-btn" onclick="openTransferModal('${n}')" title="Transfer">transfer</button>
+          <a class="sm-btn" href="${ESCAN}/address/${CA}" target="_blank" title="Etherscan">↗</a>
         </div>
       </div>`;
     }).join('');
     box.classList.add('on');
-  } catch(e) {
+  } catch(e){
     const box=$('dList');
-    box.innerHTML=`<div style="font-size:12px;color:#c62828;">Failed: ${e.reason||e.message||'Unknown'}</div>`;
+    box.innerHTML=`<div style="font-size:12px;color:#c62828;padding:8px 0;">Failed to load: ${e.reason||e.message||'Unknown error'}</div>`;
     box.classList.add('on');
   }
-  if (!silent) spin('mySpin',false);
+  if(!silent)spin('mySpin',false);
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────────
